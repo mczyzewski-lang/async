@@ -299,8 +299,8 @@ export function StructureSection() {
             value={structure.landingSupport}
             onChange={(landingSupport) => setStructure({ landingSupport })}
             options={[
-              { value: 'posts4', label: 'Niezależne (4 słupy)' },
-              { value: 'posts2', label: 'Zintegrowane' },
+              { value: 'posts4', label: '4 słupy' },
+              { value: 'posts2', label: 'Rama + 2 słupy' },
               { value: 'wall', label: 'Do ściany' },
             ]}
           />
