@@ -620,6 +620,13 @@ export function SummarySection() {
         {a.landingElevations.map((e, i) => (
           <Row key={i} k="Spocznik" v={`${cm(a.landingSizes[i].w)} × ${cm(a.landingSizes[i].d)} cm, na ${cm(e)} cm`} />
         ))}
+        <Row
+          k="Wyjście na piętro"
+          v={(() => {
+            const d = layout.flights[layout.flights.length - 1].dir;
+            return d.z < -0.5 ? 'w stronę tylnej ściany' : d.z > 0.5 ? 'w stronę przodu' : d.x < -0.5 ? 'w lewo' : 'w prawo';
+          })()}
+        />
         <Row k="Zajmowana przestrzeń" v={`${cm(a.footprintSize.x)} × ${cm(a.footprintSize.z)} cm`} tone={a.fitsRoom ? undefined : 'err'} />
         <Row k="Odstępy (L / P / T / P)" v={`${cm(a.clearances.left)} / ${cm(a.clearances.right)} / ${cm(a.clearances.back)} / ${cm(a.clearances.front)}`} />
         <Row k="Prześwit nad stopniami" v={a.headroomMin === null ? 'pełny' : `${cm(a.headroomMin)} cm`} tone={a.headroomOk ? undefined : 'err'} />

@@ -34,7 +34,7 @@ export const DEFAULT_CONFIG: Config = {
       alignZ: 'start',
       offsetX: 0.2,
       offsetZ: 0.05,
-      wallGap: 0.05,
+      wallGap: 0.08,
     },
     opening: { mode: 'auto', length: 3.6, width: 2.1 },
   },

@@ -98,5 +98,8 @@ export function clipPolygon(poly: [number, number][], a: number, b: number, c: n
   return out;
 }
 
-export const cm = (m: number, d = 0) => (m * 100).toFixed(d).replace('.', ',');
+export const cm = (m: number, d = 0) => {
+  const s = (m * 100).toFixed(d);
+  return (/^-0(\.0+)?$/.test(s) ? s.slice(1) : s).replace('.', ',');
+};
 export const fmtCm = (m: number, d = 0) => `${cm(m, d)} cm`;
