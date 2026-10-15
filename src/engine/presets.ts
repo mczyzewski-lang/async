@@ -25,7 +25,7 @@ export const PRESETS: DesignPreset[] = [
     id: 'minimal-black-oak',
     name: 'Minimal Black Oak',
     tagline: 'Belka centralna, dąb naturalny, cienkie czarne pręty',
-    structure: 'A', risers: 'open', landingSupport: 'posts4',
+    structure: 'A', risers: 'open', landingSupport: 'cantilever',
     wood: 'oak-natural', edge: 'rounded', steel: 'black',
     railing: 'A', railingSteel: null, handrailStyle: 'flat', handrailMaterial: 'metal', led: false,
     swatch: ['#1b1b1c', '#d3ad7f'],

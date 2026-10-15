@@ -204,6 +204,13 @@ export function computeAnalysis(layout: FullLayout, config: Config, runs: Railin
   if (structure.type === 'E') issues.push({ level: 'info', code: 'struct-E', message: 'Rama spawana: dodatkowe słupy podporowe pod dłuższymi biegami.' });
   if (structure.risers === 'closed' && !sm.risers.includes('closed'))
     issues.push({ level: 'info', code: 'risers', message: `${sm.name}: dostępne tylko otwarte podstopnice.` });
+  if (layout.landings.length && structure.landingSupport === 'cantilever') {
+    issues.push({
+      level: 'info',
+      code: 'landing-cantilever',
+      message: 'Spocznik samonośny bez słupów: belki biegów i rama spocznika tworzą jedną sztywną konstrukcję kotwioną w posadzce i czole stropu — wymaga obliczeń konstruktora (większe przekroje, sztywne węzły).',
+    });
+  }
   if (layout.landings.length && structure.landingSupport === 'wall') {
     const lw = landingWallEdges(layout, config);
     if (lw === 0)

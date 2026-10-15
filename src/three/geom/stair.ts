@@ -386,6 +386,13 @@ function buildLanding(P: Parts, L: LandingSolved, inp: StairBuildInput, ctxs: Fl
       depth[e] = Math.max(depth[e], need);
     }
   }
+  const support = inp.structure.landingSupport;
+  const cantilever = support === 'cantilever';
+  if (cantilever) {
+    // self-supporting landing: a deep, rigid torsion-box frame welded to the flight stringers
+    const dMax = Math.max(base + 0.1, ...Object.values(depth));
+    for (const e of Object.keys(depth) as Edge[]) depth[e] = dMax;
+  }
   const yTop = Ly - t;
   const thick = type === 'B' || type === 'C' ? 0.014 : type === 'D' ? 0.012 : 0.06;
   const edges: { e: Edge; a: THREE.Vector3; b: THREE.Vector3; inward: THREE.Vector3 }[] = [
@@ -419,10 +426,34 @@ function buildLanding(P: Parts, L: LandingSolved, inp: StairBuildInput, ctxs: Fl
   }
 
   // supports
-  const support = inp.structure.landingSupport;
+  if (cantilever) {
+    // stringers continue under the landing as one rigid frame — no posts
+    const bw = type === 'A' ? A.bw : 0.06;
+    for (const c of ctxs) {
+      const top = c.f.landingAbove === L.index;
+      const bottom = c.f.landingBelow === L.index;
+      if (!top && !bottom) continue;
+      const e = top ? topJointEdge(c.f) : bottomJointEdge(c.f);
+      const along = e === 'minZ' || e === 'maxZ' ? Dd : W;
+      const sgn = top ? 1 : -1;
+      const base0 = top
+        ? { x: c.f.start.x + c.f.dir.x * c.f.run, z: c.f.start.z + c.f.dir.z * c.f.run }
+        : { x: c.f.start.x, z: c.f.start.z };
+      const d = depth[e];
+      for (const x of stringerXs(type, c.w)) {
+        // local x = walker's left = -right
+        const px = base0.x - c.f.right.x * x;
+        const pz = base0.z - c.f.right.z * x;
+        const a = v3(px, yTop - d / 2, pz);
+        const b = v3(px + c.f.dir.x * along * sgn, yTop - d / 2, pz + c.f.dir.z * along * sgn);
+        P.add('steel', beam(a, b, bw, d));
+        P.count('cantileverBeam');
+      }
+    }
+  }
   const wallEdges: Edge[] = [];
   const room = inp.room;
-  if (support === 'wall') {
+  if (support === 'wall' || cantilever) {
     if (room.walls.left && r.minX <= 0.15) wallEdges.push('minX');
     if (room.walls.right && room.width - r.maxX <= 0.15) wallEdges.push('maxX');
     if (room.walls.back && r.minZ <= 0.15) wallEdges.push('minZ');
@@ -435,7 +466,20 @@ function buildLanding(P: Parts, L: LandingSolved, inp: StairBuildInput, ctxs: Fl
     { x: r.maxX, z: r.maxZ, edges: ['maxX', 'maxZ'] },
   ];
   let postCorners = corners;
-  if (support === 'posts2' && firstFlightTopEdge) {
+  if (cantilever) {
+    postCorners = [];
+    for (const we of wallEdges) {
+      const ed = edges.find((x) => x.e === we)!;
+      const alongX = we === 'minZ' || we === 'maxZ';
+      const len = alongX ? W : Dd;
+      const out = ed.inward.clone().multiplyScalar(-1);
+      const d = depth[we] + 0.06;
+      const mx = (ed.a.x + ed.b.x) / 2 + out.x * 0.01;
+      const mz = (ed.a.z + ed.b.z) / 2 + out.z * 0.01;
+      P.add('steel', alongX ? box(len - 0.04, d, 0.012, mx, yTop - d / 2, mz) : box(0.012, d, len - 0.04, mx, yTop - d / 2, mz));
+      P.count('wallAnchor');
+    }
+  } else if (support === 'posts2' && firstFlightTopEdge) {
     const far = opposite[firstFlightTopEdge];
     postCorners = corners.filter((c) => c.edges.includes(far));
   } else if (support === 'wall' && wallEdges.length) {
@@ -466,6 +510,22 @@ function buildLanding(P: Parts, L: LandingSolved, inp: StairBuildInput, ctxs: Fl
       P.add('steel', box(ps + 0.04, 0.01, ps + 0.04, px, yB - 0.005, pz));
       P.count('post');
     }
+  }
+}
+
+/** lateral (flight-local, + = walker's left) positions of the main longitudinal members */
+function stringerXs(type: string, w: number): number[] {
+  switch (type) {
+    case 'A':
+      return [0];
+    case 'B':
+      return [-(w / 2 - B.pt - 0.03), w / 2 - B.pt - 0.03];
+    case 'C':
+      return [-(w / 2 - C.inset), w / 2 - C.inset];
+    case 'D':
+      return [-(w / 2 - D.ribInset), w / 2 - D.ribInset];
+    default:
+      return [-(w / 2 - E.inset), w / 2 - E.inset];
   }
 }
 
@@ -503,5 +563,3 @@ export function rectArea(r: Rect) {
   return (r.maxX - r.minX) * (r.maxZ - r.minZ);
 }
 
-// silence unused helper in some builds
-void beam;

@@ -71,6 +71,8 @@ export function computeQuantities(layout: FullLayout, config: Config, runs: Rail
     out.push({ group: 'stal', item: 'Rama spocznika', qty: +perim.toFixed(2), unit: 'm' });
     const posts = structure.landingSupport === 'posts2' ? 2 : structure.landingSupport === 'posts4' ? 4 : 0;
     if (posts) out.push({ group: 'stal', item: 'Słup podporowy spocznika', qty: posts * layout.landings.length, unit: 'szt.' });
+    else if (structure.landingSupport === 'cantilever')
+      out.push({ group: 'stal', item: 'Spocznik samonośny — rama skrzynkowa zespolona z belkami biegów', qty: 1, unit: 'szt.', note: 'bez słupów; wymaga obliczeń statycznych' });
     else out.push({ group: 'montaż', item: 'Kotwienie spocznika do ściany', qty: 1, unit: 'szt.', note: 'wymaga ściany nośnej' });
   }
   if (structure.type === 'E') {

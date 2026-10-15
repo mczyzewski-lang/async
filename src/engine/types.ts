@@ -10,7 +10,7 @@ export type EntryDir = 'back' | 'front' | 'left' | 'right';
 export type Align = 'start' | 'center' | 'end' | 'manual';
 
 export type StructureType = 'A' | 'B' | 'C' | 'D' | 'E';
-export type LandingSupport = 'posts4' | 'posts2' | 'wall';
+export type LandingSupport = 'posts4' | 'posts2' | 'wall' | 'cantilever';
 export type RiserMode = 'open' | 'closed';
 
 export type RailingType = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';

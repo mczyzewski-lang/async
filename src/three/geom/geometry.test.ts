@@ -39,13 +39,22 @@ describe('steel structures', () => {
 
   it('Test H: landing is supported (posts reach the floor) for every structure', () => {
     for (const t of ['A', 'B', 'C', 'D', 'E'] as StructureType[]) {
-      const g = build(withStructure(t));
+      const g = build(withStructure(t, { landingSupport: 'posts4' }));
       expect(g.counts.landing).toBe(1);
       expect(g.counts.post).toBeGreaterThanOrEqual(2);
       const pos = g.geometries.steel!.attributes.position;
       let minY = Infinity;
       for (let i = 0; i < pos.count; i++) minY = Math.min(minY, pos.getY(i));
       expect(minY).toBeCloseTo(0, 3);
+    }
+  });
+
+  it('self-supporting landing has no posts and continuous beams for every structure', () => {
+    for (const t of ['A', 'B', 'C', 'D', 'E'] as StructureType[]) {
+      const g = build(withStructure(t, { landingSupport: 'cantilever' }));
+      expect(g.counts.landing).toBe(1);
+      if (t !== 'E') expect(g.counts.post ?? 0).toBe(0); // E keeps only its mid-span flight posts
+      expect(g.counts.cantileverBeam).toBeGreaterThanOrEqual(2);
     }
   });
 

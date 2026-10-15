@@ -299,12 +299,15 @@ export function StructureSection() {
             value={structure.landingSupport}
             onChange={(landingSupport) => setStructure({ landingSupport })}
             options={[
+              { value: 'cantilever', label: 'Bez słupów' },
               { value: 'posts4', label: '4 słupy' },
               { value: 'posts2', label: 'Rama + 2 słupy' },
               { value: 'wall', label: 'Do ściany' },
             ]}
           />
           <div className="mt-1.5 text-[11px] text-faint">
+            {structure.landingSupport === 'cantilever' &&
+              'Spocznik samonośny: sztywna rama skrzynkowa przedłuża belki biegów, całość kotwiona tylko w posadzce i stropie. Pod spocznikiem wolna przestrzeń.'}
             {structure.landingSupport === 'posts4' && 'Spocznik na własnej ramie z czterema słupami — konstrukcja wolnostojąca.'}
             {structure.landingSupport === 'posts2' && 'Rama spocznika zespolona z biegami, dwa słupy przy krawędzi zewnętrznej.'}
             {structure.landingSupport === 'wall' && 'Kotwienie do przylegającej ściany nośnej; słupy tylko przy wolnych narożach.'}

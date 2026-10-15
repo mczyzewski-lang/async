@@ -40,7 +40,7 @@ export const DEFAULT_CONFIG: Config = {
   },
   structure: {
     type: 'A',
-    landingSupport: 'posts4',
+    landingSupport: 'cantilever',
     risers: 'open',
     steelColor: '#1b1b1c',
     steelFinish: 'matte',
