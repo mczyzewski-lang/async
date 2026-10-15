@@ -96,10 +96,17 @@ describe('railings', () => {
   });
 
   it('all six railing types build', () => {
-    for (const t of ['A', 'B', 'C', 'D', 'E', 'F'] as RailingType[]) {
+    for (const t of ['A', 'B', 'C', 'D', 'E', 'F', 'G'] as RailingType[]) {
       const r = rails(t);
       expect(Object.keys(r.geometries).length).toBeGreaterThan(0);
     }
+  });
+
+  it('glass railing builds glass panes with point fixings and no posts', () => {
+    const g = rails('G');
+    expect(g.geometries.glass).toBeTruthy();
+    expect(g.counts.pointFixing).toBeGreaterThanOrEqual(2 * g.counts.panel);
+    expect(g.counts.post ?? 0).toBe(0);
   });
 
   it('wall handrail mode creates wall runs', () => {

@@ -187,6 +187,15 @@ export function computeAnalysis(layout: FullLayout, config: Config, runs: Railin
       if (clearGap > LIMITS.railingMaxGap + 1e-6)
         issues.push({ level: 'warning', code: 'rail-gap', message: 'Prześwit między elementami balustrady przekracza 12 cm.', constraint: `Prześwit ${cm(clearGap, 1)} cm`, suggestion: 'Zmniejsz rozstaw elementów.' });
     }
+    if (railing.type === 'G') {
+      issues.push({
+        level: 'info',
+        code: 'rail-glass',
+        message: 'Balustrada szklana: wymagane szkło hartowane laminowane (VSG, np. 8.8.2) i mocowania o potwierdzonej nośności; pochwyt zalecany.',
+      });
+      if (railing.profile < 0.0165)
+        issues.push({ level: 'warning', code: 'rail-glass-thin', message: 'Szkło cieńsze niż 16,5 mm (VSG 8.8.2) — zbyt cienkie dla balustrady schodowej.', suggestion: 'Zwiększ grubość szkła.' })
+    }
     if (railing.type === 'C')
       issues.push({ level: 'warning', code: 'rail-climb', message: 'Poziome pręty ułatwiają wspinanie się — niezalecane, gdy w domu są dzieci.' });
   }

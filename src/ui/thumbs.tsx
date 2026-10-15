@@ -113,6 +113,21 @@ export function RailingThumb({ type }: { type: RailingType }) {
       {type === 'A' && xs(12).map((x, i) => <line key={i} x1={x} x2={x} y1={top(x)} y2={bot(x)} stroke="currentColor" strokeWidth={0.8} />)}
       {type === 'B' && xs(8).map((x, i) => <line key={i} x1={x} x2={x} y1={top(x)} y2={bot(x)} stroke="currentColor" strokeWidth={2.6} />)}
       {type === 'C' && [0.25, 0.45, 0.65, 0.85].map((k, i) => <line key={i} x1={x0} x2={x1} y1={top(x0) + H * k} y2={top(x1) + H * k} stroke="currentColor" strokeWidth={0.9} />)}
+      {type === 'G' && (
+        <g>
+          <path
+            d={`M${x0 + 1} ${top(x0 + 1) + 1.5} L${x1 - 1} ${top(x1 - 1) + 1.5} L${x1 - 1} ${bot(x1 - 1) + 2} L${x0 + 1} ${bot(x0 + 1) + 2} Z`}
+            fill="#9fc9c0"
+            fillOpacity={0.35}
+            stroke="#7fb0a5"
+            strokeWidth={0.8}
+          />
+          <line x1={(x0 + x1) / 2} x2={(x0 + x1) / 2} y1={top((x0 + x1) / 2) + 1.5} y2={bot((x0 + x1) / 2) + 2} stroke="#7fb0a5" strokeWidth={0.8} />
+          {[x0 + 8, (x0 + x1) / 2 - 7, (x0 + x1) / 2 + 7, x1 - 8].map((x, i) => (
+            <circle key={i} cx={x} cy={bot(x) - 0.5} r={1.3} fill="currentColor" />
+          ))}
+        </g>
+      )}
       {(type === 'D' || type === 'E' || type === 'F') && (
         <g>
           <defs>

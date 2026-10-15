@@ -32,8 +32,8 @@ Wymagania: Node 20+. Brak zewnętrznych zasobów (tekstury drewna, perforacji, s
   na realnej ramie: 4 słupy / rama zintegrowana + 2 słupy / kotwienie do ściany.
 - **Stopnice** — 7 gatunków drewna (proceduralne usłojenie, klejonka), grubość, nosek, krawędź,
   podstopnice otwarte/zamknięte (wg konstrukcji), LED pod stopnicami.
-- **6 balustrad** — pręty pionowe, płaskowniki, pręty poziome, blacha perforowana, siatka
-  cięto-ciągniona, pełne panele; wysokość, profil, rozstaw, strony (balustrada / pochwyt przyścienny / brak),
+- **7 balustrad** — pręty pionowe, płaskowniki, pręty poziome, blacha perforowana, siatka
+  cięto-ciągniona, pełne panele, szkło VSG na uchwytach punktowych; wysokość, profil, rozstaw, strony (balustrada / pochwyt przyścienny / brak),
   balustrada spocznika i otworu w stropie, styl i materiał pochwytu, ostrzeżenia bezpieczeństwa.
 - **Kolory** — 7 presetów stali (RAL) + własny kolor, wykończenia mat/satyna/metalik/szczotkowana,
   niezależny kolor balustrady.

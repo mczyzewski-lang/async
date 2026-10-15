@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import type { SteelFinish, WoodId } from '../engine/types';
 import { getBrushedTexture, getFloorTexture, getMeshAlpha, getPerforationAlpha, getPlasterTexture, getWoodTextures } from './textures';
 
-export type MatKey = 'steel' | 'wood' | 'railing' | 'railPerf' | 'railMesh' | 'led' | 'handWood';
+export type MatKey = 'steel' | 'wood' | 'railing' | 'railPerf' | 'railMesh' | 'led' | 'handWood' | 'glass' | 'glassEdge';
 
 let mats: Record<string, THREE.Material> | null = null;
 
@@ -18,6 +18,8 @@ export function getMaterials() {
     railing: THREE.MeshPhysicalMaterial;
     railPerf: THREE.MeshPhysicalMaterial;
     railMesh: THREE.MeshPhysicalMaterial;
+    glass: THREE.MeshPhysicalMaterial;
+    glassEdge: THREE.MeshPhysicalMaterial;
     led: THREE.MeshBasicMaterial;
     wall: THREE.MeshStandardMaterial;
     wallGhost: THREE.MeshStandardMaterial;
@@ -36,10 +38,25 @@ export function getMaterials() {
   railPerf.alphaMap = getPerforationAlpha();
   const railMesh = new THREE.MeshPhysicalMaterial({ color: '#1b1b1c', roughness: 0.7, metalness: 0.2, side: THREE.DoubleSide, alphaTest: 0.35, alphaToCoverage: true });
   railMesh.alphaMap = getMeshAlpha();
+  // laminated tempered glass: slightly green edge tint, glossy, see-through
+  const glass = new THREE.MeshPhysicalMaterial({
+    color: '#cfe6df',
+    metalness: 0,
+    roughness: 0.04,
+    transparent: true,
+    opacity: 0.34,
+    reflectivity: 0.6,
+    clearcoat: 1,
+    clearcoatRoughness: 0.02,
+    envMapIntensity: 1.4,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+  const glassEdge = new THREE.MeshPhysicalMaterial({ color: '#7fb8a8', roughness: 0.1, transparent: true, opacity: 0.75, clearcoat: 1 });
   const led = new THREE.MeshBasicMaterial({ color: '#ffc58a', toneMapped: false });
   const plaster = getPlasterTexture();
   const wall = new THREE.MeshStandardMaterial({ color: '#f1ece4', roughness: 0.95, bumpMap: plaster, bumpScale: 0.25 });
-  const wallGhost = new THREE.MeshStandardMaterial({ color: '#f1ece4', roughness: 0.95, transparent: true, opacity: 0.22, depthWrite: false });
+  const wallGhost = new THREE.MeshStandardMaterial({ color: '#f1ece4', roughness: 0.95, transparent: true, opacity: 0.34, depthWrite: false });
   const floorTex = getFloorTexture();
   const floor = new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.62, color: '#ffffff' });
   const upperFloor = new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.62, color: '#ffffff' });
@@ -48,7 +65,7 @@ export function getMaterials() {
   const conflict = new THREE.MeshBasicMaterial({ color: '#e0412f', transparent: true, opacity: 0.28, depthWrite: false });
   const footprint = new THREE.MeshBasicMaterial({ color: '#9a6b3c', transparent: true, opacity: 0.16, depthWrite: false });
   const section = new THREE.MeshStandardMaterial({ color: '#2b2b2b', roughness: 0.9 });
-  mats = { steel, wood, handWood: wood, railing, railPerf, railMesh, led, wall, wallGhost, floor, slab, upperFloor, ground, conflict, footprint, section };
+  mats = { steel, wood, handWood: wood, railing, railPerf, railMesh, glass, glassEdge, led, wall, wallGhost, floor, slab, upperFloor, ground, conflict, footprint, section };
   setWood('oak-natural');
   return getMaterials();
 }

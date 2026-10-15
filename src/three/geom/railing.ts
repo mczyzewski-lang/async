@@ -83,10 +83,12 @@ function railingRun(P: Parts, run: RailingRun, inp: RailingBuildInput) {
   const hrY = H - hs.h / 2;
   const handPts = [segs[0].a.clone().setY(segs[0].a.y + hrY), ...segs.map((s) => s.b.clone().setY(s.b.y + hrY))];
   const isF = inp.type === 'F';
+  const isG = inp.type === 'G';
   // end posts & corner posts (not for solid panels where plates are self-framed)
   const verts = [segs[0].a, ...segs.map((s) => s.b)];
   verts.forEach((p, i) => {
     const d = segs[Math.min(i, segs.length - 1)].d;
+    if (isG) return; // frameless glass: no posts
     if (isF && i > 0 && i < verts.length - 1) return;
     addPost(P, p, p.y + hrY - hs.h / 2, d);
   });
@@ -153,6 +155,37 @@ function railingRun(P: Parts, run: RailingRun, inp: RailingBuildInput) {
           P.add(inp.type === 'D' ? 'railPerf' : 'railMesh', quadPanel(s.a, s.b, o, inp.type === 'D' ? PERF_TILE : MESH_TILE));
           // connector to handrail
           if (k > 0) addPost(P, at(s, (s.L * k) / nP), s.a.y + s.slope * ((s.L * k) / nP) + hrY - hs.h / 2, s.d, 0.03);
+          P.count('panel');
+        }
+        break;
+      }
+      case 'G': {
+        // frameless glass panes (≤ 1.2 m) with point fixings on the stair side
+        const nP = Math.max(1, Math.ceil(s.L / 1.2));
+        const across = new THREE.Vector3(-s.d.z, 0, s.d.x);
+        const reach = inp.profile / 2 + 0.018;
+        for (let k = 0; k < nP; k++) {
+          const t0 = (s.L * k) / nP + (k === 0 ? 0.005 : 0.006);
+          const t1 = (s.L * (k + 1)) / nP - (k === nP - 1 ? 0.005 : 0.006);
+          const yb = -0.08;
+          const yt = hrY - hs.h / 2;
+          const o: [number, number][] = [
+            [t0, s.a.y + s.slope * t0 + yb],
+            [t1, s.a.y + s.slope * t1 + yb],
+            [t1, s.a.y + s.slope * t1 + yt],
+            [t0, s.a.y + s.slope * t0 + yt],
+          ];
+          P.add('glass', panel(s.a, s.b, o, inp.profile));
+          // polished pane edges (visible green edge of laminated glass)
+          const e = 0.004;
+          P.add('glassEdge', beam(at(s, t0, yb), at(s, t1, yb), inp.profile + 0.001, e));
+          P.add('glassEdge', beam(at(s, t0, yt - e), at(s, t1, yt - e), inp.profile + 0.001, e));
+          for (const tt of [t0 + e / 2, t1 - e / 2]) P.add('glassEdge', orientedBox(e, yt - yb, inp.profile + 0.001, at(s, tt, yb), s.d));
+          for (const tf of [t0 + Math.min(0.15, (t1 - t0) / 4), t1 - Math.min(0.15, (t1 - t0) / 4)]) {
+            const c = at(s, tf, -0.04);
+            P.add('railing', cyl(c.clone().addScaledVector(across, -reach), c.clone().addScaledVector(across, reach), 0.024, 16));
+            P.count('pointFixing');
+          }
           P.count('panel');
         }
         break;

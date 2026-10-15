@@ -17,7 +17,7 @@ function GeometryMeshes({ geometries, ledVisible }: { geometries: Partial<Record
             key={k}
             geometry={g}
             material={mats[k]}
-            castShadow={k !== 'led'}
+            castShadow={k !== 'led' && k !== 'glass' && k !== 'glassEdge'}
             receiveShadow={k !== 'led'}
             visible={k === 'led' ? !!ledVisible : true}
           />

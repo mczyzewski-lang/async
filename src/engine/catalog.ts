@@ -130,6 +130,7 @@ export const RAILINGS: RailingMeta[] = [
   { id: 'D', name: 'Blacha perforowana', description: 'Panele z cienkiej blachy z subtelną perforacją.', hasSpacing: false, profileLabel: 'Grubość ramy', profileRange: [0.015, 0.05], spacingRange: [0.1, 0.1], defaultProfile: 0.025, defaultSpacing: 0.1 },
   { id: 'E', name: 'Siatka cięto-ciągniona', description: 'Architektoniczna siatka w smukłej ramie.', hasSpacing: false, profileLabel: 'Grubość ramy', profileRange: [0.015, 0.05], spacingRange: [0.1, 0.1], defaultProfile: 0.025, defaultSpacing: 0.1 },
   { id: 'F', name: 'Pełne panele', description: 'Gładkie panele z blachy stalowej, smukły profil górny.', hasSpacing: false, profileLabel: 'Grubość blachy', profileRange: [0.006, 0.015], spacingRange: [0.1, 0.1], defaultProfile: 0.008, defaultSpacing: 0.1 },
+  { id: 'G', name: 'Szkło', description: 'Tafle szkła hartowanego laminowanego (VSG) na uchwytach punktowych, bez słupków.', hasSpacing: false, profileLabel: 'Grubość szkła', profileRange: [0.012, 0.025], spacingRange: [0.1, 0.1], defaultProfile: 0.017, defaultSpacing: 0.1 },
 ];
 
 export const railingById = (id: RailingType) => RAILINGS.find((r) => r.id === id) ?? RAILINGS[0];

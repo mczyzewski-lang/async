@@ -13,7 +13,7 @@ export type StructureType = 'A' | 'B' | 'C' | 'D' | 'E';
 export type LandingSupport = 'posts4' | 'posts2' | 'wall' | 'cantilever';
 export type RiserMode = 'open' | 'closed';
 
-export type RailingType = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
+export type RailingType = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
 export type SideMode = 'railing' | 'wall' | 'none';
 export type HandrailStyle = 'round' | 'rect' | 'flat';
 export type HandrailMaterial = 'metal' | 'wood';
