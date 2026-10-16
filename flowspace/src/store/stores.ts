@@ -37,6 +37,10 @@ export interface SettingsState {
   quality: QualitySetting;
   ambientVolume: number;
   ambientOn: boolean;
+  musicOn: boolean;
+  musicVolume: number;
+  /** 'auto' (first generated loop, else live), 'generative' or a track id from the music manifest. */
+  musicTrack: string;
   chimes: boolean;
   breathingGuide: boolean;
   keepAwake: boolean;
@@ -68,6 +72,9 @@ const settingsDefaults = {
   quality: 'auto' as QualitySetting,
   ambientVolume: 0.5,
   ambientOn: true,
+  musicOn: true,
+  musicVolume: 0.4,
+  musicTrack: 'auto',
   chimes: true,
   breathingGuide: true,
   keepAwake: true,

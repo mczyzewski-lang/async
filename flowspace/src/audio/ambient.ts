@@ -13,6 +13,11 @@ class AmbientEngine {
   private kind: EnvironmentDef['ambience'] | null = null;
   private stopTimer = 0;
 
+  /** Shared AudioContext (music uses the same one so a single gesture unlocks everything). */
+  context() {
+    return this.ensure();
+  }
+
   private ensure() {
     if (this.ctx) return this.ctx;
     const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;

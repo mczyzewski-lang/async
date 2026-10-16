@@ -11,6 +11,7 @@
     "typecheck": "tsc -b",
     "lint": "eslint src tests scripts",
     "test": "vitest run",
+    "music:generate": "vite-node scripts/generate-music.ts",
     "validate:content": "vite-node scripts/validate-content.ts",
     "e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run test && npm run validate:content"

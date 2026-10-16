@@ -13,7 +13,9 @@ ani kluczy API.
 cd flowspace
 npm install
 npm run dev               # http://localhost:5173
-npm run build             # typecheck + build produkcyjny + service worker (dist/)
+npm run build             # siatka postaci + typecheck + build produkcyjny + service worker (dist/)
+npm run build:character   # tylko przeliczenie siatki instruktora → public/models/instructor.bin
+npm run music:generate    # muzyka w tle z ElevenLabs (wymaga ELEVENLABS_API_KEY, patrz „Muzyka”)
 npm run preview           # serwuje dist/ na http://localhost:4173
 
 npm run typecheck
@@ -63,7 +65,8 @@ src/
     labels.ts         # polskie etykiety, odmiana
   three/
     rig/skeleton.ts        # definicja kości + konwersja parametrów anatomicznych → kwaterniony
-    rig/buildCharacter.ts  # proceduralny SkinnedMesh (jedna siatka, płynne wagi skórowania)
+    rig/buildCharacter.ts  # ciało z pól odległości (SDF) → jedna ciągła siatka skórowana, wagi bez szwów
+    rig/characterAsset.ts  # kompaktowy format binarny siatki (przeliczanej przy buildzie) + wczytywanie
     rig/InstructorRig.ts   # interpolacja (slerp, opóźnienia dystalne), uziemienie, IK, oddech, podświetlenia
     director.ts            # sekwencje wejścia/wyjścia, planowanie przejść między pozycjami bazowymi
     CameraRig.tsx          # orbitowanie, pinch, presety, kadrowanie pod telefon
@@ -74,6 +77,7 @@ src/
   audio/
     voice.ts          # adapter TTS (Web Speech + interfejs dla usług premium), kolejka
     ambient.ts        # proceduralne dźwięki otoczenia i misa przejść (WebAudio)
+    music.ts          # kojąca muzyka: pętle z plików (ElevenLabs) z płynnym przenikaniem lub generowana na żywo
   store/stores.ts     # Zustand + localStorage: ustawienia, postępy, praktyki, szkic
   routes/, components/, dev/
 ```
@@ -157,8 +161,8 @@ Instruktor jest obecnie proceduralny. Aby podmienić go na model rigowany:
 
 ## Wymagania dotyczące zasobów 3D
 
-Obecnie **wszystkie zasoby są proceduralne** (brak plików do licencjonowania): postać (jedna siatka skórowana,
-~4 tys. wierzchołków, 23 kości), tekstury drewna, maty, żwiru i trawy (canvas), drzewa (instancjonowane),
+Obecnie **wszystkie zasoby są proceduralne** (brak plików do licencjonowania): postać (jedno ciągłe ciało z pól
+odległości, ~26 tys. wierzchołków, 23 kości, przeliczane przy buildzie do `public/models/instructor.bin`, ~0,8 MB), tekstury drewna, maty, żwiru i trawy (canvas), drzewa (instancjonowane),
 góry, niebo, woda (shadery), dźwięki (WebAudio). Elementy oczekujące na wymianę na produkcyjne zasoby:
 
 - postać instruktora (docelowo profesjonalnie wymodelowana, z lepszymi dłońmi, stopami i twarzą),
@@ -174,10 +178,23 @@ góry, niebo, woda (shadery), dźwięki (WebAudio). Elementy oczekujące na wymi
   i zarejestruj ją `registerVoiceProvider()`; wybierz ją w `getVoiceProvider(id)`.
 - Brak polskiego głosu w systemie → instrukcje są wyświetlane jako napisy.
 
+## Muzyka
+
+Podczas praktyki gra spokojna, zapętlona muzyka (Ustawienia → „Kojąca muzyka w tle”: włącz/wyłącz, utwór,
+głośność, podgląd). Cichnie, gdy instruktor mówi, przycisza się na pauzie i wygasa po zakończeniu.
+
+- **Bez plików** działa muzyka generowana na żywo (WebAudio): wolne akordy D-dur pentatoniki, miękkie dzwonki,
+  pogłos — zawsze dostępna offline.
+- **ElevenLabs:** `ELEVENLABS_API_KEY=… npm run music:generate` tworzy 4 instrumentalne utwory z naturą
+  (las, ocean, górski strumień, deszcz) przez Music API (`POST /v1/music`) i dopisuje je do
+  `public/audio/music/manifest.json`. Własny prompt: `npm run music:generate -- custom "opis" 120`.
+  Aplikacja zapętla pliki bez przerwy (przenikanie końca z początkiem); tryb „Automatycznie” wybiera pierwszy
+  utwór z manifestu, a gdy go brak — muzykę generowaną. Sprawdź warunki licencyjne swojego planu ElevenLabs.
+
 ## Znane ograniczenia
 
 - Instruktor jest postacią proceduralną (semi-stylizowaną), a nie profesjonalnym modelem — dłonie są uproszczone,
-  twarz bez detali (celowo). Linear blend skinning daje drobne zniekształcenia przy skrajnych zgięciach barku.
+  twarz bez detali (celowo). Linear blend skinning daje niewielką utratę objętości przy skrajnych zgięciach (np. bark przy rękach nad głową).
 - Konfiguracje pozycji są wiarygodnymi demonstracjami przygotowanymi z myślą o poprawności, ale **nie zostały
   zweryfikowane przez nauczyciela jogi ani fizjoterapeutę** (status `internal-review`). Pozycje katalogowe mają
   status `draft`.

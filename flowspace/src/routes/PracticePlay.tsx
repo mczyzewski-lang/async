@@ -15,6 +15,7 @@ import type { InstructorRig } from '@/three/rig/InstructorRig';
 import { ENVIRONMENTS } from '@/three/world/environments';
 import { getVoiceProvider, VoiceQueue } from '@/audio/voice';
 import { ambient } from '@/audio/ambient';
+import { music } from '@/audio/music';
 import { BreathingCircle } from '@/components/BreathingCircle';
 import { PoseThumb } from '@/components/PoseCard';
 import { Chip, Sheet } from '@/components/ui';
@@ -147,17 +148,23 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
       }
       if (e.type === 'cue') {
         setCaption(e.text);
-        if (!muted) voice.say(e.text);
+        if (!muted) {
+          voice.say(e.text);
+          music.duck(Math.min(9, 1.2 + e.text.length / 14));
+        }
       }
       if (e.type === 'status') {
         if (d) d.rig.paused = e.status === 'paused';
         if (e.status === 'paused') voice.clear();
+        const st = useSettings.getState();
+        if (st.musicOn && music.isPlaying()) music.setVolume(e.status === 'paused' ? st.musicVolume * 0.5 : st.musicVolume);
       }
       if (e.type === 'complete') {
         voice.clear();
         voice.say(`Koniec praktyki. ${Math.round(session.totalSeconds / 60)} minut dla siebie.`);
         if (useSettings.getState().chimes) ambient.chime(1);
         ambient.stop();
+        music.stop(8);
       }
       setSnap(player.snapshot());
     });
@@ -205,6 +212,7 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
     () => () => {
       voice.clear();
       ambient.stop();
+      music.stop(1.5);
     },
     [voice],
   );
@@ -249,7 +257,10 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
 
   const begin = () => {
     getVoiceProvider().unlock();
-    ambient.unlock().then(() => settings.ambientOn && ambient.start(env.ambience, settings.ambientVolume));
+    ambient.unlock().then(() => {
+      if (settings.ambientOn) ambient.start(env.ambience, settings.ambientVolume);
+      if (settings.musicOn) void music.start(settings.musicTrack, settings.musicVolume);
+    });
     if (start) {
       player.startFromResume();
       player.resume();
@@ -260,6 +271,7 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
   const exitSession = (save: boolean) => {
     voice.clear();
     ambient.stop();
+    music.stop(1.5);
     const elapsed = player.elapsed;
     if (save && elapsed > 60) {
       addRecord({

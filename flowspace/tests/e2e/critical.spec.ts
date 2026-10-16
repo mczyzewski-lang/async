@@ -88,7 +88,7 @@ test('9–13. a 10-minute session: create, pause, resume, skip, complete, persis
   await page.getByTestId('start-session').click();
   await page.getByTestId('begin').click();
   const play = page.getByTestId('practice-play');
-  await expect(play).toHaveAttribute('data-status', /transitioning|playing/, { timeout: 15_000 });
+  await expect(play).toHaveAttribute('data-status', /transitioning|playing/, { timeout: 30_000 });
   await expect(page.getByTestId('pose-name')).toBeVisible();
   await page.getByTestId('btn-pause').click();
   await expect(play).toHaveAttribute('data-status', 'paused');

@@ -4,6 +4,7 @@ import type { GuidanceLevel } from '@/content/types';
 import { ENVIRONMENT_LIST } from '@/three/world/environments';
 import { getVoiceProvider } from '@/audio/voice';
 import { ambient } from '@/audio/ambient';
+import { GENERATIVE_ID, loadMusicManifest, music, type MusicTrack } from '@/audio/music';
 import { Chip, Disclaimer, PageHeader, Section, Toggle } from '@/components/ui';
 import { LEVEL_LABELS, GOAL_LABELS } from '@/engine/labels';
 import { useProgress, useRoutines, useSettings } from '@/store/stores';
@@ -14,6 +15,26 @@ export default function Settings() {
   const clearProgress = useProgress((p) => p.clear);
   const [voices, setVoices] = useState(() => getVoiceProvider().listVoices());
   const [confirmReset, setConfirmReset] = useState(false);
+  const [tracks, setTracks] = useState<MusicTrack[]>([]);
+  const [previewing, setPreviewing] = useState(false);
+  useEffect(() => {
+    void loadMusicManifest().then(setTracks);
+    return () => music.stop(0.6);
+  }, []);
+  const togglePreview = async () => {
+    if (previewing) {
+      music.stop(1);
+      setPreviewing(false);
+      return;
+    }
+    await ambient.unlock();
+    void music.start(s.musicTrack, s.musicVolume);
+    setPreviewing(true);
+  };
+  const pickTrack = (id: string) => {
+    s.set({ musicTrack: id });
+    if (previewing) void music.start(id, s.musicVolume);
+  };
 
   useEffect(() => {
     const update = () => setVoices(getVoiceProvider().listVoices());
@@ -99,6 +120,24 @@ export default function Settings() {
               <span className="flex justify-between font-medium">Głośność otoczenia <span className="text-ink-soft">{Math.round(s.ambientVolume * 100)}%</span></span>
               <input type="range" min={0} max={1} step={0.05} value={s.ambientVolume} onChange={(e) => { s.set({ ambientVolume: Number(e.target.value) }); ambient.setVolume(Number(e.target.value)); }} className="mt-2 w-full" />
             </label>
+            <Toggle checked={s.musicOn} onChange={(v) => s.set({ musicOn: v })} label="Kojąca muzyka w tle" description="Spokojna, zapętlona muzyka podczas praktyki; cichnie, gdy mówi instruktor." />
+            <div className="py-3">
+              <span className="font-medium">Utwór</span>
+              <div className="mt-2 flex flex-wrap gap-2">
+                <Chip active={s.musicTrack === 'auto'} onClick={() => pickTrack('auto')}>Automatycznie</Chip>
+                {tracks.map((t) => (
+                  <Chip key={t.id} active={s.musicTrack === t.id} onClick={() => pickTrack(t.id)}>{t.title}</Chip>
+                ))}
+                <Chip active={s.musicTrack === GENERATIVE_ID} onClick={() => pickTrack(GENERATIVE_ID)}>Generowana na żywo</Chip>
+              </div>
+            </div>
+            <label className="block py-3">
+              <span className="flex justify-between font-medium">Głośność muzyki <span className="text-ink-soft">{Math.round(s.musicVolume * 100)}%</span></span>
+              <input type="range" min={0} max={1} step={0.05} value={s.musicVolume} onChange={(e) => { s.set({ musicVolume: Number(e.target.value) }); music.setVolume(Number(e.target.value)); }} className="mt-2 w-full" />
+            </label>
+            <div className="py-3">
+              <button className="btn-secondary h-11 min-h-0" onClick={() => void togglePreview()}>{previewing ? 'Zatrzymaj podgląd' : 'Posłuchaj muzyki'}</button>
+            </div>
             <Toggle checked={s.chimes} onChange={(v) => s.set({ chimes: v })} label="Delikatny dźwięk przejścia" description="Cicha misa przy zmianie pozycji." />
             <Toggle checked={s.breathingGuide} onChange={(v) => s.set({ breathingGuide: v })} label="Wizualizacja oddechu" description="Podczas powitania i relaksu." />
             <Toggle checked={s.keepAwake} onChange={(v) => s.set({ keepAwake: v })} label="Nie wygaszaj ekranu podczas praktyki" />

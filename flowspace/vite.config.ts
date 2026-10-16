@@ -36,10 +36,12 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,woff2,bin}'],
+        globPatterns: ['**/*.{js,css,html,png,svg,woff2,bin,json}'],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         navigateFallback: '/index.html',
         runtimeCaching: [
+          // Music loops are large: cached on first play instead of precached.
+          { urlPattern: /\/audio\/music\/.*\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'music', expiration: { maxEntries: 12 } } },
           {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
             handler: 'CacheFirst',
