@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f4f0e8;
+  --color-paper-2: #ece6da;
+  --color-mist: #faf8f3;
+  --color-sage: #8c9a80;
+  --color-sage-deep: #5f6d56;
+  --color-sage-soft: #dfe4d6;
+  --color-sand: #d8c7ad;
+  --color-sand-soft: #ede3d2;
+  --color-wood: #a77a52;
+  --color-ink: #23241f;
+  --color-ink-2: #3b3d36;
+  --color-ink-soft: #6b6c63;
+  --color-gold: #c2a062;
+  --color-coral: #e0735a;
+  --color-coral-soft: #f6ddd5;
+
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+
+  --radius-card: 1.5rem;
+  --shadow-soft: 0 1px 2px rgb(35 36 31 / 0.04), 0 8px 24px -12px rgb(35 36 31 / 0.18);
+  --shadow-float: 0 2px 6px rgb(35 36 31 / 0.08), 0 18px 40px -18px rgb(35 36 31 / 0.35);
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--color-paper);
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+    overflow-x: hidden;
+  }
+  button {
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+  input[type='range'] {
+    accent-color: var(--color-sage-deep);
+  }
+}
+
+@layer components {
+  .safe-top {
+    padding-top: max(env(safe-area-inset-top), 0.75rem);
+  }
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+  }
+  .safe-x {
+    padding-left: max(env(safe-area-inset-left), 1rem);
+    padding-right: max(env(safe-area-inset-right), 1rem);
+  }
+  .card {
+    background: var(--color-mist);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    min-height: 2.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: var(--color-mist);
+    border: 1px solid rgb(35 36 31 / 0.08);
+    transition: background 0.25s var(--ease-calm), border-color 0.25s, color 0.25s;
+  }
+  .chip[data-active='true'] {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-color: var(--color-ink);
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: transform 0.2s var(--ease-calm), background 0.25s;
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    background: var(--color-mist);
+    border: 1px solid rgb(35 36 31 / 0.1);
+    font-weight: 600;
+    transition: transform 0.2s var(--ease-calm), background 0.25s;
+  }
+  .btn-secondary:active {
+    transform: scale(0.98);
+  }
+  .glass {
+    background: rgb(250 248 243 / 0.78);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  }
+  .glass-dark {
+    background: rgb(28 29 25 / 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--color-paper);
+  }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    transition: background 0.2s, transform 0.2s var(--ease-calm);
+  }
+  .icon-btn:active {
+    transform: scale(0.94);
+  }
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .canvas-touch {
+    touch-action: none;
+  }
+}

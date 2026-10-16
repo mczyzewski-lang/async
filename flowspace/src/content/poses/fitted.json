@@ -1,0 +1,506 @@
+{
+  "S_warrior2": {
+    "hipL.elev": 81,
+    "hipL.plane": 51,
+    "hipL.rot": 44,
+    "kneeL": 76,
+    "hipR.elev": 47,
+    "hipR.plane": -19,
+    "hipR.rot": -28,
+    "ankleL.flex": -2,
+    "ankleR.flex": 40,
+    "root.pitch": 8
+  },
+  "S_warrior1": {
+    "hipL.elev": 71,
+    "kneeL": 65,
+    "hipR.elev": 45,
+    "hipR.rot": 21,
+    "ankleR.flex": 40,
+    "ankleL.flex": -3,
+    "root.pitch": 3,
+    "hipL.plane": 87
+  },
+  "S_warrior3": {
+    "root.pitch": 83,
+    "hipL.elev": 98,
+    "hipR.elev": -7,
+    "ankleL.flex": -10
+  },
+  "S_halfMoon": {
+    "root.pitch": 99,
+    "root.turn": -65,
+    "hipL.elev": 124,
+    "hipL.plane": 30,
+    "shoulderL.elev": 97,
+    "ankleL.flex": -20,
+    "kneeL": -22,
+    "elbowL": -1
+  },
+  "S_wideFold": {
+    "root.pitch": 96,
+    "hipL.elev": 106,
+    "hipR.elev": 106,
+    "spine.flex": 30,
+    "shoulderL.elev": 100,
+    "shoulderR.elev": 100,
+    "elbowL": 0,
+    "elbowR": 0
+  },
+  "S_tabletop": {
+    "ankleL.flex": -46,
+    "ankleR.flex": -46
+  },
+  "S_cat": {
+    "shoulderL.elev": 123,
+    "shoulderR.elev": 123,
+    "elbowL": 1,
+    "elbowR": 1,
+    "clavL.prot": 0,
+    "clavR.prot": 0
+  },
+  "S_cow": {
+    "shoulderL.elev": 73,
+    "shoulderR.elev": 73,
+    "root.pitch": 104
+  },
+  "S_threadNeedle": {
+    "root.turn": 3,
+    "chest.twist": -23,
+    "spine.twist": 0,
+    "shoulderL.elev": 130,
+    "shoulderL.plane": 143,
+    "shoulderR.elev": 129,
+    "elbowR": 27,
+    "root.pitch": 100
+  },
+  "S_puppy": {
+    "root.pitch": 130,
+    "hipL.elev": 129,
+    "hipR.elev": 129,
+    "spine.flex": -10,
+    "chest.flex": -10,
+    "neck.flex": 30
+  },
+  "S_plank": {
+    "root.pitch": 74,
+    "shoulderL.elev": 73,
+    "shoulderR.elev": 73,
+    "ankleL.flex": 3,
+    "ankleR.flex": 3
+  },
+  "S_chaturanga": {
+    "root.pitch": 86,
+    "shoulderL.elev": 2,
+    "shoulderR.elev": 2,
+    "elbowL": 84,
+    "elbowR": 84,
+    "ankleL.flex": 10,
+    "ankleR.flex": 10
+  },
+  "S_sidePlank": {
+    "root.pitch": 64,
+    "root.turn": -89,
+    "shoulderL.elev": 64,
+    "ankleL.inv": 18,
+    "hipL.elev": 0,
+    "hipR.elev": 0
+  },
+  "S_upDog": {
+    "root.pitch": 76,
+    "spine.flex": -34,
+    "chest.flex": -11,
+    "shoulderL.elev": 30,
+    "shoulderR.elev": 30,
+    "hipL.elev": 3,
+    "hipR.elev": 3
+  },
+  "S_prone": {
+    "shoulderL.elev": 14,
+    "shoulderR.elev": 14,
+    "shoulderL.plane": 60,
+    "shoulderR.plane": 60,
+    "elbowL": 150,
+    "elbowR": 150
+  },
+  "S_sphinx": {
+    "shoulderL.elev": 41,
+    "shoulderR.elev": 41,
+    "elbowL": 91,
+    "elbowR": 91,
+    "spine.flex": -25,
+    "chest.flex": -25
+  },
+  "S_cobra": {
+    "shoulderL.elev": 0,
+    "shoulderR.elev": 0,
+    "elbowL": 105,
+    "elbowR": 105,
+    "spine.flex": -33,
+    "chest.flex": 0
+  },
+  "S_bow": {
+    "shoulderL.elev": 68,
+    "shoulderR.elev": 68,
+    "shoulderL.plane": -99,
+    "shoulderR.plane": -99,
+    "kneeL": 109,
+    "kneeR": 109,
+    "hipL.elev": 26,
+    "hipR.elev": 26
+  },
+  "S_camel": {
+    "shoulderL.elev": 90,
+    "shoulderR.elev": 90,
+    "shoulderL.plane": -96,
+    "shoulderR.plane": -96,
+    "spine.flex": -40,
+    "chest.flex": -15,
+    "root.pitch": -26,
+    "hipL.elev": 30,
+    "hipR.elev": 30
+  },
+  "S_lowLunge": {
+    "hipR.elev": 22,
+    "kneeR": 80,
+    "ankleR.flex": -58,
+    "root.pitch": -10,
+    "hipL.elev": 83,
+    "kneeL": 92,
+    "ankleL.flex": 0
+  },
+  "S_staff": {
+    "hipL.elev": 87,
+    "hipR.elev": 87,
+    "shoulderL.elev": 9,
+    "shoulderR.elev": 9
+  },
+  "S_hookLying": {
+    "hipL.elev": 30,
+    "hipR.elev": 30,
+    "kneeL": 120,
+    "kneeR": 120
+  },
+  "S_supineTwist": {
+    "root.turn": 89,
+    "chest.twist": -60,
+    "spine.twist": -28,
+    "hipL.elev": 110,
+    "hipR.elev": 92
+  },
+  "S_crow": {
+    "root.pitch": 83,
+    "hipL.elev": 150,
+    "hipR.elev": 150,
+    "elbowL": 20,
+    "elbowR": 20,
+    "shoulderL.elev": 70,
+    "shoulderR.elev": 70
+  },
+  "S_easySeated": {
+    "hipL.elev": 80,
+    "hipL.plane": 70,
+    "hipL.rot": 98,
+    "kneeL": 110,
+    "hipR.elev": 80,
+    "hipR.plane": 70,
+    "hipR.rot": 97,
+    "kneeR": 121
+  },
+  "S_butterfly": {
+    "hipL.elev": 85,
+    "hipR.elev": 85,
+    "hipL.plane": 54,
+    "hipR.plane": 54,
+    "hipL.rot": 102,
+    "hipR.rot": 102,
+    "kneeL": 126,
+    "kneeR": 126
+  },
+  "S_ardhaMatsy": {
+    "hipR.elev": 71,
+    "hipR.plane": 105,
+    "hipR.rot": 81,
+    "kneeR": 143,
+    "hipL.elev": 130,
+    "hipL.plane": 104,
+    "hipL.rot": 0,
+    "kneeL": 113,
+    "shoulderL.elev": 7,
+    "elbowL": -24,
+    "shoulderL.plane": -64,
+    "root.pitch": -10
+  },
+  "S_janu": {
+    "hipL.elev": 124,
+    "root.pitch": 34,
+    "hipR.elev": 119,
+    "hipR.plane": 72,
+    "hipR.rot": 110,
+    "kneeR": 136
+  },
+  "S_pigeon": {
+    "root.pitch": 36,
+    "hipR.elev": 41,
+    "hipL.elev": 128,
+    "hipL.rot": 90,
+    "hipL.plane": 78,
+    "kneeL": 105,
+    "shoulderL.elev": 7,
+    "shoulderR.elev": 7,
+    "ankleR.flex": -90,
+    "spine.flex": 0
+  },
+  "S_pigeonFold": {
+    "root.pitch": 70,
+    "hipR.elev": -4,
+    "hipL.elev": 164,
+    "hipL.rot": 90,
+    "kneeL": 95,
+    "shoulderL.elev": 137,
+    "shoulderR.elev": 137,
+    "elbowL": 52,
+    "elbowR": 52,
+    "ankleR.flex": -82,
+    "spine.flex": 30
+  },
+  "S_bridge": {
+    "root.pitch": -131,
+    "spine.flex": 10,
+    "chest.flex": 14,
+    "hipL.elev": 26,
+    "hipR.elev": 26,
+    "kneeL": 106,
+    "kneeR": 106,
+    "neck.flex": 28
+  },
+  "S_wheel": {
+    "root.pitch": -97,
+    "spine.flex": -18,
+    "chest.flex": -16,
+    "hipL.elev": 43,
+    "hipR.elev": 43,
+    "kneeL": 61,
+    "kneeR": 61,
+    "shoulderL.elev": 175,
+    "shoulderR.elev": 175,
+    "ankleL.flex": 6,
+    "ankleR.flex": 6
+  },
+  "S_triangle": {
+    "hipL.elev": 74,
+    "hipL.plane": 1,
+    "hipL.rot": 25,
+    "hipR.elev": 0,
+    "hipR.plane": 0,
+    "root.roll": 32,
+    "root.pitch": 5,
+    "ankleL.flex": -20,
+    "ankleR.flex": 1
+  },
+  "S_sideAngle": {
+    "root.roll": 31,
+    "hipL.elev": 109,
+    "hipL.plane": 43,
+    "hipL.rot": 33,
+    "kneeL": 81,
+    "hipR.elev": 21,
+    "hipR.plane": -55,
+    "hipR.rot": -4,
+    "ankleL.flex": 0,
+    "ankleR.flex": 16
+  },
+  "S_tree": {
+    "hipL.elev": 48,
+    "hipL.plane": 9,
+    "hipL.rot": 90,
+    "kneeL": 160,
+    "ankleL.flex": -24,
+    "ankleL.inv": 10,
+    "root.x": 0.03,
+    "root.roll": -3
+  },
+  "S_warrior2Leaning": {
+    "hipL.elev": 89,
+    "kneeL": 67,
+    "ankleL.flex": -2,
+    "hipR.elev": 47,
+    "kneeR": -7,
+    "ankleR.flex": 40
+  },
+  "S_triangleCollapsed": {
+    "hipL.elev": 90,
+    "kneeL": -14,
+    "ankleL.flex": -7,
+    "hipR.elev": -8,
+    "kneeR": 0,
+    "ankleR.flex": -7
+  },
+  "S_warrior1KneeOver": {
+    "hipL.elev": 72,
+    "kneeL": 100,
+    "ankleL.flex": 31,
+    "hipR.elev": 54,
+    "kneeR": 8,
+    "ankleR.flex": 48
+  },
+  "S_warrior1Arched": {
+    "hipL.elev": 63,
+    "kneeL": 73,
+    "ankleL.flex": -11,
+    "hipR.elev": 53,
+    "kneeR": 8,
+    "ankleR.flex": 48
+  },
+  "S_downDogRounded": {
+    "shoulderL.elev": 132,
+    "elbowL": 2,
+    "shoulderR.elev": 132,
+    "elbowR": 2,
+    "hipL.elev": 102,
+    "kneeL": -3,
+    "ankleL.flex": 49,
+    "hipR.elev": 102,
+    "kneeR": -3,
+    "ankleR.flex": 49,
+    "shoulderL.plane": 90,
+    "shoulderR.plane": 90,
+    "root.pitch": 100
+  },
+  "S_downDogHeelsForced": {
+    "shoulderL.elev": 172,
+    "elbowL": 2,
+    "shoulderR.elev": 172,
+    "elbowR": 2,
+    "hipL.elev": 112,
+    "kneeL": -14,
+    "ankleL.flex": 43,
+    "hipR.elev": 112,
+    "kneeR": -14,
+    "ankleR.flex": 43,
+    "shoulderL.plane": 102,
+    "shoulderR.plane": 102,
+    "root.pitch": 118
+  },
+  "S_downDogShoulderCollapse": {
+    "shoulderL.elev": 156,
+    "elbowL": -16,
+    "shoulderR.elev": 154,
+    "elbowR": -13,
+    "hipL.elev": 92,
+    "kneeL": 6,
+    "ankleL.flex": 24,
+    "hipR.elev": 92,
+    "kneeR": 6,
+    "ankleR.flex": 24
+  },
+  "S_seatedSideBend": {
+    "shoulderR.elev": 24,
+    "elbowR": 0
+  },
+  "S_seatedTwist": {
+    "shoulderL.elev": 1,
+    "elbowL": -26,
+    "shoulderL.plane": -68,
+    "root.pitch": -8
+  },
+  "S_bridgeKneesOut": {
+    "hipL.elev": -20,
+    "kneeL": 115,
+    "ankleL.flex": 35,
+    "hipR.elev": -20,
+    "kneeR": 115,
+    "ankleR.flex": 35,
+    "root.pitch": -123
+  },
+  "S_wheelPrep": {
+    "hipL.elev": 30,
+    "kneeL": 120,
+    "ankleL.flex": 4,
+    "hipR.elev": 30,
+    "kneeR": 120,
+    "ankleR.flex": 4,
+    "shoulderL.elev": 201,
+    "elbowL": 124,
+    "shoulderR.elev": 201,
+    "elbowR": 124
+  },
+  "S_halfMoonCollapsed": {
+    "hipL.elev": 132,
+    "kneeL": -30,
+    "ankleL.flex": -26,
+    "shoulderL.elev": 97,
+    "elbowL": -9
+  },
+  "S_tabletopSag": {
+    "shoulderL.elev": 86,
+    "elbowL": -32,
+    "shoulderR.elev": 86,
+    "elbowR": -32,
+    "shoulderL.plane": 98,
+    "shoulderR.plane": 98,
+    "root.pitch": 98
+  },
+  "S_warrior1HeelUp": {
+    "hipL.elev": 63,
+    "kneeL": 69,
+    "ankleL.flex": -11,
+    "hipR.elev": 38,
+    "kneeR": 12,
+    "ankleR.flex": -29
+  },
+  "S_triangleKneeLocked": {
+    "hipL.elev": 66,
+    "kneeL": 3,
+    "ankleL.flex": -27,
+    "hipR.elev": 0,
+    "kneeR": -8,
+    "ankleR.flex": 1
+  },
+  "S_wideFoldRounded": {
+    "shoulderL.elev": 143,
+    "elbowL": -19,
+    "shoulderR.elev": 143,
+    "elbowR": -19,
+    "shoulderL.plane": 88,
+    "shoulderR.plane": 88,
+    "root.pitch": 96
+  },
+  "S_staffLean": {
+    "shoulderL.elev": 18,
+    "elbowL": -44,
+    "shoulderR.elev": 18,
+    "elbowR": -44,
+    "shoulderL.plane": -86,
+    "shoulderR.plane": -86,
+    "root.pitch": -32
+  },
+  "S_wheelKneesOut": {
+    "hipL.elev": 51,
+    "kneeL": 77,
+    "ankleL.flex": -10,
+    "hipR.elev": 51,
+    "kneeR": 77,
+    "ankleR.flex": -10,
+    "shoulderL.elev": 175,
+    "elbowL": 7,
+    "shoulderR.elev": 175,
+    "elbowR": 7
+  },
+  "S_seatedTwistSlump": {
+    "shoulderL.elev": -23,
+    "elbowL": -20,
+    "shoulderL.plane": -76,
+    "root.pitch": -16
+  },
+  "S_sidePlankShoulder": {
+    "shoulderL.elev": 36,
+    "elbowL": -28
+  },
+  "S_ardhaMatsySlump": {
+    "shoulderL.elev": -17,
+    "elbowL": -17,
+    "shoulderL.plane": -72,
+    "root.pitch": -18
+  }
+}
