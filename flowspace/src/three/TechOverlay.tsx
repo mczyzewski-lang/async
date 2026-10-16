@@ -1,4 +1,3 @@
-import { Html } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
@@ -12,6 +11,32 @@ const MARKER_JOINTS: JointId[] = [
 ];
 
 const GOLD = new THREE.Color('#d8b46a');
+
+/** Small text label rendered as a screen-sized sprite (no DOM nodes inside the canvas). */
+function labelSprite(text: string) {
+  const c = document.createElement('canvas');
+  const ctx = c.getContext('2d')!;
+  const font = '600 28px Manrope, system-ui, sans-serif';
+  ctx.font = font;
+  const w = Math.ceil(ctx.measureText(text).width) + 28;
+  c.width = w;
+  c.height = 44;
+  ctx.font = font;
+  ctx.fillStyle = 'rgba(35,36,31,0.72)';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, w, 44, 22);
+  ctx.fill();
+  ctx.fillStyle = '#f4f0e8';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 14, 23);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true, sizeAttenuation: false });
+  const sp = new THREE.Sprite(mat);
+  sp.scale.set((w / 44) * 0.038, 0.038, 1);
+  sp.renderOrder = 30;
+  return sp;
+}
 const SAGE = new THREE.Color('#dfe8d2');
 
 function overlayMat(color: THREE.Color, opacity = 0.95) {
@@ -28,7 +53,6 @@ export function TechOverlay({ rig, guides, showJoints = true }: { rig: () => Ins
   const contactMesh = useRef<THREE.InstancedMesh>(null);
   const comRef = useRef<THREE.Group>(null);
     const lineGroup = useRef<THREE.Group>(null);
-  const labelRefs = useRef<Array<THREE.Group | null>>([]);
 
   const jointGeom = useMemo(() => new THREE.SphereGeometry(0.018, 12, 8), []);
   const jointMat = useMemo(() => overlayMat(SAGE, 0.9), []);
@@ -48,7 +72,7 @@ export function TechOverlay({ rig, guides, showJoints = true }: { rig: () => Ins
         const mat = new THREE.LineDashedMaterial({ color: g.kind === 'orientation' ? '#f2e3c0' : GOLD, dashSize: 0.05, gapSize: 0.03, transparent: true, opacity: 0.95, depthTest: false });
         const line = new THREE.Line(geom, mat);
         line.renderOrder = 10;
-        return { g, line };
+        return { g, line, label: labelSprite(g.labelPL) };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [guides],
@@ -97,7 +121,7 @@ export function TechOverlay({ rig, guides, showJoints = true }: { rig: () => Ins
       }
       contactMesh.current.instanceMatrix.needsUpdate = true;
     }
-    lines.forEach(({ g, line }, i) => {
+    lines.forEach(({ g, line, label }, i) => {
       const pa = line.geometry.getAttribute('position') as THREE.BufferAttribute;
       const pts = g.joints.map((j) => r.getJointWorld(j, new THREE.Vector3()));
       if (g.kind === 'vertical') {
@@ -116,8 +140,8 @@ export function TechOverlay({ rig, guides, showJoints = true }: { rig: () => Ins
       }
       pa.needsUpdate = true;
       line.computeLineDistances();
-      const lbl = labelRefs.current[i];
-      if (lbl && pts[0]) lbl.position.copy(pts[0]).add(v2.set(0, 0.12, 0));
+      label.visible = i < 4;
+      if (pts[0]) label.position.copy(pts[0]).add(v2.set(0, 0.12, 0));
     });
     arrows.forEach(({ g, arrow }) => {
       r.getJointWorld(g.joints[0], v);
@@ -151,12 +175,8 @@ export function TechOverlay({ rig, guides, showJoints = true }: { rig: () => Ins
           <primitive key={`a${i}`} object={arrow} />
         ))}
       </group>
-      {lines.slice(0, 4).map(({ g }, i) => (
-        <group key={`l${i}`} ref={(el) => { labelRefs.current[i] = el; }}>
-          <Html center zIndexRange={[20, 0]} style={{ pointerEvents: 'none' }}>
-            <span className="rounded-full bg-ink/70 px-2 py-0.5 text-[10px] font-medium whitespace-nowrap text-paper">{g.labelPL}</span>
-          </Html>
-        </group>
+      {lines.map(({ label }, i) => (
+        <primitive key={`l${i}`} object={label} />
       ))}
       {showBalance && (
         <>

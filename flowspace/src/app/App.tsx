@@ -2,20 +2,24 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter, createMemoryRouter, RouterProvider } from 'react-router';
 import { AppShell } from './AppShell';
 import { Loading } from './Loading';
+import { preloadCharacter } from '@/three/rig/characterAsset';
 
-const Home = lazy(() => import('@/routes/Home'));
+/** Routes that render the instructor wait for the precomputed character mesh. */
+const with3d = <T,>(load: () => Promise<T>) => () => Promise.all([load(), preloadCharacter()]).then(([m]) => m);
+
+const Home = lazy(with3d(() => import('@/routes/Home')));
 const Onboarding = lazy(() => import('@/routes/Onboarding'));
 const Explore = lazy(() => import('@/routes/Explore'));
-const PoseLearn = lazy(() => import('@/routes/PoseLearn'));
+const PoseLearn = lazy(with3d(() => import('@/routes/PoseLearn')));
 const PracticeConfig = lazy(() => import('@/routes/PracticeConfig'));
 const PracticePreview = lazy(() => import('@/routes/PracticePreview'));
-const PracticePlay = lazy(() => import('@/routes/PracticePlay'));
+const PracticePlay = lazy(with3d(() => import('@/routes/PracticePlay')));
 const Breathe = lazy(() => import('@/routes/Breathe'));
 const Routines = lazy(() => import('@/routes/Routines'));
 const Progress = lazy(() => import('@/routes/Progress'));
-const Settings = lazy(() => import('@/routes/Settings'));
-const PoseLab = lazy(() => import('@/dev/PoseLab'));
-const PoseGrid = lazy(() => import('@/dev/PoseGrid'));
+const Settings = lazy(with3d(() => import('@/routes/Settings')));
+const PoseLab = lazy(with3d(() => import('@/dev/PoseLab')));
+const PoseGrid = lazy(with3d(() => import('@/dev/PoseGrid')));
 const NotFound = lazy(() => import('@/routes/NotFound'));
 
 const s = (el: React.ReactNode) => <Suspense fallback={<Loading />}>{el}</Suspense>;

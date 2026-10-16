@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { getPose } from '@/content/poses';
 import type { JointId } from '@/content/types';
 import { InstructorRig } from './rig/InstructorRig';
+import { isCharacterReady, preloadCharacter } from './rig/characterAsset';
 
 /**
  * Renders real 3D snapshots of the instructor for pose cards (one shared offscreen renderer).
@@ -81,6 +82,13 @@ function renderKey(key: string): string | null {
 function pump() {
   if (busy) return;
   busy = true;
+  if (!isCharacterReady()) {
+    void preloadCharacter().then(() => {
+      busy = false;
+      pump();
+    });
+    return;
+  }
   const step = () => {
     const key = queue.shift();
     if (!key) {

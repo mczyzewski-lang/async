@@ -119,6 +119,7 @@ const _q = new THREE.Quaternion();
 const _q2 = new THREE.Quaternion();
 const _axis = new THREE.Vector3();
 const Y = new THREE.Vector3(0, 1, 0);
+const Z = new THREE.Vector3(0, 0, 1);
 
 /** Mirror a left-side rotation to the right side (reflection across the YZ plane). */
 function mirrorQ(q: THREE.Quaternion): THREE.Quaternion {
@@ -149,8 +150,12 @@ export function createBoneQuats(): BoneQuats {
   return Object.fromEntries(BONE_DEFS.map((b) => [b.name, new THREE.Quaternion()])) as BoneQuats;
 }
 
-/** Fills `out` with local bone quaternions for the given state. */
-export function poseToQuats(s: PoseState, out: BoneQuats): BoneQuats {
+/**
+ * Fills `out` with local bone quaternions for the given state.
+ * `scapular` adds the natural upward rotation of the shoulder girdle when an arm is raised
+ * above shoulder height (scapulohumeral rhythm), so overhead arms look anatomically plausible.
+ */
+export function poseToQuats(s: PoseState, out: BoneQuats, scapular = true): BoneQuats {
   _e.set(s.root.pitch * D, s.root.yaw * D, -s.root.roll * D, 'YXZ');
   out.root.setFromEuler(_e);
   if (s.root.turn) out.root.multiply(_q2.setFromAxisAngle(Y, s.root.turn * D));
@@ -163,10 +168,15 @@ export function poseToQuats(s: PoseState, out: BoneQuats): BoneQuats {
     const right = side === 'R';
     const fix = (q: THREE.Quaternion) => (right ? mirrorQ(q) : q);
     const clav = s[`clav${side}`];
-    _e.set(0, -clav.prot * D, clav.elev * D, 'YXZ');
+    const armElev = s[`shoulder${side}`].elev;
+    const auto = scapular ? Math.min(18, Math.max(0, armElev - 85) * 0.2) : 0;
+    _e.set(0, -clav.prot * D, (clav.elev + auto) * D, 'YXZ');
     fix(out[`clav${side}`].setFromEuler(_e));
 
-    fix(globeQ(out[`upperArm${side}`], s[`shoulder${side}`]));
+    // The automatic girdle rotation moves the shoulder joint but must not tilt the arm itself.
+    globeQ(out[`upperArm${side}`], s[`shoulder${side}`]);
+    if (auto) out[`upperArm${side}`].premultiply(_q.setFromAxisAngle(Z, -auto * D));
+    fix(out[`upperArm${side}`]);
 
     const w = s[`wrist${side}`];
     // Elbow hinge, plus half of the forearm pronation (distributes the twist).

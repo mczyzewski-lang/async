@@ -38,14 +38,18 @@
     "elbowL": -1
   },
   "S_wideFold": {
-    "root.pitch": 96,
-    "hipL.elev": 106,
-    "hipR.elev": 106,
-    "spine.flex": 30,
-    "shoulderL.elev": 100,
-    "shoulderR.elev": 100,
+    "root.pitch": 81,
+    "hipL.elev": 101,
+    "hipR.elev": 101,
+    "spine.flex": 40,
+    "shoulderL.elev": 122,
+    "shoulderR.elev": 122,
     "elbowL": 0,
-    "elbowR": 0
+    "elbowR": 0,
+    "neck.flex": 10,
+    "chest.flex": 34,
+    "kneeL": 14,
+    "kneeR": 14
   },
   "S_tabletop": {
     "ankleL.flex": -46,
@@ -506,5 +510,12 @@
     "elbowL": -17,
     "shoulderL.plane": -72,
     "root.pitch": -18
+  },
+  "S_downDogBentKnees": {
+    "root.pitch": 142,
+    "ankleL.flex": 22,
+    "ankleR.flex": 22,
+    "shoulderL.elev": 180,
+    "shoulderR.elev": 180
   }
 }

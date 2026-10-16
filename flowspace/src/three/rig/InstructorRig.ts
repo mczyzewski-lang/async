@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { JointId, PoseState } from '@/content/types';
 import { neutralState } from '@/content/poseState';
-import { buildCharacterGeometry, createSkeleton, DEFAULT_PALETTE, type CharacterPalette } from './buildCharacter';
+import { ANKLE_CUFF_Y, applyBindPose, buildCharacterGeometry, createSkeleton, DEFAULT_PALETTE, type CharacterPalette } from './buildCharacter';
 import { BONE_DEFS, BONE_INDEX, JOINT_TO_BONE, createBoneQuats, poseToQuats, type BoneName } from './skeleton';
 
 export const FLOOR_Y = 0.012; // top surface of the yoga mat
@@ -76,6 +76,10 @@ export class InstructorRig {
     uHl: { value: Array.from({ length: HL_MAX }, () => new THREE.Vector4(0, -10, 0, 0)) },
     uHlColor: { value: new THREE.Color('#E8735A') },
     uHlStrength: { value: 0 },
+    uSkin: { value: new THREE.Color() },
+    uTop: { value: new THREE.Color() },
+    uLegs: { value: new THREE.Color() },
+    uHair: { value: new THREE.Color() },
   };
   private highlights: JointId[] = [];
   private hlTarget = 0;
@@ -85,10 +89,14 @@ export class InstructorRig {
     this.bones = byName;
     this.boneList = bones;
     this.group.add(root);
+    applyBindPose(byName, root);
     this.group.updateMatrixWorld(true);
     const geometry = buildCharacterGeometry(palette);
+    this.hlUniforms.uSkin.value.set(palette.skin);
+    this.hlUniforms.uTop.value.set(palette.top);
+    this.hlUniforms.uLegs.value.set(palette.leggings);
+    this.hlUniforms.uHair.value.set(palette.hair);
     this.material = new THREE.MeshStandardMaterial({
-      vertexColors: true,
       roughness: 0.72,
       metalness: 0,
     });
@@ -119,10 +127,10 @@ export class InstructorRig {
     mat.onBeforeCompile = (shader) => {
       Object.assign(shader.uniforms, u);
       shader.vertexShader = shader.vertexShader
-        .replace('#include <common>', '#include <common>\nvarying vec3 vRigWorld;')
+        .replace('#include <common>', '#include <common>\nvarying vec3 vRigWorld;\nattribute vec3 aBind;\nattribute float aCloth;\nattribute float aHair;\nvarying vec3 vBind;\nvarying float vCloth;\nvarying float vHair;')
         .replace(
           '#include <project_vertex>',
-          '#include <project_vertex>\nvRigWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;',
+          '#include <project_vertex>\nvRigWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvBind = aBind;\nvCloth = aCloth;\nvHair = aHair;',
         );
       shader.fragmentShader = shader.fragmentShader
         .replace(
@@ -131,11 +139,41 @@ export class InstructorRig {
 varying vec3 vRigWorld;
 uniform vec4 uHl[${HL_MAX}];
 uniform vec3 uHlColor;
-uniform float uHlStrength;`,
+uniform float uHlStrength;
+uniform vec3 uSkin;
+uniform vec3 uTop;
+uniform vec3 uLegs;
+uniform vec3 uHair;
+varying vec3 vBind;
+varying float vCloth;
+varying float vHair;
+
+// Clothing is drawn from bind-pose coordinates, so garment edges stay crisp in any pose.
+vec3 cloth() {
+  float aa = max(fwidth(vBind.y), 0.0008) * 1.2;
+  if (vBind.y < 1.036) {
+    float k = smoothstep(${ANKLE_CUFF_Y.toFixed(3)} - aa, ${ANKLE_CUFF_Y.toFixed(3)} + aa, vBind.y);
+    float band = 0.1 * smoothstep(0.012, 0.0, abs(vBind.y - 1.024)) + 0.12 * smoothstep(0.012, 0.0, abs(vBind.y - ${(ANKLE_CUFF_Y + 0.012).toFixed(3)}));
+    return mix(uSkin, uLegs * (1.0 - band), k);
+  }
+  float ax = abs(vBind.x);
+  float front = smoothstep(-0.02, 0.02, vBind.z);
+  float neckFront = ax < 0.11 ? 1.33 + pow(ax / 0.11, 2.0) * 0.075 : 1.43;
+  float neckline = mix(1.415, neckFront, front);
+  float armhole = mix(neckline, 1.365, smoothstep(0.118, 0.128, ax));
+  vec3 top = uTop * (1.0 - 0.08 * smoothstep(0.01, 0.0, abs(vBind.y - 1.042)));
+  return mix(top, uSkin, smoothstep(-aa, aa, vBind.y - armhole));
+}
+
+vec3 garment() {
+  vec3 c = mix(uSkin, cloth(), clamp(vCloth, 0.0, 1.0));
+  return mix(c, uHair, smoothstep(0.25, 0.75, vHair));
+}`,
         )
         .replace(
           '#include <color_fragment>',
           `#include <color_fragment>
+diffuseColor.rgb = garment();
 float hlK = 0.0;
 for (int i = 0; i < ${HL_MAX}; i++) {
   float r = uHl[i].w;
@@ -152,7 +190,7 @@ diffuseColor.rgb = mix(diffuseColor.rgb, uHlColor, hlK * uHlStrength);`,
 totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
         );
     };
-    mat.customProgramCacheKey = () => 'flowspace-rig-hl';
+    mat.customProgramCacheKey = () => 'flowspace-rig-hl-3';
   }
 
   private buildSamples(geometry: THREE.BufferGeometry) {
@@ -170,7 +208,7 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
       const weights: [number, number, number, number] = [sw.getX(i), sw.getY(i), sw.getZ(i), sw.getW(i)];
       const limb = weights[0] > 0.5 ? limbOf[bones[0]] ?? null : null;
       // Dense sampling on hands/feet (contacts), sparse elsewhere.
-      if (!limb && i % 5 !== 0) continue;
+      if (!limb && i % 7 !== 0) continue;
       this.samples.push({
         index: i,
         base: new THREE.Vector3().fromBufferAttribute(pos, i),

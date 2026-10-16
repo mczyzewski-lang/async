@@ -28,14 +28,17 @@ function Rigs({ names, yaw, spacing }: { names: string[]; yaw: number; spacing: 
 }
 
 function Cam({ width }: { width: number }) {
+  const q = new URLSearchParams(location.search);
+  const z = Number(q.get('z') ?? 1);
+  const cy = Number(q.get('cy') ?? 0.8);
   const { camera, size } = useThree();
   useEffect(() => {
     const cam = camera as THREE.OrthographicCamera;
-    cam.zoom = size.width / width;
-    cam.position.set(0, 0.95, 6);
-    cam.lookAt(0, 0.8, 0);
+    cam.zoom = (size.width / width) * z;
+    cam.position.set(0, cy + 0.15, 6);
+    cam.lookAt(0, cy, 0);
     cam.updateProjectionMatrix();
-  }, [camera, size, width]);
+  }, [camera, size, width, z, cy]);
   return null;
 }
 
@@ -46,7 +49,7 @@ export default function PoseGrid() {
   const spacing = Number(params.get('sp') ?? 1.9);
   const width = names.length * spacing;
   return (
-    <div style={{ height: '100%', background: '#ece6da' }}>
+    <div style={{ position: 'fixed', inset: 0, background: '#ece6da' }}>
       <div style={{ position: 'absolute', zIndex: 2, display: 'flex', width: '100%', font: '11px sans-serif' }}>
         {names.map((n) => (
           <div key={n} style={{ flex: 1, textAlign: 'center', padding: 4 }}>{n}</div>

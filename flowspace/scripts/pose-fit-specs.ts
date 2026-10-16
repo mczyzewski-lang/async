@@ -60,12 +60,17 @@ export const SPECS: Record<string, FitSpec> = {
   },
   wideFold: {
     base: 'S_wideFold',
-    free: { 'root.pitch': [80, 130], 'hipL.elev|hipR.elev': [80, 130], 'spine.flex': [0, 30], 'shoulderL.elev|shoulderR.elev': [80, 160], 'elbowL|elbowR': [0, 60] },
+    free: { 'root.pitch': [80, 130], 'hipL.elev|hipR.elev': [80, 130], 'spine.flex': [0, 40], 'neck.flex': [0, 30], 'chest.flex': [0, 35], 'kneeL|kneeR': [0, 14], 'shoulderL.elev|shoulderR.elev': [80, 160], 'elbowL|elbowR': [0, 60] },
     terms: [
       { gap: 'footL' }, { gap: 'footR' }, { gap: 'handL' }, { gap: 'handR' },
       { rel: ['handL', 'ankleL'], d: [null, null, 0], w: 0.5 }, { rel: ['handR', 'ankleR'], d: [null, null, 0], w: 0.5 },
       { dist: ['ankleL', 'ankleR'], value: 1.0 },
     ],
+  },
+  downDogBent: {
+    base: 'S_downDogBentKnees',
+    free: { 'root.pitch': [125, 160], 'ankleL.flex|ankleR.flex': [0, 40], 'shoulderL.elev|shoulderR.elev': [140, 180] },
+    terms: [{ gap: 'footL' }, { gap: 'footR' }, { gap: 'handL' }, { gap: 'handR' }],
   },
   tabletop: {
     base: 'S_tabletop',
