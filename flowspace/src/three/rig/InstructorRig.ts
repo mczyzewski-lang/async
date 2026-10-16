@@ -204,10 +204,14 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
     return this.targetState;
   }
 
-  setHighlights(joints: JointId[]) {
+  /** Highlights body regions: warm gold for teaching focus, coral for mistakes. */
+  setHighlights(joints: JointId[], tone: 'focus' | 'error' = 'focus') {
     this.highlights = joints.slice(0, HL_MAX);
-    this.hlTarget = joints.length ? 1 : 0;
+    this.hlTarget = joints.length ? (tone === 'error' ? 1 : 0.7) : 0;
+    this.hlUniforms.uHlColor.value.set(tone === 'error' ? '#E0604A' : '#E3B45C');
+    this.highlightTone = joints.length ? tone : 'none';
   }
+  highlightTone: 'focus' | 'error' | 'none' = 'none';
 
   getJointWorld(joint: JointId, out = new THREE.Vector3()): THREE.Vector3 {
     const m = JOINT_TO_BONE[joint];

@@ -1,30 +1,47 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { Instructor } from '@/three/Instructor';
-import type { InstructorRig } from '@/three/rig/InstructorRig';
-import { neutralState, pose } from '@/content/poseState';
+import { lazy, Suspense } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import { AppShell } from './AppShell';
+import { Loading } from './Loading';
 
-declare global {
-  interface Window { __rig?: InstructorRig; __pose?: typeof pose; __neutral?: typeof neutralState }
-}
+const Home = lazy(() => import('@/routes/Home'));
+const Onboarding = lazy(() => import('@/routes/Onboarding'));
+const Explore = lazy(() => import('@/routes/Explore'));
+const PoseLearn = lazy(() => import('@/routes/PoseLearn'));
+const PracticeConfig = lazy(() => import('@/routes/PracticeConfig'));
+const PracticePreview = lazy(() => import('@/routes/PracticePreview'));
+const PracticePlay = lazy(() => import('@/routes/PracticePlay'));
+const Breathe = lazy(() => import('@/routes/Breathe'));
+const Routines = lazy(() => import('@/routes/Routines'));
+const Progress = lazy(() => import('@/routes/Progress'));
+const Settings = lazy(() => import('@/routes/Settings'));
+const PoseLab = lazy(() => import('@/dev/PoseLab'));
+const PoseGrid = lazy(() => import('@/dev/PoseGrid'));
+const NotFound = lazy(() => import('@/routes/NotFound'));
 
-import PoseGrid from '@/dev/PoseGrid';
+const s = (el: React.ReactNode) => <Suspense fallback={<Loading />}>{el}</Suspense>;
+
+const router = createBrowserRouter([
+  {
+    element: <AppShell />,
+    children: [
+      { path: '/', element: s(<Home />) },
+      { path: '/onboarding', element: s(<Onboarding />) },
+      { path: '/explore', element: s(<Explore />) },
+      { path: '/pose/:slug', element: s(<PoseLearn />) },
+      { path: '/practice', element: s(<PracticeConfig />) },
+      { path: '/practice/preview', element: s(<PracticePreview />) },
+      { path: '/practice/play', element: s(<PracticePlay />) },
+      { path: '/breathe', element: s(<Breathe />) },
+      { path: '/routines', element: s(<Routines />) },
+      { path: '/progress', element: s(<Progress />) },
+      { path: '/settings', element: s(<Settings />) },
+      { path: '/dev/pose-lab', element: s(<PoseLab />) },
+      { path: '/dev/pose-grid', element: s(<PoseGrid />) },
+      { path: '*', element: s(<NotFound />) },
+    ],
+  },
+]);
 
 export function App() {
-  if (location.search.includes('grid=')) return <PoseGrid />;
-  return (
-    <div style={{ height: '100%' }}>
-      <Canvas shadows camera={{ position: [1.2, 1.2, 3.2], fov: 35 }}>
-        <color attach="background" args={['#ece6da']} />
-        <hemisphereLight args={['#fff8ee', '#8c7a66', 0.9]} />
-        <directionalLight position={[3, 5, 4]} intensity={2.2} castShadow />
-        <mesh rotation-x={-Math.PI / 2} receiveShadow>
-          <planeGeometry args={[8, 8]} />
-          <meshStandardMaterial color="#cbbba3" />
-        </mesh>
-        <Instructor onReady={(r) => { window.__rig = r; window.__pose = pose; window.__neutral = neutralState; }} />
-        <OrbitControls target={[0, 0.9, 0]} />
-      </Canvas>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }

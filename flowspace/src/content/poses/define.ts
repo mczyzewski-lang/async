@@ -27,13 +27,13 @@ export const STANDARD_CAMERAS: CameraPreset[] = [
   { id: 'back', labelPL: 'Tył', azimuth: 180, elevation: 10, distance: 3.6, target: 'center' },
   { id: 'otherSide', labelPL: 'Drugi bok', azimuth: -90, elevation: 6, distance: 3.6, target: 'center' },
   { id: 'high', labelPL: 'Z góry', azimuth: 30, elevation: 52, distance: 3.8, target: 'center' },
-  { id: 'focusPelvis', labelPL: 'Miednica', azimuth: 50, elevation: 12, distance: 1.7, target: 'pelvis' },
-  { id: 'focusSpine', labelPL: 'Kręgosłup', azimuth: 90, elevation: 18, distance: 2.0, target: 'chest' },
-  { id: 'focusShoulders', labelPL: 'Barki', azimuth: 25, elevation: 18, distance: 1.6, target: 'chest' },
-  { id: 'focusHead', labelPL: 'Głowa i szyja', azimuth: 60, elevation: 10, distance: 1.3, target: 'neck' },
-  { id: 'focusKnees', labelPL: 'Kolana', azimuth: 40, elevation: 14, distance: 1.6, target: 'kneeL' },
-  { id: 'focusFeet', labelPL: 'Stopy', azimuth: 35, elevation: 24, distance: 1.5, target: 'feet' },
-  { id: 'focusHands', labelPL: 'Dłonie', azimuth: 30, elevation: 26, distance: 1.5, target: 'handL' },
+  { id: 'focusPelvis', labelPL: 'Miednica', azimuth: 50, elevation: 12, distance: 2.1, target: 'pelvis' },
+  { id: 'focusSpine', labelPL: 'Kręgosłup', azimuth: 90, elevation: 18, distance: 2.4, target: 'chest' },
+  { id: 'focusShoulders', labelPL: 'Barki', azimuth: 25, elevation: 18, distance: 2.0, target: 'chest' },
+  { id: 'focusHead', labelPL: 'Głowa i szyja', azimuth: 60, elevation: 10, distance: 1.7, target: 'neck' },
+  { id: 'focusKnees', labelPL: 'Kolana', azimuth: 40, elevation: 14, distance: 2.0, target: 'kneeL' },
+  { id: 'focusFeet', labelPL: 'Stopy', azimuth: 35, elevation: 24, distance: 1.9, target: 'feet' },
+  { id: 'focusHands', labelPL: 'Dłonie', azimuth: 30, elevation: 26, distance: 1.9, target: 'handL' },
 ];
 
 export const kf = (id: string, labelPL: string, base: BaseShape, state: PoseState, duration = 1.6): Keyframe => ({

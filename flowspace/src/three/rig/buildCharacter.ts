@@ -20,8 +20,8 @@ export interface CharacterPalette {
 export const DEFAULT_PALETTE: CharacterPalette = {
   skin: '#C99474',
   top: '#8C9A80',
-  leggings: '#3A3B3E',
-  hair: '#3A2A22',
+  leggings: '#4A4B4F',
+  hair: '#4A3428',
 };
 
 type W = Array<[BoneName, number]>;

@@ -396,7 +396,6 @@ export const seatedSupinePoses = [
     learningMinutes: 2,
     duration: { min: 60, typical: 300, max: 900 },
     summary: 'Leżenie na plecach w pełnym rozluźnieniu, oddech naturalny.',
-    facing: 90,
     breathing: 'subtle',
     keyframes: [kf('supine', 'Leżenie', 'supine', S.S_supine, 2), kf('savasana', 'Relaks', 'supine', S.S_savasana, 3)],
     steps: [
@@ -432,7 +431,6 @@ export const seatedSupinePoses = [
     learningMinutes: 2,
     duration: { min: 20, typical: 45, max: 90 },
     summary: 'W leżeniu przyciągasz kolana do klatki, głowa spoczywa na macie.',
-    facing: 90,
     breathing: 'belly',
     keyframes: [kf('hook', 'Nogi ugięte', 'supine', S.S_hookLying, 1.8), kf('knees', 'Kolana do klatki', 'supine', S.S_kneesToChest, 2.2)],
     steps: [
@@ -468,7 +466,6 @@ export const seatedSupinePoses = [
     duration: { min: 30, typical: 60, max: 120 },
     sided: true,
     summary: 'W leżeniu kolana opadają na bok, ramiona szeroko, barki na macie.',
-    facing: 90,
     breathing: 'subtle',
     keyframes: [kf('knees', 'Kolana do klatki', 'supine', S.S_kneesToChest, 1.8), kf('twist', 'Skręt', 'supine', S.S_supineTwist, 3)],
     steps: [
@@ -504,7 +501,6 @@ export const seatedSupinePoses = [
     learningMinutes: 2,
     duration: { min: 60, typical: 120, max: 300 },
     summary: 'W leżeniu podeszwy stóp złączone, kolana opadają na boki — najlepiej z podparciem.',
-    facing: 90,
     breathing: 'belly',
     keyframes: [kf('hook', 'Nogi ugięte', 'supine', S.S_hookLying, 1.8), kf('butterfly', 'Motyl w leżeniu', 'supine', S.S_recliningButterfly, 2.6)],
     steps: [
@@ -538,7 +534,6 @@ export const seatedSupinePoses = [
     learningMinutes: 3,
     duration: { min: 20, typical: 45, max: 90 },
     summary: 'W leżeniu chwytasz stopy, kolana szeroko w stronę pach, kość krzyżowa na macie.',
-    facing: 90,
     keyframes: [kf('knees', 'Kolana do klatki', 'supine', S.S_kneesToChest, 1.8), kf('baby', 'Szczęśliwe dziecko', 'supine', S.S_happyBaby, 2.4)],
     steps: [
       step('grab', 'baby', 'Chwyć zewnętrzne krawędzie stóp, kolana szeroko.', { cam: 'side', joints: ['handL', 'ankleL'], narr: 'Chwyć stopy, kolana szeroko.' }),
@@ -572,7 +567,6 @@ export const seatedSupinePoses = [
     learningMinutes: 6,
     duration: { min: 15, typical: 30, max: 60 },
     summary: 'W leżeniu z ugiętymi nogami unosisz biodra, stopy i barki stabilnie w macie.',
-    facing: 90,
     keyframes: [kf('hook', 'Nogi ugięte', 'supine', S.S_hookLying, 1.8), kf('bridge', 'Mostek', 'supine', S.S_bridge, 2.4)],
     steps: [
       step('feet', 'hook', 'Leż na plecach, stopy na szerokość bioder blisko pośladków.', { cam: 'side', joints: ['ankleL', 'ankleR'], narr: 'Stopy blisko pośladków.' }),
@@ -609,7 +603,6 @@ export const seatedSupinePoses = [
     learningMinutes: 120,
     duration: { min: 5, typical: 10, max: 20 },
     summary: 'Z leżenia unosisz całe ciało na dłoniach i stopach w głęboki łuk.',
-    facing: 90,
     keyframes: [kf('prep', 'Dłonie przy uszach', 'supine', S.S_wheelPrep, 2), kf('wheel', 'Koło', 'supine', S.S_wheel, 3)],
     steps: [
       step('hands', 'prep', 'Dłonie przy uszach, palce w stronę barków, łokcie równolegle.', { cam: 'side', joints: ['handL', 'elbowL'], narr: 'Dłonie przy uszach.' }),

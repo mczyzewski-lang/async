@@ -88,6 +88,8 @@
     min-height: 2.75rem;
     font-size: 0.9rem;
     font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
     background: var(--color-mist);
     border: 1px solid rgb(35 36 31 / 0.08);
     transition: background 0.25s var(--ease-calm), border-color 0.25s, color 0.25s;

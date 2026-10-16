@@ -20,7 +20,6 @@ export const floorPoses = [
     learningMinutes: 4,
     duration: { min: 10, typical: 20, max: 40 },
     summary: 'Dłonie pod barkami, kolana pod biodrami, kręgosłup neutralny.',
-    facing: 90,
     keyframes: [kf('kneel', 'Klęk', 'kneeling', S.S_kneelHeels, 1.4), kf('table', 'Stół', 'allfours', S.S_tabletop, 1.8)],
     steps: [
       step('hands', 'table', 'Oprzyj dłonie pod barkami, palce szeroko rozłożone.', { cam: 'focusHands', joints: ['wristL', 'wristR'], narr: 'Dłonie pod barkami, palce szeroko.' }),
@@ -54,7 +53,6 @@ export const floorPoses = [
     learningMinutes: 4,
     duration: { min: 10, typical: 20, max: 40 },
     summary: 'Z wydechem zaokrąglij plecy jak kot, odpychając matę dłońmi.',
-    facing: 90,
     breathing: 'belly',
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.6), kf('cat', 'Kot', 'allfours', S.S_cat, 2.4)],
     steps: [
@@ -90,7 +88,6 @@ export const floorPoses = [
     learningMinutes: 4,
     duration: { min: 10, typical: 20, max: 40 },
     summary: 'Z wdechem brzuch opada, mostek wysuwa się do przodu, barki daleko od uszu.',
-    facing: 90,
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.6), kf('cow', 'Krowa', 'allfours', S.S_cow, 2.4)],
     steps: [
       step('table', 'table', 'Zacznij w pozycji stołu.', { cam: 'side' }),
@@ -126,7 +123,6 @@ export const floorPoses = [
     duration: { min: 20, typical: 40, max: 60 },
     sided: true,
     summary: 'Z pozycji stołu ręka przesuwa się pod ciałem, a bark i skroń spoczywają na macie.',
-    facing: 90,
     breathing: 'subtle',
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.6), kf('thread', 'Nawlekanie igły', 'allfours', S.S_threadNeedle, 2.8)],
     steps: [
@@ -162,7 +158,6 @@ export const floorPoses = [
     learningMinutes: 3,
     duration: { min: 30, typical: 60, max: 180 },
     summary: 'Pośladki w stronę pięt, czoło na macie, ramiona wyciągnięte lub wzdłuż ciała.',
-    facing: 90,
     breathing: 'belly',
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.4), kf('child', 'Dziecko', 'kneeling', S.S_child, 2.6)],
     steps: [
@@ -199,7 +194,6 @@ export const floorPoses = [
     learningMinutes: 5,
     duration: { min: 20, typical: 40, max: 60 },
     summary: 'Biodra nad kolanami, ramiona daleko w przód, klatka piersiowa łagodnie opada.',
-    facing: 90,
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.4), kf('puppy', 'Szczeniak', 'allfours', S.S_puppy, 2.6)],
     steps: [
       step('table', 'table', 'Zacznij w pozycji stołu.', { cam: 'side' }),
@@ -235,7 +229,6 @@ export const floorPoses = [
     learningMinutes: 15,
     duration: { min: 20, typical: 40, max: 75 },
     summary: 'Ciało tworzy odwrócone V: dłonie stabilne, kręgosłup długi, kolana mogą być ugięte.',
-    facing: 90,
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.6), kf('lift', 'Uniesienie bioder', 'allfours', S.S_downDogBentKnees, 2.2), kf('dog', 'Pies z głową w dół', 'allfours', S.S_downDog, 2.2)],
     steps: [
       step('table', 'table', 'Zacznij w pozycji stołu. Dłonie odrobinę przed barkami, palce szeroko rozłożone.', { cam: 'focusHands', joints: ['wristL', 'wristR'], narr: 'Dłonie przed barkami, palce szeroko.' }),
@@ -273,7 +266,6 @@ export const floorPoses = [
     learningMinutes: 10,
     duration: { min: 10, typical: 20, max: 40 },
     summary: 'Jedna długa linia od głowy do pięt; dłonie pod barkami.',
-    facing: 90,
     keyframes: [kf('table', 'Stół', 'allfours', S.S_tabletop, 1.4), kf('knees', 'Deska na kolanach', 'allfours', S.S_plankKnees, 1.8), kf('plank', 'Deska', 'plank', S.S_plank, 2)],
     steps: [
       step('table', 'table', 'Z pozycji stołu ustaw dłonie pod barkami.', { cam: 'side', joints: ['wristL'] }),
@@ -343,7 +335,6 @@ export const floorPoses = [
     learningMinutes: 25,
     duration: { min: 5, typical: 8, max: 15 },
     summary: 'Z deski powolne opuszczenie do linii łokci; łokcie przy żebrach, barki nie niżej niż łokcie.',
-    facing: 90,
     keyframes: [kf('plank', 'Deska', 'plank', S.S_plank, 1.6), kf('low', 'Chaturanga', 'plank', S.S_chaturanga, 2.2)],
     steps: [
       step('plank', 'plank', 'Zacznij w desce, przesuń się lekko do przodu na palcach stóp.', { cam: 'side', joints: ['shoulderL', 'wristL'] }),
@@ -379,7 +370,6 @@ export const floorPoses = [
     learningMinutes: 15,
     duration: { min: 5, typical: 10, max: 20 },
     summary: 'Proste ręce, uda uniesione, klatka otwarta, barki daleko od uszu.',
-    facing: 90,
     keyframes: [kf('prone', 'Leżenie przodem', 'prone', S.S_cobraPrep, 1.6), kf('updog', 'Pies z głową w górę', 'prone', S.S_upDog, 2.2)],
     steps: [
       step('prone', 'prone', 'Leż przodem, dłonie przy dolnych żebrach, grzbiety stóp na macie.', { cam: 'side', joints: ['wristL', 'ankleL'] }),
@@ -414,7 +404,6 @@ export const floorPoses = [
     learningMinutes: 5,
     duration: { min: 30, typical: 60, max: 120 },
     summary: 'Leżąc przodem, opierasz się na przedramionach; łokcie pod barkami.',
-    facing: 90,
     keyframes: [kf('prone', 'Leżenie przodem', 'prone', S.S_prone, 1.6), kf('sphinx', 'Sfinks', 'prone', S.S_sphinx, 2.2)],
     steps: [
       step('prone', 'prone', 'Połóż się na brzuchu, nogi na szerokość bioder.', { cam: 'side' }),
@@ -449,7 +438,6 @@ export const floorPoses = [
     learningMinutes: 8,
     duration: { min: 10, typical: 20, max: 30 },
     summary: 'Leżąc przodem, z dłońmi przy żebrach, unosisz klatkę siłą pleców.',
-    facing: 90,
     keyframes: [kf('prone', 'Leżenie przodem', 'prone', S.S_cobraPrep, 1.6), kf('cobra', 'Kobra', 'prone', S.S_cobra, 2.4)],
     steps: [
       step('hands', 'prone', 'Połóż dłonie pod barkami lub przy dolnych żebrach, łokcie przy ciele.', { cam: 'side', joints: ['wristL', 'elbowL'], narr: 'Dłonie przy żebrach, łokcie przy ciele.' }),
@@ -484,7 +472,6 @@ export const floorPoses = [
     learningMinutes: 8,
     duration: { min: 10, typical: 15, max: 30 },
     summary: 'Leżąc przodem, unosisz klatkę, ręce i nogi z maty.',
-    facing: 90,
     keyframes: [kf('prone', 'Leżenie przodem', 'prone', S.S_prone, 1.4), kf('locust', 'Szarańcza', 'prone', S.S_locust, 2.2)],
     steps: [
       step('prone', 'prone', 'Leż przodem, ręce wzdłuż ciała.', { cam: 'side' }),
@@ -520,7 +507,6 @@ export const floorPoses = [
     learningMinutes: 25,
     duration: { min: 10, typical: 15, max: 25 },
     summary: 'Leżąc przodem chwytasz kostki i, odpychając stopy od dłoni, unosisz klatkę i uda.',
-    facing: 90,
     keyframes: [kf('prone', 'Leżenie przodem', 'prone', S.S_prone, 1.4), kf('grab', 'Chwyt kostek', 'prone', S.S_bowPrep, 2), kf('bow', 'Łuk', 'prone', S.S_bow, 2.4)],
     steps: [
       step('grab', 'grab', 'Ugnij kolana i chwyć zewnętrzne strony kostek.', { cam: 'side', joints: ['handL', 'ankleL'], narr: 'Chwyć kostki.' }),
@@ -557,7 +543,6 @@ export const floorPoses = [
     learningMinutes: 15,
     duration: { min: 10, typical: 20, max: 30 },
     summary: 'W klęku podpartym unosisz mostek i sięgasz dłońmi do pięt, biodra nad kolanami.',
-    facing: 90,
     keyframes: [kf('kneel', 'Klęk', 'kneeling', S.S_highKneel, 1.4), kf('prep', 'Dłonie na krzyżu', 'kneeling', S.S_camelPrep, 2), kf('camel', 'Wielbłąd', 'kneeling', S.S_camel, 2.6)],
     steps: [
       step('kneel', 'kneel', 'Stań w klęku, kolana na szerokość bioder, biodra nad kolanami.', { cam: 'side', joints: ['kneeL', 'hipL'] }),
@@ -594,7 +579,6 @@ export const floorPoses = [
     duration: { min: 20, typical: 30, max: 60 },
     sided: true,
     summary: 'Przednia stopa z przodu, tylne kolano na macie; biodra delikatnie opadają, tułów się wydłuża.',
-    facing: 90,
     keyframes: [kf('prep', 'Wykrok z dłońmi', 'kneeling', S.S_lowLungePrep, 2), kf('lunge', 'Niski wykrok', 'kneeling', S.S_lowLunge, 2.4)],
     steps: [
       step('step', 'prep', 'Z pozycji stołu przesuń stopę między dłonie. Tylne kolano na macie (na kocu).', { cam: 'side', joints: ['ankleL', 'kneeR'], narr: 'Stopa między dłonie, tylne kolano na macie.' }),
@@ -631,7 +615,6 @@ export const floorPoses = [
     duration: { min: 30, typical: 60, max: 120 },
     sided: true,
     summary: 'Przednia goleń ukośnie przed ciałem, tylna noga prosta, biodra wyrównane i podparte.',
-    facing: 90,
     keyframes: [kf('lunge', 'Wykrok', 'kneeling', S.S_lowLungePrep, 1.8), kf('pigeon', 'Gołąb', 'seated', S.S_pigeon, 2.6)],
     steps: [
       step('place', 'pigeon', 'Z psa lub stołu przenieś kolano za nadgarstek, a stopę w stronę drugiego nadgarstka.', { cam: 'front', joints: ['kneeL', 'ankleL'], narr: 'Kolano za nadgarstek, goleń ukośnie.' }),
@@ -666,7 +649,6 @@ export const floorPoses = [
     learningMinutes: 60,
     duration: { min: 5, typical: 10, max: 20 },
     summary: 'Kolana opierają się wysoko na ramionach, ciężar przesuwa się nad dłonie, stopy unoszą się.',
-    facing: 90,
     keyframes: [kf('squat', 'Przysiad', 'standing', S.S_garland, 1.8), kf('prep', 'Dłonie na macie', 'allfours', S.S_crowPrep, 2), kf('crow', 'Wrona', 'allfours', S.S_crow, 2.4)],
     steps: [
       step('squat', 'squat', 'Zacznij w przysiadzie, stopy blisko siebie.', { cam: 'side' }),
