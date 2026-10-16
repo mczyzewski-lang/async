@@ -127,20 +127,20 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
           // Fit the animated entry into the scheduled entry time.
           d.rig.speed = 1;
           const natural = d.playEntry(p, e.step.side, { speed: 1 });
-          d.rig.speed = Math.min(1.8, Math.max(0.55, natural / Math.max(2, e.step.entryDuration - 0.5)));
+          d.rig.speed = Math.min(1.8, Math.max(0.55, natural / Math.max(2, e.step.entryDuration - 0.5))) * timeScale;
           if (player.status === 'paused') d.rig.paused = true;
         }
         frameCamera(p, e.index === 0 && e.reason === 'start' ? 2.4 : 1.8);
         if (e.index > 0 && useSettings.getState().chimes && e.reason === 'auto') ambient.chime(0.6);
       }
       if (e.type === 'phase' && d) {
-        if (e.phase === 'hold') d.rig.speed = 1;
+        if (e.phase === 'hold') d.rig.speed = timeScale;
         if (e.phase === 'exit') {
           const st = session.steps[e.index];
           const nx = session.steps[e.index + 1];
           // Only play an exit when the next step is a different pose family.
           if (nx && !(nx.poseId === st.poseId)) {
-            d.rig.speed = 1;
+            d.rig.speed = timeScale;
             d.playExit(getPose(st.poseId)!, st.side);
           }
         }
@@ -164,7 +164,7 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
     return () => {
       off();
     };
-  }, [player, voice, frameCamera, session, muted]);
+  }, [player, voice, frameCamera, session, muted, timeScale]);
 
   // ------------------------------------------------ clock: one rAF loop, UI refreshed at ~4 Hz
   useEffect(() => {
@@ -288,7 +288,7 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-sand-soft" data-testid="practice-play" data-status={snap.status} data-step={snap.stepIndex} data-phase={snap.phase}>
-      <Stage className="absolute inset-0" env={settings.environment} quality={settings.quality} onRig={onRig} camera={camera} testId="play-stage" viewShift={portrait ? 0.17 : 0} />
+      <Stage className="absolute inset-0" env={settings.environment} quality={settings.quality} onRig={onRig} camera={camera} testId="play-stage" viewShift={portrait ? 0.17 : 0} viewShiftX={!portrait && snap.status !== 'idle' && snap.status !== 'completed' ? 0.2 : 0} />
 
       {/* ------------------------------------------------ top */}
       <div className="safe-top safe-x pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-paper/80 to-transparent pb-8">
@@ -310,8 +310,8 @@ function PlayInner({ session, start, routineId, timeScale }: { session: YogaSess
       </div>
 
       {showBreath && (
-        <div className="pointer-events-none absolute inset-x-0 top-[22%] flex justify-center">
-          <BreathingCircle size={150} />
+        <div className="pointer-events-none absolute top-20 right-4 landscape:top-16">
+          <BreathingCircle size={portrait ? 104 : 96} />
         </div>
       )}
 

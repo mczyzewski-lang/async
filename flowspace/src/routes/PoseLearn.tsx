@@ -239,7 +239,10 @@ function PoseLearnInner({ pose }: { pose: YogaPose }) {
   }, []);
 
   useEffect(() => {
-    if (compare && mistake) syncCompare(mistake);
+    if (compare && mistake) {
+      syncCompare(mistake);
+      view('threeQuarter');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compare]);
 
@@ -288,6 +291,7 @@ function PoseLearnInner({ pose }: { pose: YogaPose }) {
         onInteract={() => setAutoRotate(false)}
         testId="pose-stage"
         viewShift={portrait ? (panelOpen || mistake ? 0.19 : 0.1) : 0}
+        viewShiftX={portrait ? 0 : 0.2}
       />
       <span ref={stateRef} data-testid="rig-state" className="hidden" />
 
@@ -346,7 +350,7 @@ function PoseLearnInner({ pose }: { pose: YogaPose }) {
       )}
 
       {/* ------------------------------------------------ bottom panel */}
-      <div className="safe-bottom absolute inset-x-0 bottom-0 px-3">
+      <div className="safe-bottom absolute inset-x-0 bottom-0 px-3 landscape:right-auto landscape:w-[min(420px,48vw)]">
         <motion.div layout className="mx-auto max-w-xl rounded-[1.75rem] bg-mist/92 shadow-[var(--shadow-float)] backdrop-blur-md">
           {mistake ? (
             <div className="p-4" data-testid="mistake-panel">
@@ -414,7 +418,7 @@ function PoseLearnInner({ pose }: { pose: YogaPose }) {
                   <CtrlButton label="Następna pozycja" onClick={() => nav(`/pose/${nextPose.slug}`, { replace: true })} testId="btn-next-pose"><SkipForward size={19} /></CtrlButton>
                 </div>
               )}
-              <div className="mt-3 flex gap-2">
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row">
                 {pose.commonMistakes.length > 0 && (
                   <button className="btn-secondary h-11 min-h-0 flex-1 text-sm" onClick={() => setSheet('mistakes')} data-testid="btn-mistakes">
                     <AlertTriangle size={16} className="text-coral" /> Zobacz najczęstsze błędy

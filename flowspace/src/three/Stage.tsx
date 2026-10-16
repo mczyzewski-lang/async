@@ -62,6 +62,7 @@ export interface StageProps {
   children?: ReactNode;
   testId?: string;
   viewShift?: number;
+  viewShiftX?: number;
 }
 
 export function Stage({
@@ -81,6 +82,7 @@ export function Stage({
   children,
   testId = 'stage',
   viewShift = 0,
+  viewShiftX = 0,
 }: StageProps) {
   const rig = useMemo(() => new InstructorRig(), []);
   const rigB = useMemo(() => new InstructorRig(), []);
@@ -129,7 +131,7 @@ export function Stage({
         {compare && <Rig rig={rigB} />}
         {compare && <SplitRenderer a={rig} b={rigB} />}
         {techMode && <TechOverlay rig={getRig} guides={guides} />}
-        <CameraRig rig={getRig} request={camera} autoRotate={autoRotate} enabled={interactive} onInteract={onInteract} onUpdate={onCameraUpdate} viewShift={viewShift} />
+        <CameraRig rig={getRig} request={camera} autoRotate={autoRotate} enabled={interactive} onInteract={onInteract} onUpdate={onCameraUpdate} viewShift={viewShift} viewShiftX={viewShiftX} />
         {children}
       </Canvas>
     </div>

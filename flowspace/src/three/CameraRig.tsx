@@ -57,9 +57,11 @@ interface Props {
   onUpdate?: (cam: THREE.Camera, target: THREE.Vector3) => void;
   /** Shifts the rendered image up by this fraction of the height (room for bottom UI panels). */
   viewShift?: number;
+  /** Shifts the rendered image right by this fraction of the width (room for a left side panel). */
+  viewShiftX?: number;
 }
 
-export function CameraRig({ rig, request, autoRotate, minDistance = 0.8, maxDistance = 9, enabled = true, onInteract, onUpdate, viewShift = 0 }: Props) {
+export function CameraRig({ rig, request, autoRotate, minDistance = 0.8, maxDistance = 9, enabled = true, onInteract, onUpdate, viewShift = 0, viewShiftX = 0 }: Props) {
   const controls = useRef<OrbitControlsImpl>(null);
   const { camera, size } = useThree();
   const anim = useRef<{ fromPos: THREE.Vector3; toPos: THREE.Vector3; fromT: THREE.Vector3; toT: THREE.Vector3; t: number; dur: number } | null>(null);
@@ -87,7 +89,7 @@ export function CameraRig({ rig, request, autoRotate, minDistance = 0.8, maxDist
     } else {
       // Focus views: keep roughly 1.1 m of the body visible horizontally (narrow portrait screens).
       const fov = THREE.MathUtils.degToRad((camera as THREE.PerspectiveCamera).fov);
-      dist = Math.max(p.distance, 0.55 / (Math.tan(fov / 2) * Math.min(1, aspect)));
+      dist = Math.max(p.distance, 0.7 / (Math.tan(fov / 2) * Math.min(1, aspect)));
     }
     const pos = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)).multiplyScalar(dist).add(target);
     pos.y = Math.max(pos.y, 0.25);
@@ -107,10 +109,10 @@ export function CameraRig({ rig, request, autoRotate, minDistance = 0.8, maxDist
     const cam = camera as THREE.PerspectiveCamera;
     // A slightly wider lens on portrait phones keeps whole poses legible.
     cam.fov = size.width < size.height ? 48 : 40;
-    if (viewShift > 0) cam.setViewOffset(size.width, size.height, 0, size.height * viewShift, size.width, size.height);
+    if (viewShift || viewShiftX) cam.setViewOffset(size.width, size.height, -size.width * viewShiftX, size.height * viewShift, size.width, size.height);
     else cam.clearViewOffset();
     cam.updateProjectionMatrix();
-  }, [camera, size, viewShift]);
+  }, [camera, size, viewShift, viewShiftX]);
 
   useFrame((_, dt) => {
     const c = controls.current;

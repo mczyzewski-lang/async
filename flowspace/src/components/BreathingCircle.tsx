@@ -25,7 +25,7 @@ export function BreathingCircle({ inhale = 4, exhale = 6, size = 200, onPhase }:
           transition: `transform ${dur}s cubic-bezier(0.45, 0, 0.35, 1)`,
         }}
       />
-      <span className="relative font-display text-xl text-ink">{phase === 'in' ? 'Wdech' : 'Wydech'}</span>
+      <span className={`relative font-display text-ink ${size < 130 ? "text-base" : "text-xl"}`}>{phase === 'in' ? 'Wdech' : 'Wydech'}</span>
     </div>
   );
 }

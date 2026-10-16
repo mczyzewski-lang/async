@@ -7,7 +7,7 @@ import { POSES_3D } from '@/content/poses';
 import { STANDARD_CAMERAS } from '@/content/poses/define';
 import * as S from '@/content/poses/states';
 import { generateSession } from '@/engine/session';
-import { GOAL_LABELS, formatMinutes } from '@/engine/labels';
+import { GOAL_LABELS, formatMinutes, pluralPL } from '@/engine/labels';
 import { Stage } from '@/three/Stage';
 import type { CameraRequest } from '@/three/CameraRig';
 import type { InstructorRig } from '@/three/rig/InstructorRig';
@@ -277,7 +277,7 @@ export default function Home() {
             ) : (
               <p>
                 <span className="font-display text-3xl">{Math.round(week.seconds / 60)}</span> <span className="text-ink-soft">min praktyki ·</span>{' '}
-                <span className="font-display text-3xl">{week.count}</span> <span className="text-ink-soft">{week.count === 1 ? 'sesja' : 'sesje'}</span>
+                <span className="font-display text-3xl">{week.count}</span> <span className="text-ink-soft">{pluralPL(week.count, 'praktyka', 'praktyki', 'praktyk')}</span>
               </p>
             )}
           </div>
