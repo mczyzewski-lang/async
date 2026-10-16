@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { ALL_STATES } from '../src/content/poses/allStates';
 import { InstructorRig } from '../src/three/rig/InstructorRig';
+import { loadAvatarNode } from '../src/three/rig/avatarNode';
 import { flattenPose, setPath, pose } from '../src/content/poseState';
 import type { JointId, PoseDelta, PoseState } from '../src/content/types';
 import { SPECS } from './pose-fit-specs';
@@ -27,6 +28,7 @@ export interface FitSpec {
   terms: Term[];
 }
 
+await loadAvatarNode();
 const rig = new InstructorRig();
 rig.breathingAmount = 0;
 rig.enableIK = false;

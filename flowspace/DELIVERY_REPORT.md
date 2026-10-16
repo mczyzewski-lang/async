@@ -5,7 +5,7 @@
 | Obszar | Stan |
 | --- | --- |
 | Prawdziwe otoczenie 3D (WebGL) | ✅ 4 proceduralne światy: Pawilon Zen (domyślny), Taras nad oceanem, Górskie sanktuarium, Leśne studio — niebo, mgła, góry, roślinność z wiatrem, woda, cienie, cząsteczki |
-| Interaktywny instruktor 3D z rigiem | ✅ Jedno ciągłe ciało (pola odległości → ~26 tys. wierzchołków), 23 kości, wagi bez szwów (barki i pachy pozostają połączone przy rękach w górze), ubranie i włosy w shaderze; siatka przeliczana przy buildzie |
+| Interaktywny instruktor 3D z rigiem | ✅ Realistyczna postać CC0 (MakeHuman/MPFB) w stroju do jogi, sterowana 23-kościowym szkieletem pozycji (retargeting z kalibracją); pełne ciało odtworzone spod ubrania, kontakt z matą liczony na prawdziwej siatce |
 | Animacje specyficzne dla pozycji | ✅ 116 klatek kluczowych w 53 pozycjach; każda pozycja ma własny stan utrzymania (walidator blokuje ponowne użycie) |
 | Płynne przejścia | ✅ Slerp kwaternionów z opóźnieniem dystalnym, smootherstep, planowanie przejść między bazami, uziemienie, IK dłoni/stóp, oddech w utrzymaniu |
 | Sterowanie kamerą na telefonie | ✅ Obrót 360° palcem, pinch-zoom, presety (przód, 3/4, bok, tył, z góry, fokus na miednicę/kręgosłup/barki/głowę/kolana/stopy/dłonie), reset, auto-obrót, kadrowanie pod portret/pejzaż |
@@ -52,7 +52,7 @@
 
 ## Brakujące zasoby
 
-- Profesjonalnie wymodelowana postać instruktora (obecna jest proceduralna, ciągła i spójna, ale bez detali twarzy i dłoni).
+- Kości pomocnicze/korekty kształtu dla skrajnych zgięć (obecnie czysty linear blend skinning).
 - Utwory muzyczne z ElevenLabs — do wygenerowania z kluczem API (`npm run music:generate`); do tego czasu gra muzyka generowana na żywo.
 - Modele roślinności/architektury i nagrania dźwięków otoczenia (obecnie proceduralne zamienniki).
 - Brak zewnętrznych assetów oznacza brak kwestii licencyjnych — wszystko powstało w kodzie.

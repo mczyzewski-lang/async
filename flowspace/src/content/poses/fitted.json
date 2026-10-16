@@ -38,12 +38,12 @@
     "elbowL": -1
   },
   "S_wideFold": {
-    "root.pitch": 81,
-    "hipL.elev": 101,
-    "hipR.elev": 101,
+    "root.pitch": 86,
+    "hipL.elev": 109,
+    "hipR.elev": 109,
     "spine.flex": 40,
-    "shoulderL.elev": 122,
-    "shoulderR.elev": 122,
+    "shoulderL.elev": 137,
+    "shoulderR.elev": 137,
     "elbowL": 0,
     "elbowR": 0,
     "neck.flex": 10,
@@ -284,16 +284,16 @@
   },
   "S_wheel": {
     "root.pitch": -97,
-    "spine.flex": -18,
-    "chest.flex": -16,
-    "hipL.elev": 43,
-    "hipR.elev": 43,
+    "spine.flex": -27,
+    "chest.flex": -9,
+    "hipL.elev": 39,
+    "hipR.elev": 39,
     "kneeL": 61,
     "kneeR": 61,
-    "shoulderL.elev": 175,
-    "shoulderR.elev": 175,
-    "ankleL.flex": 6,
-    "ankleR.flex": 6
+    "shoulderL.elev": 176,
+    "shoulderR.elev": 176,
+    "ankleL.flex": 4,
+    "ankleR.flex": 4
   },
   "S_triangle": {
     "hipL.elev": 74,
@@ -428,10 +428,12 @@
     "hipR.elev": 30,
     "kneeR": 120,
     "ankleR.flex": 4,
-    "shoulderL.elev": 178,
-    "elbowL": 128,
-    "shoulderR.elev": 178,
-    "elbowR": 128
+    "shoulderL.elev": 183,
+    "elbowL": 112,
+    "shoulderR.elev": 183,
+    "elbowR": 112,
+    "wristL.flex": -56,
+    "wristR.flex": -56
   },
   "S_halfMoonCollapsed": {
     "hipL.elev": 132,

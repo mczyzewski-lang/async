@@ -4,9 +4,11 @@
  */
 import { ALL_STATES } from '../src/content/poses/allStates';
 import { InstructorRig } from '../src/three/rig/InstructorRig';
+import { loadAvatarNode } from '../src/three/rig/avatarNode';
 import type { JointId } from '../src/content/types';
 
 const names = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(ALL_STATES);
+await loadAvatarNode();
 const rig = new InstructorRig();
 rig.breathingAmount = 0;
 const f = (n: number) => n.toFixed(2).padStart(5);

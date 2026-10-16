@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { InstructorRig, FLOOR_Y } from './InstructorRig';
 import { BONE_DEFS } from './skeleton';
+import { AVATAR_MAP } from './avatar';
 import { POSES_3D } from '@/content/poses';
 import { mirrorPose } from '@/content/poseState';
 
@@ -17,11 +18,26 @@ describe('instructor rig', () => {
   const rig = new InstructorRig();
   rig.breathingAmount = 0;
 
-  it('builds a skinned mesh bound to the full skeleton', () => {
-    expect(rig.mesh.isSkinnedMesh).toBe(true);
-    expect(rig.mesh.skeleton.bones.length).toBe(BONE_DEFS.length);
-    const g = rig.mesh.geometry;
-    expect(g.getAttribute('skinIndex').count).toBe(g.getAttribute('position').count);
+  it('drives the avatar: its joints follow the driver skeleton in any pose', () => {
+    expect(rig.avatar).not.toBeNull();
+    expect(rig.avatar!.meshes.length).toBeGreaterThan(2);
+    const avatarBones = new Map<string, THREE.Object3D>();
+    rig.avatar!.root.traverse((o) => avatarBones.set(o.name, o));
+    for (const id of ['tree', 'warrior-2', 'downward-dog', 'bridge']) {
+      const p = POSES_3D.find((x) => x.id === id)!;
+      rig.setPose(p.animation!.keyframes.find((k) => k.id === p.animation!.hold)!.state, 0);
+      rig.update(0.016);
+      for (const [a, d] of Object.entries(AVATAR_MAP)) {
+        if (!d.pin) continue;
+        const pa = avatarBones.get(a)!.getWorldPosition(new THREE.Vector3());
+        const pd = rig.bones[d.driver].getWorldPosition(new THREE.Vector3());
+        expect(pa.distanceTo(pd), `${id} ${a}`).toBeLessThan(0.002);
+      }
+      // the hand mesh stays attached to the forearm (no stretching beyond the rest proportions)
+      const hand = avatarBones.get('LeftHand')!.getWorldPosition(new THREE.Vector3());
+      const elbow = avatarBones.get('LeftForeArm')!.getWorldPosition(new THREE.Vector3());
+      expect(hand.distanceTo(elbow)).toBeCloseTo(BONE_DEFS.find((b) => b.name === 'handL')!.offset[1] * -1, 2);
+    }
   });
 
   it('grounds every held pose onto the mat (no floating, no sinking)', () => {

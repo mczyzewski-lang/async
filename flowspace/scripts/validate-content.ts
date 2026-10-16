@@ -10,6 +10,7 @@ import { validatePoses, type Issue } from '../src/content/validate';
 import { generateSession, DURATION_TOLERANCE } from '../src/engine/session';
 import { GOAL_ORDER } from '../src/engine/labels';
 import { InstructorRig, FLOOR_Y } from '../src/three/rig/InstructorRig';
+import { loadAvatarNode } from '../src/three/rig/avatarNode';
 import type { ExperienceLevel } from '../src/content/types';
 
 const issues: Issue[] = validatePoses(POSES);
@@ -26,6 +27,7 @@ for (const d of [10, 20, 30, 40, 50]) {
 }
 
 // Floor contacts for planted limbs (renders the rig headlessly)
+await loadAvatarNode();
 const rig = new InstructorRig();
 rig.breathingAmount = 0;
 const r = rig as unknown as { computeSamples: (cb: (s: { limb: string | null }, p: { y: number }) => void) => void };

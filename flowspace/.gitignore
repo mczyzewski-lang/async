@@ -9,3 +9,4 @@ test-results
 playwright-report
 dev-dist
 dist-artifact
+.avatar-cache/

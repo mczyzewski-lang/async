@@ -19,23 +19,24 @@ export interface BoneDef {
   offset: [number, number, number];
 }
 
+// Proportions match the instructor avatar (public/models/instructor.glb, scaled to 1.70 m).
 export const DIM = {
-  pelvisY: 0.965,
-  hipX: 0.088,
-  hipY: -0.075,
-  thigh: 0.42,
-  shin: 0.4,
-  spine: 0.095,
-  chest: 0.175,
-  neck: 0.205,
-  head: 0.075,
-  clavX: 0.022,
-  clavY: 0.185,
-  clavLen: 0.152,
-  upperArm: 0.285,
-  forearm: 0.245,
-  palm: 0.095,
-  ankleToBall: [0, -0.058, 0.128] as [number, number, number],
+  pelvisY: 0.932,
+  hipX: 0.098,
+  hipY: -0.041,
+  thigh: 0.402,
+  shin: 0.427,
+  spine: 0.11,
+  chest: 0.228,
+  neck: 0.166,
+  head: 0.059,
+  clavX: 0.026,
+  clavY: 0.072,
+  clavLen: 0.148,
+  upperArm: 0.246,
+  forearm: 0.24,
+  palm: 0.099,
+  ankleToBall: [0.005, -0.061, 0.113] as [number, number, number],
 };
 
 const L = (n: string) => `${n}L` as BoneName;
@@ -45,24 +46,24 @@ function sideDefs(side: 'L' | 'R'): BoneDef[] {
   const s = side === 'L' ? 1 : -1;
   const n = side === 'L' ? L : R;
   return [
-    { name: n('clav'), parent: 'chest', offset: [DIM.clavX * s, DIM.clavY, -0.012] },
-    { name: n('upperArm'), parent: n('clav'), offset: [DIM.clavLen * s, -0.012, -0.012] },
+    { name: n('clav'), parent: 'chest', offset: [DIM.clavX * s, DIM.clavY, 0.044] },
+    { name: n('upperArm'), parent: n('clav'), offset: [DIM.clavLen * s, 0, -0.008] },
     { name: n('forearm'), parent: n('upperArm'), offset: [0, -DIM.upperArm, 0] },
     { name: n('hand'), parent: n('forearm'), offset: [0, -DIM.forearm, 0] },
     { name: n('fingers'), parent: n('hand'), offset: [0, -DIM.palm, 0.004] },
     { name: n('thigh'), parent: 'root', offset: [DIM.hipX * s, DIM.hipY, 0] },
     { name: n('shin'), parent: n('thigh'), offset: [0, -DIM.thigh, 0] },
-    { name: n('foot'), parent: n('shin'), offset: [0, -DIM.shin, -0.005] },
+    { name: n('foot'), parent: n('shin'), offset: [0, -DIM.shin, -0.012] },
     { name: n('toes'), parent: n('foot'), offset: DIM.ankleToBall },
   ];
 }
 
 export const BONE_DEFS: BoneDef[] = [
   { name: 'root', parent: null, offset: [0, DIM.pelvisY, 0] },
-  { name: 'spine', parent: 'root', offset: [0, DIM.spine, -0.008] },
-  { name: 'chest', parent: 'spine', offset: [0, DIM.chest, 0.004] },
-  { name: 'neck', parent: 'chest', offset: [0, DIM.neck, -0.018] },
-  { name: 'head', parent: 'neck', offset: [0, DIM.head, 0.012] },
+  { name: 'spine', parent: 'root', offset: [0, DIM.spine, 0.002] },
+  { name: 'chest', parent: 'spine', offset: [0, DIM.chest, -0.039] },
+  { name: 'neck', parent: 'chest', offset: [0, DIM.neck, 0.021] },
+  { name: 'head', parent: 'neck', offset: [0, DIM.head, 0.018] },
   ...sideDefs('L'),
   ...sideDefs('R'),
 ];
@@ -199,4 +200,18 @@ export function poseToQuats(s: PoseState, out: BoneQuats, scapular = true): Bone
     fix(out[`toes${side}`].setFromEuler(_e));
   }
   return out;
+}
+
+export function createSkeleton(): { root: THREE.Bone; bones: THREE.Bone[]; byName: Record<BoneName, THREE.Bone> } {
+  const byName = {} as Record<BoneName, THREE.Bone>;
+  const bones: THREE.Bone[] = [];
+  for (const def of BONE_DEFS) {
+    const bone = new THREE.Bone();
+    bone.name = def.name;
+    bone.position.set(...def.offset);
+    if (def.parent) byName[def.parent].add(bone);
+    byName[def.name] = bone;
+    bones.push(bone);
+  }
+  return { root: byName.root, bones, byName };
 }

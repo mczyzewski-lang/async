@@ -242,6 +242,11 @@ export const SPECS: Record<string, FitSpec> = {
     free: { 'root.turn': [40, 95], 'chest.twist': [-60, 0], 'spine.twist': [-40, 0], 'hipL.elev': [60, 110], 'hipR.elev': [60, 110] },
     terms: [{ abs: 'kneeL', p: [null, 0.08, null] }, { abs: 'shoulderL', p: [null, 0.08, null] }, { abs: 'shoulderR', p: [null, 0.08, null] }],
   },
+  wheelPrep: {
+    base: 'S_wheelPrep',
+    free: { 'shoulderL.elev|shoulderR.elev': [140, 185], 'elbowL|elbowR': [100, 160], 'wristL.flex|wristR.flex': [-95, -50] },
+    terms: [{ gap: 'footL' }, { gap: 'footR' }, { gap: 'handL' }, { gap: 'handR' }],
+  },
   wheel: {
     base: 'S_wheel',
     free: { 'root.pitch': [-125, -85], 'spine.flex': [-40, 0], 'chest.flex': [-40, 0], 'hipL.elev|hipR.elev': [15, 60], 'kneeL|kneeR': [60, 130], 'shoulderL.elev|shoulderR.elev': [150, 185], 'ankleL.flex|ankleR.flex': [-20, 30] },

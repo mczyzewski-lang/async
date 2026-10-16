@@ -73,6 +73,8 @@ test('2–8. pose learning: render, rotate, play, mistake and correction', async
 });
 
 test('9–13. a 10-minute session: create, pause, resume, skip, complete, persist', async ({ page }) => {
+  // Long scenario (a full accelerated session) under software WebGL.
+  test.setTimeout(240_000);
   await page.goto('/practice');
   // 9. create a 10-minute session
   await page.getByTestId('dur-10').click();

@@ -14,7 +14,7 @@ cd flowspace
 npm install
 npm run dev               # http://localhost:5173
 npm run build             # siatka postaci + typecheck + build produkcyjny + service worker (dist/)
-npm run build:character   # tylko przeliczenie siatki instruktora → public/models/instructor.bin
+npm run avatar:build      # odbudowa modelu instruktora z źródeł CC0 → public/models/instructor.glb
 npm run music:generate    # muzyka w tle z ElevenLabs (wymaga ELEVENLABS_API_KEY, patrz „Muzyka”)
 npm run preview           # serwuje dist/ na http://localhost:4173
 
@@ -65,8 +65,9 @@ src/
     labels.ts         # polskie etykiety, odmiana
   three/
     rig/skeleton.ts        # definicja kości + konwersja parametrów anatomicznych → kwaterniony
-    rig/buildCharacter.ts  # ciało z pól odległości (SDF) → jedna ciągła siatka skórowana, wagi bez szwów
-    rig/characterAsset.ts  # kompaktowy format binarny siatki (przeliczanej przy buildzie) + wczytywanie
+    rig/avatar.ts          # realistyczny awatar sterowany szkieletem FLOWSPACE (retargeting, kalibracja, próbki kontaktu)
+    rig/characterAsset.ts  # wczytanie public/models/instructor.glb (GLTFLoader + meshopt)
+    rig/avatarNode.ts      # wczytanie awatara w Node (testy, walidacja, dopasowanie pozycji)
     rig/InstructorRig.ts   # interpolacja (slerp, opóźnienia dystalne), uziemienie, IK, oddech, podświetlenia
     director.ts            # sekwencje wejścia/wyjścia, planowanie przejść między pozycjami bazowymi
     CameraRig.tsx          # orbitowanie, pinch, presety, kadrowanie pod telefon
@@ -146,26 +147,28 @@ odniesienia przejść, skrypt głosowy, metadane sesji oraz statusy przeglądu t
 5. Uruchom `npm run validate:content` i `npm test`.
 6. Pozostaw `contentReviewStatus: 'internal-review'` do czasu weryfikacji eksperta.
 
-## Jak dodać animację z pliku GLB
+## Instruktor (awatar)
 
-Instruktor jest obecnie proceduralny. Aby podmienić go na model rigowany:
+Widoczny instruktor to realistyczna postać z MakeHuman/MPFB (licencja CC0, szczegóły w `public/models/README.md`).
+Pozycje nadal są opisane parametrami anatomicznymi na własnym 23-kościowym szkielecie FLOWSPACE („driver”):
+interpolacja, uziemienie, IK, kontakty i tryb techniczny działają na nim, a `AvatarDriver` co klatkę przenosi
+pozę na kości awatara (obroty z kalibracją pozy spoczynkowej + pozycje stawów). Proporcje szkieletu
+(`DIM` w `skeleton.ts`) są zmierzone z awatara, więc stawy się pokrywają; kontakt z matą liczony jest na
+prawdziwej siatce awatara (także w testach i walidacji — `avatarNode.ts`).
 
-- Model GLB/GLTF z kośćmi o nazwach z `BONE_DEFS` (`root, spine, chest, neck, head, clavL/R, upperArmL/R,
-  forearmL/R, handL/R, fingersL/R, thighL/R, shinL/R, footL/R, toesL/R`) w pozie spoczynkowej:
-  stojąc, ręce wzdłuż ciała dłońmi do ud, postać zwrócona w +Z, lewa strona w +X, jednostki w metrach.
-- Zastąp `buildCharacterGeometry()` ładowaniem modelu (np. `useGLTF`) i przypisz kości do `InstructorRig.bones`;
-  reszta systemu (parametry anatomiczne, interpolacja, uziemienie, IK, podświetlenia) działa bez zmian.
-- Klipy `AnimationClip` z GLB można odtwarzać przez `THREE.AnimationMixer` jako alternatywę dla klatek kluczowych;
-  wtedy etap instrukcji powinien wskazywać nazwę klipu, a walidator — sprawdzać jej istnienie.
-- Zalecana kompresja: Draco/Meshopt dla siatki, KTX2 dla tekstur; poniżej ~15 tys. trójkątów dla telefonów.
+`npm run avatar:build` (scripts/avatar/) odtwarza model od zera: pobiera źródła CC0 do `.avatar-cache/`,
+rekonstruuje pełne ciało ukryte pod oryginalnym ubraniem (dopasowanie targetów MakeHuman + interpolacja
+harmoniczna, wagi z riga MPFB), maluje strój do jogi w teksturze skóry, usuwa ubranie, mimikę, zęby i rzęsy,
+po czym kompresuje (WebP, meshopt) do ~0,8 MB.
+
+Inny model GLB można podłączyć, uzupełniając mapę kości `AVATAR_MAP` w `avatar.ts` i dopasowując `DIM`.
 
 ## Wymagania dotyczące zasobów 3D
 
-Obecnie **wszystkie zasoby są proceduralne** (brak plików do licencjonowania): postać (jedno ciągłe ciało z pól
-odległości, ~26 tys. wierzchołków, 23 kości, przeliczane przy buildzie do `public/models/instructor.bin`, ~0,8 MB), tekstury drewna, maty, żwiru i trawy (canvas), drzewa (instancjonowane),
+Postać instruktora pochodzi z zasobów CC0 (MakeHuman/MPFB, ~33 tys. trójkątów, tekstury WebP, ~0,8 MB).
+Pozostałe zasoby są proceduralne: tekstury drewna, maty, żwiru i trawy (canvas), drzewa (instancjonowane),
 góry, niebo, woda (shadery), dźwięki (WebAudio). Elementy oczekujące na wymianę na produkcyjne zasoby:
 
-- postać instruktora (docelowo profesjonalnie wymodelowana, z lepszymi dłońmi, stopami i twarzą),
 - roślinność i architektura pawilonu (docelowo zoptymalizowane modele GLB z LOD),
 - dźwięki otoczenia (docelowo licencjonowane nagrania terenowe).
 
@@ -193,8 +196,9 @@ głośność, podgląd). Cichnie, gdy instruktor mówi, przycisza się na pauzie
 
 ## Znane ograniczenia
 
-- Instruktor jest postacią proceduralną (semi-stylizowaną), a nie profesjonalnym modelem — dłonie są uproszczone,
-  twarz bez detali (celowo). Linear blend skinning daje niewielką utratę objętości przy skrajnych zgięciach (np. bark przy rękach nad głową).
+- Instruktor używa linear blend skinning (bez kości pomocniczych i korekt), więc przy skrajnych zgięciach
+  (bark przy rękach nad głową, głęboki przysiad) widać niewielką utratę objętości. Strój jest namalowany na
+  ciele (obcisły), kucyk opada uproszczoną grawitacją, twarz nie ma mimiki.
 - Konfiguracje pozycji są wiarygodnymi demonstracjami przygotowanymi z myślą o poprawności, ale **nie zostały
   zweryfikowane przez nauczyciela jogi ani fizjoterapeutę** (status `internal-review`). Pozycje katalogowe mają
   status `draft`.

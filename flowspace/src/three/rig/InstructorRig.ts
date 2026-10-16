@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import type { JointId, PoseState } from '@/content/types';
 import { neutralState } from '@/content/poseState';
-import { ANKLE_CUFF_Y, applyBindPose, buildCharacterGeometry, createSkeleton, DEFAULT_PALETTE, type CharacterPalette } from './buildCharacter';
-import { BONE_DEFS, BONE_INDEX, JOINT_TO_BONE, createBoneQuats, poseToQuats, type BoneName } from './skeleton';
+import { AvatarDriver, getAvatarTemplate, type AvatarSample } from './avatar';
+import { BONE_DEFS, JOINT_TO_BONE, createBoneQuats, createSkeleton, poseToQuats, type BoneName } from './skeleton';
 
 export const FLOOR_Y = 0.012; // top surface of the yoga mat
 
@@ -24,25 +24,14 @@ export interface Segment {
   tag?: string;
 }
 
-interface Sample {
-  index: number;
-  base: THREE.Vector3;
-  bones: [number, number, number, number];
-  weights: [number, number, number, number];
-  limb: 'handL' | 'handR' | 'footL' | 'footR' | null;
-  bone: number;
-}
-
 const HL_MAX = 6;
 
 export class InstructorRig {
   readonly group = new THREE.Group();
-  readonly mesh: THREE.SkinnedMesh;
   readonly bones: Record<BoneName, THREE.Bone>;
-  readonly material: THREE.MeshStandardMaterial;
-  private readonly boneList: THREE.Bone[];
-  private readonly boneInverses: THREE.Matrix4[];
-  private readonly samples: Sample[] = [];
+  /** The visible avatar (null only when the asset could not be loaded). */
+  readonly avatar: AvatarDriver | null;
+  private readonly materials: THREE.Material[] = [];
 
   /** Playback speed multiplier (0.25–2). */
   speed = 1;
@@ -76,61 +65,56 @@ export class InstructorRig {
     uHl: { value: Array.from({ length: HL_MAX }, () => new THREE.Vector4(0, -10, 0, 0)) },
     uHlColor: { value: new THREE.Color('#E8735A') },
     uHlStrength: { value: 0 },
-    uSkin: { value: new THREE.Color() },
-    uTop: { value: new THREE.Color() },
-    uLegs: { value: new THREE.Color() },
-    uHair: { value: new THREE.Color() },
   };
   private highlights: JointId[] = [];
   private hlTarget = 0;
 
-  constructor(palette: CharacterPalette = DEFAULT_PALETTE) {
-    const { root, bones, byName } = createSkeleton();
+  constructor() {
+    const { root, byName } = createSkeleton();
     this.bones = byName;
-    this.boneList = bones;
     this.group.add(root);
-    applyBindPose(byName, root);
     this.group.updateMatrixWorld(true);
-    const geometry = buildCharacterGeometry(palette);
-    this.hlUniforms.uSkin.value.set(palette.skin);
-    this.hlUniforms.uTop.value.set(palette.top);
-    this.hlUniforms.uLegs.value.set(palette.leggings);
-    this.hlUniforms.uHair.value.set(palette.hair);
-    this.material = new THREE.MeshStandardMaterial({
-      roughness: 0.72,
-      metalness: 0,
-    });
-    this.installHighlightShader(this.material);
-    this.mesh = new THREE.SkinnedMesh(geometry, this.material);
-    this.mesh.name = 'instructor';
-    this.mesh.castShadow = true;
-    this.mesh.receiveShadow = true;
-    this.mesh.frustumCulled = false;
-    this.group.add(this.mesh);
-    const skeleton = new THREE.Skeleton(bones);
-    this.mesh.bind(skeleton);
-    this.boneInverses = skeleton.boneInverses;
-    this.buildSamples(geometry);
-
+    const tpl = getAvatarTemplate();
+    this.avatar = tpl ? new AvatarDriver(tpl, this.group, byName) : null;
+    for (const mesh of this.avatar?.meshes ?? []) {
+      // Each rig gets its own materials (highlight uniforms are per instructor).
+      const mat = (mesh.material as THREE.Material).clone();
+      const std = mat as THREE.MeshStandardMaterial;
+      if (std.isMeshStandardMaterial) {
+        std.metalness = 0;
+        // The body carries a roughness map (matte fabric, softer skin); hair and brows use a factor.
+        std.roughness = std.roughnessMap ? 1 : /brow/i.test(mesh.name) ? 0.9 : 0.68;
+      }
+      this.installHighlightShader(mat);
+      mesh.material = mat;
+      mesh.castShadow = !/brow|high-poly/i.test(mesh.name);
+      mesh.receiveShadow = true;
+      mesh.frustumCulled = false;
+      this.materials.push(mat);
+    }
     this.setPose(neutralState(), 0);
     this.update(0);
   }
 
-  dispose() {
-    this.mesh.geometry.dispose();
-    this.material.dispose();
-    this.mesh.skeleton.dispose();
+  setWireframe(on: boolean) {
+    for (const m of this.materials) (m as THREE.MeshStandardMaterial).wireframe = on;
   }
 
-  private installHighlightShader(mat: THREE.MeshStandardMaterial) {
+  /** Frees GPU resources; the rig stays usable (React StrictMode re-runs effects). */
+  dispose() {
+    this.materials.forEach((m) => m.dispose());
+  }
+
+  private installHighlightShader(mat: THREE.Material) {
     const u = this.hlUniforms;
     mat.onBeforeCompile = (shader) => {
       Object.assign(shader.uniforms, u);
       shader.vertexShader = shader.vertexShader
-        .replace('#include <common>', '#include <common>\nvarying vec3 vRigWorld;\nattribute vec3 aBind;\nattribute float aCloth;\nattribute float aHair;\nvarying vec3 vBind;\nvarying float vCloth;\nvarying float vHair;')
+        .replace('#include <common>', '#include <common>\nvarying vec3 vRigWorld;')
         .replace(
           '#include <project_vertex>',
-          '#include <project_vertex>\nvRigWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvBind = aBind;\nvCloth = aCloth;\nvHair = aHair;',
+          `#include <project_vertex>
+vRigWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;`,
         );
       shader.fragmentShader = shader.fragmentShader
         .replace(
@@ -139,41 +123,11 @@ export class InstructorRig {
 varying vec3 vRigWorld;
 uniform vec4 uHl[${HL_MAX}];
 uniform vec3 uHlColor;
-uniform float uHlStrength;
-uniform vec3 uSkin;
-uniform vec3 uTop;
-uniform vec3 uLegs;
-uniform vec3 uHair;
-varying vec3 vBind;
-varying float vCloth;
-varying float vHair;
-
-// Clothing is drawn from bind-pose coordinates, so garment edges stay crisp in any pose.
-vec3 cloth() {
-  float aa = max(fwidth(vBind.y), 0.0008) * 1.2;
-  if (vBind.y < 1.036) {
-    float k = smoothstep(${ANKLE_CUFF_Y.toFixed(3)} - aa, ${ANKLE_CUFF_Y.toFixed(3)} + aa, vBind.y);
-    float band = 0.1 * smoothstep(0.012, 0.0, abs(vBind.y - 1.024)) + 0.12 * smoothstep(0.012, 0.0, abs(vBind.y - ${(ANKLE_CUFF_Y + 0.012).toFixed(3)}));
-    return mix(uSkin, uLegs * (1.0 - band), k);
-  }
-  float ax = abs(vBind.x);
-  float front = smoothstep(-0.02, 0.02, vBind.z);
-  float neckFront = ax < 0.11 ? 1.33 + pow(ax / 0.11, 2.0) * 0.075 : 1.43;
-  float neckline = mix(1.415, neckFront, front);
-  float armhole = mix(neckline, 1.365, smoothstep(0.118, 0.128, ax));
-  vec3 top = uTop * (1.0 - 0.08 * smoothstep(0.01, 0.0, abs(vBind.y - 1.042)));
-  return mix(top, uSkin, smoothstep(-aa, aa, vBind.y - armhole));
-}
-
-vec3 garment() {
-  vec3 c = mix(uSkin, cloth(), clamp(vCloth, 0.0, 1.0));
-  return mix(c, uHair, smoothstep(0.25, 0.75, vHair));
-}`,
+uniform float uHlStrength;`,
         )
         .replace(
           '#include <color_fragment>',
           `#include <color_fragment>
-diffuseColor.rgb = garment();
 float hlK = 0.0;
 for (int i = 0; i < ${HL_MAX}; i++) {
   float r = uHl[i].w;
@@ -190,34 +144,7 @@ diffuseColor.rgb = mix(diffuseColor.rgb, uHlColor, hlK * uHlStrength);`,
 totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
         );
     };
-    mat.customProgramCacheKey = () => 'flowspace-rig-hl-3';
-  }
-
-  private buildSamples(geometry: THREE.BufferGeometry) {
-    const pos = geometry.getAttribute('position') as THREE.BufferAttribute;
-    const si = geometry.getAttribute('skinIndex') as THREE.BufferAttribute;
-    const sw = geometry.getAttribute('skinWeight') as THREE.BufferAttribute;
-    const limbOf: Record<number, Sample['limb']> = {
-      [BONE_INDEX.handL]: 'handL', [BONE_INDEX.fingersL]: 'handL',
-      [BONE_INDEX.handR]: 'handR', [BONE_INDEX.fingersR]: 'handR',
-      [BONE_INDEX.footL]: 'footL', [BONE_INDEX.toesL]: 'footL',
-      [BONE_INDEX.footR]: 'footR', [BONE_INDEX.toesR]: 'footR',
-    };
-    for (let i = 0; i < pos.count; i++) {
-      const bones: [number, number, number, number] = [si.getX(i), si.getY(i), si.getZ(i), si.getW(i)];
-      const weights: [number, number, number, number] = [sw.getX(i), sw.getY(i), sw.getZ(i), sw.getW(i)];
-      const limb = weights[0] > 0.5 ? limbOf[bones[0]] ?? null : null;
-      // Dense sampling on hands/feet (contacts), sparse elsewhere.
-      if (!limb && i % 7 !== 0) continue;
-      this.samples.push({
-        index: i,
-        base: new THREE.Vector3().fromBufferAttribute(pos, i),
-        bones,
-        weights,
-        limb,
-        bone: bones[0],
-      });
-    }
+    mat.customProgramCacheKey = () => 'flowspace-avatar-hl-2';
   }
 
   // ------------------------------------------------------------------ public API
@@ -335,28 +262,14 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
     this.bones.neck.quaternion.multiply(this._q.setFromEuler(this._e));
   }
 
-  private boneMats: THREE.Matrix4[] = BONE_DEFS.map(() => new THREE.Matrix4());
   private _v = new THREE.Vector3();
-  private _acc = new THREE.Vector3();
 
-  private computeSamples(cb: (s: Sample, p: THREE.Vector3) => void) {
-    this.group.updateMatrixWorld(true);
-    const inv = this._invGroup.copy(this.group.matrixWorld).invert();
-    for (let i = 0; i < this.boneList.length; i++) {
-      this.boneMats[i].multiplyMatrices(inv, this.boneList[i].matrixWorld).multiply(this.boneInverses[i]);
-    }
-    for (const s of this.samples) {
-      this._acc.set(0, 0, 0);
-      for (let k = 0; k < 4; k++) {
-        const w = s.weights[k];
-        if (w === 0) continue;
-        this._v.copy(s.base).applyMatrix4(this.boneMats[s.bones[k]]);
-        this._acc.addScaledVector(this._v, w);
-      }
-      cb(s, this._acc);
-    }
+  /** Visits the avatar's skinned surface samples in group space (after copying the driver pose). */
+  private computeSamples(cb: (s: AvatarSample, p: THREE.Vector3) => void) {
+    if (!this.avatar) return;
+    this.avatar.sync();
+    this.avatar.forEachSample(cb);
   }
-  private _invGroup = new THREE.Matrix4();
 
   private ground() {
     let minY = Infinity;
@@ -365,6 +278,7 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
       if (p.y < minY) minY = p.y;
       if (s.limb && p.y < limbMin[s.limb]) limbMin[s.limb] = p.y;
     });
+    if (minY === Infinity) return { limbMin };
     const dy = FLOOR_Y - minY;
     this.rootY = this.bones.root.position.y + dy;
     this.bones.root.position.y = this.rootY;
@@ -453,12 +367,12 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
   private updateContacts() {
     this.contacts.length = 0;
     this.contactBones.length = 0;
-    const seen = new Map<number, THREE.Vector3[]>();
+    const seen = new Map<BoneName, THREE.Vector3[]>();
     this.computeSamples((s, p) => {
       if (p.y - FLOOR_Y < 0.018) {
-        const arr = seen.get(s.bone) ?? [];
+        const arr = seen.get(s.driver) ?? [];
         arr.push(p.clone());
-        seen.set(s.bone, arr);
+        seen.set(s.driver, arr);
       }
     });
     for (const [bone, pts] of seen) {
@@ -467,7 +381,7 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
       c.multiplyScalar(1 / pts.length);
       c.y = FLOOR_Y;
       this.contacts.push(c);
-      this.contactBones.push(BONE_DEFS[bone].name);
+      this.contactBones.push(bone);
     }
   }
 
@@ -505,6 +419,7 @@ totalEmissiveRadiance += uHlColor * hlK * uHlStrength * 0.22;`,
       if (this.plantLimbs(limbMin)) this.ground();
     }
     this.group.updateMatrixWorld(true);
+    this.avatar?.sync();
 
     // Highlight uniforms (gentle pulse).
     const hl = this.hlUniforms;

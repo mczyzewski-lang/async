@@ -97,7 +97,7 @@ export default function PoseLab() {
     r.grounding = grounding;
     r.breathingAmount = breath ? 1 : 0;
     r.speed = speed;
-    r.material.wireframe = wire;
+    r.setWireframe(wire);
   }, [ik, grounding, breath, speed, wire]);
 
   useEffect(() => {
