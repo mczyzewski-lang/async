@@ -81,8 +81,8 @@ export function CameraRig({ rig, request, autoRotate, minDistance = 0.8, maxDist
       // Fit both body height and width (portrait phones need more distance for wide poses).
       const { w, h } = bodyExtent(r);
       const fov = THREE.MathUtils.degToRad((camera as THREE.PerspectiveCamera).fov);
-      const fitH = (Math.max(h, 0.6) * 0.62) / Math.tan(fov / 2);
-      const fitW = (Math.max(w, 0.6) * 0.62) / (Math.tan(fov / 2) * aspect);
+      const fitH = (Math.max(h, 0.6) * 0.7) / Math.tan(fov / 2);
+      const fitW = (Math.max(w, 0.6) * 0.66) / (Math.tan(fov / 2) * aspect);
       dist = Math.max(p.distance * 0.75, fitH, fitW);
     } else {
       // Focus views: keep roughly 1.1 m of the body visible horizontally (narrow portrait screens).

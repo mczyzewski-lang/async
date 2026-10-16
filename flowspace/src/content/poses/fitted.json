@@ -172,8 +172,12 @@
   "S_staff": {
     "hipL.elev": 87,
     "hipR.elev": 87,
-    "shoulderL.elev": 9,
-    "shoulderR.elev": 9
+    "shoulderL.elev": 20,
+    "shoulderR.elev": 20,
+    "clavL.elev": -8,
+    "clavR.elev": -8,
+    "wristL.flex": -76,
+    "wristR.flex": -76
   },
   "S_hookLying": {
     "hipL.elev": 30,
@@ -420,10 +424,10 @@
     "hipR.elev": 30,
     "kneeR": 120,
     "ankleR.flex": 4,
-    "shoulderL.elev": 201,
-    "elbowL": 124,
-    "shoulderR.elev": 201,
-    "elbowR": 124
+    "shoulderL.elev": 178,
+    "elbowL": 128,
+    "shoulderR.elev": 178,
+    "elbowR": 128
   },
   "S_halfMoonCollapsed": {
     "hipL.elev": 132,

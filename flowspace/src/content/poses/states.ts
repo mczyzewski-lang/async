@@ -1794,6 +1794,12 @@ export const S_bowNeck: PoseState = F('S_bowNeck', pose(S_bow, {
   head: { flex: -20, side: 0, twist: 0 },
 }));
 
+export const S_standingSideBendForward: PoseState = F('S_standingSideBendForward', pose(S_standingSideBend, {
+  spine: { flex: 14, side: 6, twist: 8 },
+  chest: { flex: 16, side: 10, twist: 10 },
+  neck: { flex: 12, side: 4, twist: 0 },
+}));
+
 export const S_camelNeck: PoseState = F('S_camelNeck', pose(S_camel, {
   neck: { flex: -46, side: 0, twist: 0 },
   head: { flex: -20, side: 0, twist: 0 },

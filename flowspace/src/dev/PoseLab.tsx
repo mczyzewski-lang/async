@@ -18,12 +18,13 @@ function Helpers({ rig, skeleton, axes }: { rig: () => InstructorRig | null; ske
   const axesList = useRef<THREE.AxesHelper[]>([]);
   useEffect(() => {
     const r = rig();
-    if (!r || !group.current) return;
+    const g = group.current;
+    if (!r || !g) return;
     if (skeleton) {
       helper.current = new THREE.SkeletonHelper(r.group);
       (helper.current.material as THREE.LineBasicMaterial).depthTest = false;
       helper.current.renderOrder = 20;
-      group.current.add(helper.current);
+      g.add(helper.current);
     }
     if (axes) {
       axesList.current = Object.values(r.bones).map((b) => {
@@ -35,7 +36,7 @@ function Helpers({ rig, skeleton, axes }: { rig: () => InstructorRig | null; ske
       });
     }
     return () => {
-      if (helper.current) group.current?.remove(helper.current);
+      if (helper.current) g.remove(helper.current);
       helper.current = null;
       axesList.current.forEach((a) => a.parent?.remove(a));
       axesList.current = [];

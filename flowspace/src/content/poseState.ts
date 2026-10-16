@@ -85,14 +85,15 @@ export function mirrorPose(s: PoseState): PoseState {
     (m as unknown as Record<string, unknown>)[l] = m[r];
     (m as unknown as Record<string, unknown>)[r] = tmp;
   }
+  const neg = (v: number) => (v === 0 ? 0 : -v);
   for (const k of ['spine', 'chest', 'neck', 'head'] as const) {
-    m[k].side = -m[k].side;
-    m[k].twist = -m[k].twist;
+    m[k].side = neg(m[k].side);
+    m[k].twist = neg(m[k].twist);
   }
-  m.root.yaw = -m.root.yaw;
-  m.root.roll = -m.root.roll;
-  if (m.root.turn) m.root.turn = -m.root.turn;
-  m.root.x = -m.root.x;
+  m.root.yaw = neg(m.root.yaw);
+  m.root.roll = neg(m.root.roll);
+  if (m.root.turn) m.root.turn = neg(m.root.turn);
+  m.root.x = neg(m.root.x);
   if (s.plant) {
     m.plant = {
       handL: s.plant.handR,

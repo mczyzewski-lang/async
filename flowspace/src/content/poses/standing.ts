@@ -97,7 +97,7 @@ export const standingPoses = [
       step('return', 'salute', 'Z wdechem wróć do środka.', { cam: 'front', narr: 'Z wdechem wróć do środka.' }),
     ],
     mistakes: [
-      mistake({ id: 'forward', title: 'Zapadanie się do przodu', explanation: 'Tułów rotuje i pochyla się do przodu zamiast w bok.', correction: 'Wyobraź sobie, że stoisz między dwiema szybami — ruch tylko w bok.', state: null, corrected: 'bend', cam: 'side', joints: ['chest'] }),
+      mistake({ id: 'forward', title: 'Zapadanie się do przodu', explanation: 'Tułów rotuje i pochyla się do przodu zamiast w bok.', correction: 'Wyobraź sobie, że stoisz między dwiema szybami — ruch tylko w bok.', state: S.S_standingSideBendForward, corrected: 'bend', cam: 'side', joints: ['chest'] }),
       mistake({ id: 'hips', title: 'Mocne wypychanie bioder w bok', explanation: 'Duże przesunięcie bioder przenosi ciężar na jedną stronę i zmniejsza stabilność.', correction: 'Utrzymaj miednicę nad stopami i skłoń się tylko w zakresie wygodnym dla kręgosłupa.', state: null, corrected: 'bend', cam: 'front', joints: ['pelvis'] }),
       mistake({ id: 'neck', title: 'Ściśnięta szyja', explanation: 'Głowa opada na bark lub jest unoszona z napięciem.', correction: 'Głowa podąża za linią kręgosłupa, wzrok przed siebie.', state: null, corrected: 'bend', cam: 'front', joints: ['neck'] }),
     ],

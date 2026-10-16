@@ -176,7 +176,7 @@ export const SPECS: Record<string, FitSpec> = {
 
   staff: {
     base: 'S_staff',
-    free: { 'hipL.elev|hipR.elev': [80, 100], 'shoulderL.elev|shoulderR.elev': [0, 30] },
+    free: { 'hipL.elev|hipR.elev': [80, 100], 'shoulderL.elev|shoulderR.elev': [0, 30], 'clavL.elev|clavR.elev': [-14, 0], 'wristL.flex|wristR.flex': [-90, -20] },
     terms: [{ gap: 'footL' }, { gap: 'footR' }, { gap: 'handL' }, { gap: 'handR' }],
   },
   easySeated: {
