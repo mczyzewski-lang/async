@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter, createMemoryRouter, RouterProvider } from 'react-router';
 import { AppShell } from './AppShell';
 import { Loading } from './Loading';
 
@@ -20,7 +20,7 @@ const NotFound = lazy(() => import('@/routes/NotFound'));
 
 const s = (el: React.ReactNode) => <Suspense fallback={<Loading />}>{el}</Suspense>;
 
-const router = createBrowserRouter([
+const routes = [
   {
     element: <AppShell />,
     children: [
@@ -40,7 +40,10 @@ const router = createBrowserRouter([
       { path: '*', element: s(<NotFound />) },
     ],
   },
-]);
+];
+
+// Embedded previews (sandboxed frames) use an in-memory router; the PWA uses real URLs.
+const router = import.meta.env.VITE_MEMORY_ROUTER ? createMemoryRouter(routes) : createBrowserRouter(routes);
 
 export function App() {
   return <RouterProvider router={router} />;

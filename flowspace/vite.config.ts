@@ -4,14 +4,18 @@ import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath, URL } from 'node:url';
 
+const ARTIFACT = process.env.FLOWSPACE_ARTIFACT === '1';
+
 export default defineConfig({
+  base: ARTIFACT ? './' : '/',
+  define: { 'import.meta.env.VITE_MEMORY_ROUTER': JSON.stringify(ARTIFACT ? '1' : '') },
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   plugins: [
     react(),
     tailwindcss(),
-    VitePWA({
+    !ARTIFACT && VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png', 'icons/*.svg'],
       manifest: {
@@ -46,6 +50,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    outDir: ARTIFACT ? 'dist-artifact' : 'dist',
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
       output: {
