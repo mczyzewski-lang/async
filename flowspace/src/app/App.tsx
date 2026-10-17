@@ -20,6 +20,7 @@ const Progress = lazy(() => import('@/routes/Progress'));
 const Settings = lazy(with3d(() => import('@/routes/Settings')));
 const PoseLab = lazy(with3d(() => import('@/dev/PoseLab')));
 const PoseGrid = lazy(with3d(() => import('@/dev/PoseGrid')));
+const MotionStrip = lazy(with3d(() => import('@/dev/MotionStrip')));
 const NotFound = lazy(() => import('@/routes/NotFound'));
 
 const s = (el: React.ReactNode) => <Suspense fallback={<Loading />}>{el}</Suspense>;
@@ -41,6 +42,7 @@ const routes = [
       { path: '/settings', element: s(<Settings />) },
       { path: '/dev/pose-lab', element: s(<PoseLab />) },
       { path: '/dev/pose-grid', element: s(<PoseGrid />) },
+      { path: '/dev/motion', element: s(<MotionStrip />) },
       { path: '*', element: s(<NotFound />) },
     ],
   },

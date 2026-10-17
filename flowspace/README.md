@@ -44,6 +44,7 @@ Wymagania: Node 20+. Testy e2e używają Chromium (`/opt/pw-browsers/chromium` l
 | `/settings` | Głos, dźwięk, przestrzeń (4 otoczenia), grafika, dane |
 | `/dev/pose-lab` | Narzędzie deweloperskie do pozycji (szkielet, osie, kontakty, parametry, interpolacja, kamery, błędy) |
 | `/dev/pose-grid?grid=S_a,S_b` | Arkusz kontrolny stanów szkieletu (przód + bok) |
+| `/dev/motion?from=a&to=b` | Sekwencja klatek przejścia między pozycjami (kontrola uziemienia) |
 
 ## Architektura
 
@@ -160,6 +161,17 @@ prawdziwej siatce awatara (także w testach i walidacji — `avatarNode.ts`).
 rekonstruuje pełne ciało ukryte pod oryginalnym ubraniem (dopasowanie targetów MakeHuman + interpolacja
 harmoniczna, wagi z riga MPFB), maluje strój do jogi w teksturze skóry, usuwa ubranie, mimikę, zęby i rzęsy,
 po czym kompresuje (WebP, meshopt) do ~0,8 MB.
+
+### Kontakt z matą i równowaga
+
+- `src/content/poses/contacts.ts` — dla każdej pozycji na podłodze lista części ciała, które leżą na macie
+  (miednica, łopatki, głowa, pośladki, piszczele…). `npm run validate:content` sprawdza je na prawdziwej siatce;
+  `npx vite-node scripts/contact-fit.ts [Stan…]` dopasowuje kąty stawów (minimalna zmiana) i zapisuje `fitted.json`.
+- W ruchu rig utrzymuje na macie części, które leżą na niej w tym samym miejscu na początku i końcu ruchu
+  (przechył/pochylenie ciała), dłonie i stopy przesuwają się po macie (IK), a gdy przy podłodze środek ciężkości
+  wyjdzie poza obszar podparcia, ciało przechyla się, aż oprze się kolejną częścią (dłońmi, kolanami, plecami).
+- `npx vite-node scripts/motion-report.ts` odtwarza wygenerowane sesje i raportuje zawisy i brak podparcia;
+  `/dev/motion?from=half-forward-fold&to=bridge` pokazuje przejście jako sekwencję klatek.
 
 Inny model GLB można podłączyć, uzupełniając mapę kości `AVATAR_MAP` w `avatar.ts` i dopasowując `DIM`.
 

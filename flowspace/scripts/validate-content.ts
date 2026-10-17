@@ -1,6 +1,6 @@
 /**
  * Content validation: pose data, skeleton references, camera presets, Polish text,
- * session timings, floor contacts of planted limbs and asset paths.
+ * session timings, floor contacts (planted limbs and resting body parts) and asset paths.
  * Usage: npm run validate:content
  */
 import { existsSync } from 'node:fs';
@@ -11,6 +11,9 @@ import { generateSession, DURATION_TOLERANCE } from '../src/engine/session';
 import { GOAL_ORDER } from '../src/engine/labels';
 import { InstructorRig, FLOOR_Y } from '../src/three/rig/InstructorRig';
 import { loadAvatarNode } from '../src/three/rig/avatarNode';
+import { ALL_STATES } from '../src/content/poses/allStates';
+import { FLOOR_CONTACTS } from '../src/content/poses/contacts';
+import { BONE_INDEX } from '../src/three/rig/skeleton';
 import type { ExperienceLevel } from '../src/content/types';
 
 const issues: Issue[] = validatePoses(POSES);
@@ -30,6 +33,7 @@ for (const d of [10, 20, 30, 40, 50]) {
 await loadAvatarNode();
 const rig = new InstructorRig();
 rig.breathingAmount = 0;
+const stateName = new Map<object, string>(Object.entries(ALL_STATES).map(([n, st]) => [st, n]));
 const r = rig as unknown as { computeSamples: (cb: (s: { limb: string | null }, p: { y: number }) => void) => void };
 for (const p of POSES) {
   for (const k of p.animation?.keyframes ?? []) {
@@ -40,6 +44,16 @@ for (const p of POSES) {
     r.computeSamples((s, pt) => { if (s.limb) mins[s.limb] = Math.min(mins[s.limb] ?? 9, pt.y); });
     for (const [limb, on] of Object.entries(k.state.plant ?? {})) {
       if (on && mins[limb] - FLOOR_Y > 0.03) issues.push({ level: 'warning', pose: p.id, message: `keyframe ${k.id}: planted ${limb} is ${(mins[limb] - FLOOR_Y).toFixed(3)} m above the mat` });
+    }
+    // body parts that must rest on the mat (back, sit bones, shins…) — see poses/contacts.ts
+    const name = stateName.get(k.state);
+    const parts = name ? FLOOR_CONTACTS[name] : undefined;
+    if (parts) {
+      const m = (rig as unknown as { partMins: () => { y: Float32Array } }).partMins().y;
+      for (const part of parts) {
+        const gap = m[BONE_INDEX[part]] - FLOOR_Y;
+        if (gap > 0.025) issues.push({ level: 'warning', pose: p.id, message: `keyframe ${k.id}: ${part} should rest on the mat but is ${gap.toFixed(3)} m above it` });
+      }
     }
   }
 }

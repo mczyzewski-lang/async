@@ -256,7 +256,7 @@ export class AvatarDriver {
         let top = 0;
         for (let k = 1; k < 4; k++) if (w[k] > w[top]) top = k;
         const limb = w[top] > 0.5 ? limbOfAvatarBone(bones[b[top]].name) : null;
-        if (!limb && i % 6 !== 0) continue;
+        if (limb ? i % 3 !== 0 : i % 5 !== 0) continue;
         const dIdx = this.meshBoneIdx[mi][b[top]];
         this.samples.push({
           mesh: mi,

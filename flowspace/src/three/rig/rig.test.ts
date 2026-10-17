@@ -81,3 +81,28 @@ describe('instructor rig', () => {
     expect(maxStep).toBeLessThan(0.08);
   });
 });
+
+describe('floor transitions', () => {
+  it('keeps the body supported by the mat while moving down to the floor (no hovering)', async () => {
+    const { PoseDirector } = await import('../director');
+    const { getPose } = await import('@/content/poses');
+    const rig = new InstructorRig();
+    const d = new PoseDirector(rig);
+    const from = getPose('half-forward-fold')!;
+    d.snapTo(from, from.animation!.hold);
+    const total = d.playEntry(getPose('bridge')!);
+    let worst = 0;
+    let floorFrames = 0;
+    let unsupported = 0;
+    for (let f = 0; f < total * 30 + 15; f++) {
+      rig.update(1 / 30);
+      if (rig.getCenterOfMass().y > 0.7) continue;
+      floorFrames++;
+      const gap = rig.supportGap();
+      worst = Math.max(worst, gap);
+      if (gap > 0.05) unsupported++;
+    }
+    expect(floorFrames).toBeGreaterThan(100);
+    expect(unsupported / floorFrames).toBeLessThan(0.1);
+  });
+});
