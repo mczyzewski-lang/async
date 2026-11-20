@@ -313,6 +313,24 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
 .ltl .ic{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--muted)}
 .ltl p{color:var(--muted);font-size:.88rem}
 
+/* okno zmiany pakietu */
+.modal-bg{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.modal{background:var(--bg);border-radius:18px;padding:clamp(18px,4vw,36px);width:min(760px,100%);max-height:100%;overflow:auto;box-shadow:0 30px 80px -30px rgba(0,0,0,.5)}
+.mx{width:44px;height:44px;border-radius:50%;border:0;background:var(--sunk);font-size:1.1rem;flex:none}
+.mopts{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.mopt{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:6px 14px;align-items:start;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:18px 20px;color:var(--ink)}
+.mopt.sel{background:var(--green-soft);border-color:var(--green)}
+.mopt .rd{width:20px;height:20px;border-radius:50%;border:2px solid var(--ink);margin-top:6px}
+.mopt.sel .rd{box-shadow:inset 0 0 0 4px var(--green-soft);background:var(--ink)}
+.mopt h3{font-size:1.45rem;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.mopt .tag{font-family:var(--f-body);font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--green);color:var(--green-ink);padding:4px 10px;border-radius:999px}
+.mopt .pr{text-align:right;font-weight:700;font-size:1.3rem;white-space:nowrap}
+.mopt .pr small{display:block;font-weight:400;font-style:italic;font-size:.75rem;color:var(--muted)}
+.mopt .id{grid-column:2/-1;font-size:.95rem}
+.mopt .id b{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.mbtns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+@media (max-width:520px){.mopt{grid-template-columns:22px minmax(0,1fr)}.mopt .pr{grid-column:2;text-align:left}.mbtns{grid-template-columns:1fr}}
+
 @media (max-width:860px){
   .hm-hero .wrap,.hm-what,.sig,.mission,.rec,.co,.quote{grid-template-columns:minmax(0,1fr)}
   .hm-hero svg{max-width:200px}
@@ -637,7 +655,7 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
     </form>
     <aside>
       <div class="sum"><span id="co-pkg">Pakiet</span><span class="num" id="co-price"></span></div>
-      <a href="#pakiety" class="btn btn-ghost btn-sm" style="margin-top:8px">Zmień</a>
+      <button type="button" class="btn btn-ghost btn-sm" id="co-change" style="margin-top:8px;align-self:flex-start">Zmień</button>
       <div class="sum total"><span>Razem</span><span class="num" id="co-total"></span></div>
       <p class="note">Opłata sądowa 600 zł nie jest wliczona. Płacisz ją bezpośrednio na konto sądu: <span id="co-court"></span>.</p>
       <h3 style="margin-top:28px;font-size:1.2rem">Jak to działa</h3>
@@ -645,7 +663,15 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
       <div class="ltl" id="co-tl"></div>
     </aside>
   </div>
-</div></section>
+</div>
+  <div class="modal-bg" id="pkm" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pkm-t">
+      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h2 id="pkm-t" style="font-size:2rem">Zmień pakiet</h2><button type="button" class="mx" id="pkm-x" aria-label="Zamknij">✕</button></div>
+      <div class="mopts" id="pkm-opts" role="radiogroup" aria-labelledby="pkm-t"></div>
+      <div class="mbtns"><button type="button" class="btn btn-ghost" id="pkm-cancel">Anuluj</button><button type="button" class="btn btn-black" id="pkm-save">Zapisz i przejdź dalej</button></div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ 4 PANEL ============ -->
 <section class="view pad" id="v-panel" hidden><div class="wrap">
@@ -1003,15 +1029,15 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 
 /* ---------- dane ---------- */
 const PK={
-  pozew:{name:'Pozew online',sub:'Gdy wszystko jest już ustalone',price:1990,draft:true,
+  pozew:{name:'Pozew online',sub:'Gdy wszystko jest już ustalone',price:1990,draft:true,ideal:'Parom, które mają już wszystko ustalone (dzieci, alimenty, mieszkanie) i potrzebują dobrze przygotowanego pozwu.',
     items:['Analiza sprawy i plan','Pozew o rozwód z załącznikami','Weryfikacja pozwu przez prawnika','Opiekun sprawy na czacie','Przygotowanie do rozprawy'],
     steps:[['Dziś','Płacisz i otrzymujesz dostęp do panelu sprawy.'],['Ankieta do pozwu','Odpowiadasz na pytania we własnym tempie, a system tworzy pozew.','Opiekun sprawy pomaga przy trudniejszych pytaniach.'],['Weryfikacja i podpis','Prawnik sprawdza pozew, oboje go podpisujecie.'],['Złożenie w sądzie','Składasz pozew osobiście lub listem poleconym, albo wysyłamy go za Ciebie.'],['Rozprawa','Przygotowujemy Cię na pytania sędziego.']],
     experts:['Opiekun sprawy','Prawnik']},
-  med:{name:'Mediacja + pozew',sub:'Ustalacie wszystko z mediatorem',price:3970,
+  med:{name:'Mediacja + pozew',sub:'Ustalacie wszystko z mediatorem',price:3970,ideal:'Parom, które chcą rozwieść się bez orzekania o winie, ale muszą jeszcze ustalić sprawy dzieci, alimenty albo mieszkanie.',
     items:['Wszystko z Pozew online','Zaproszenie małżonka przez mediatora','Mediacja online do porozumienia','Porozumienie rodzicielskie i majątkowe','Pozew zgodny z porozumieniem'],
     steps:[['Dziś','Płacisz i otrzymujesz dostęp do panelu sprawy.'],['Zaproszenie drugiej strony','Mediator kontaktuje się z małżonkiem i zaprasza go do mediacji.'],['Mediacja online','Ustalacie opiekę, kontakty, alimenty i mieszkanie.','Mediator pomaga wam dojść do porozumienia.',true],['Pozew zgodny z porozumieniem','Przygotowujemy pozew i załączniki, prawnik je sprawdza.','Opiekun sprawy prowadzi Cię przez złożenie pozwu.'],['Jedna rozprawa','Średnio 3–4 miesiące od złożenia pozwu.']],
     experts:['Mediator','Opiekun sprawy','Prawnik']},
-  rep:{name:'Z reprezentacją',sub:'Mediacja, pozew i prawnik w sądzie',price:6970,
+  rep:{name:'Z reprezentacją',sub:'Mediacja, pozew i prawnik w sądzie',price:6970,ideal:'Osobom, które chcą mieć prawnika przy sobie na każdej rozprawie, bez dopłat za kolejne terminy.',
     items:['Wszystko z Mediacja + pozew','Prawnik na wszystkich rozprawach','Ryczałt bez dopłat za kolejne rozprawy','Kontakt prawnika z sądem w Twoim imieniu'],
     steps:[['Dziś','Płacisz i otrzymujesz dostęp do panelu sprawy.'],['Zaproszenie drugiej strony','Mediator kontaktuje się z małżonkiem.'],['Mediacja online','Ustalacie wszystkie sprawy.','Mediator pomaga wam dojść do porozumienia.',true],['Pozew','Prawnik przygotowuje i składa pozew jako Twój pełnomocnik.'],['Rozprawa z prawnikiem','Prawnik reprezentuje Cię na każdej rozprawie, bez dodatkowych opłat.']],
     experts:['Mediator','Opiekun sprawy','Adwokat / radca prawny']}
@@ -1170,6 +1196,20 @@ function renderCheckout(){
   $('#co-howsub').textContent='Przebieg dla pakietu '+x.name+'.';
   $('#co-tl').innerHTML=x.steps.map(s=>`<div class="st"><span class="ic"></span><div><b>${s[0]}</b><p>${s[1]}</p></div></div>`).join('');
 }
+let pick=null, lastFocus=null;
+function drawModal(){
+  const rec=evaluate(src()).key;
+  $('#pkm-opts').innerHTML=['pozew','med','rep'].map(k=>{const x=PK[k],on=k===pick;
+    return `<button type="button" class="mopt${on?' sel':''}" role="radio" aria-checked="${on}" data-k="${k}"><span class="rd"></span><div><h3>${x.name}${k===rec?'<span class="tag">Polecany dla Ciebie</span>':''}</h3></div><div class="pr num">${zl(x.price)}<small title="Opłatę sądową 600 zł płacisz bezpośrednio sądowi; 300 zł wraca po rozwodzie bez orzekania o winie.">+ opłata sądowa 600 zł ⓘ</small></div><div class="id"><b>Dla kogo</b>${x.ideal}</div></button>`}).join('');
+  $$('#pkm-opts .mopt').forEach(b=>b.onclick=()=>{pick=b.dataset.k;drawModal();$('#pkm-opts [data-k="'+pick+'"]').focus();});
+}
+function openModal(){ lastFocus=document.activeElement; pick=chosen||evaluate(src()).key; drawModal(); $('#pkm').hidden=false; $('#pkm-x').focus(); }
+function closeModal(){ $('#pkm').hidden=true; if(lastFocus) lastFocus.focus(); }
+$('#co-change').onclick=openModal;
+$('#pkm-x').onclick=closeModal; $('#pkm-cancel').onclick=closeModal;
+$('#pkm').addEventListener('click',e=>{ if(e.target.id==='pkm') closeModal(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#pkm').hidden) closeModal(); });
+$('#pkm-save').onclick=()=>{ chosen=pick; renderCheckout(); closeModal(); };
 $('#co-form').addEventListener('submit',e=>{e.preventDefault();$('#co-msg').innerHTML='<div class="hintbox"><strong>To prototyp.</strong> Płatność nie jest pobierana. W produkcie: potwierdzenie i faktura na e-mail, link do panelu sprawy, a mediator kontaktuje się w ciągu 1 dnia roboczego.</div>';});
 
 /* ---------- panel ---------- */
