@@ -149,6 +149,19 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .flow4.warn div:last-child b{color:#fff}
 .flow4.warn div:last-child::before{background:rgba(255,255,255,.14);color:#fff}
 .flow4.warn div:not(:last-child)::after{content:"+"}
+.telgrp{display:flex;align-items:stretch}
+.telgrp span{display:flex;align-items:center;padding:0 12px;border:1.5px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:var(--sunk);font-weight:700;color:var(--muted)}
+.telgrp input{border-radius:0 10px 10px 0}
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.paths>div{background:var(--surface);border-radius:12px;padding:16px;border-top:4px solid var(--ok)}
+.paths>div.bad{border-top-color:var(--warn)}
+.paths h3{font-family:var(--f-body);font-weight:800;font-size:1rem}
+.paths ol{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.9rem;color:var(--ink)}
+.paths dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line);font-size:.88rem}
+.paths dt{color:var(--muted)}
+.paths dd{margin:0;font-weight:800;text-align:right;white-space:nowrap}
+.paths .ok dd{color:var(--ok)}
+.paths .bad dd{color:var(--warn)}
 .cmp2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .cmp2>div{border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:var(--surface)}
 .cmp2 span{font-size:.8rem;font-weight:700;color:var(--muted)}
@@ -296,7 +309,7 @@ label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.88
   .sticky.show{transform:none}
   body.stk .fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
   .flow4,.flow4.three{grid-template-columns:1fr}
-  .cmp2{grid-template-columns:1fr}
+  .cmp2,.paths{grid-template-columns:1fr}
   .flow4 div:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-11px;transform:translate(-50%,50%)}
 }
 @media (max-width:520px){
@@ -458,7 +471,7 @@ const S=[
  {id:'partner',t:'Czy druga strona też chce rozwodu?',o:[['yes','Tak',6],['unsure','Trudno powiedzieć',2],['no','Nie',6]],why:'Od tego zależy, jak zaprosimy drugą stronę do rozmowy.'},
  {id:'r-partner',type:'r',if:a=>a.partner!=='yes',render:()=>['Nie musisz jej przekonywać sam(a).','<div class="flow4 three"><div><b>Ty decydujesz</b>kiedy jest dobry moment</div><div><b>Mediator dzwoni</b>i spokojnie wyjaśnia, jak wygląda mediacja</div><div><b>Druga strona</b>dostaje konkretną propozycję zamiast pozwu</div></div><p>Dla wielu osób to pierwszy raz, kiedy słyszą o rozwodzie bez walki i z kosztem znanym z góry. Mediacja jest dobrowolna, a jeśli się nie uda, reprezentacja w sądzie jest w cenie ryczałtu.</p>']},
  {id:'home',t:'Czy macie wspólne mieszkanie lub dom?',o:[['credit','Tak, z kredytem',2],['yes','Tak, bez kredytu',2],['no','Nie',0]],why:'Podział majątku można ustalić w mediacji i nie musi on blokować rozwodu.'},
- {id:'r-home',type:'r',light:true,if:a=>a.home&&a.home!=='no',render:a=>['Mieszkanie nie musi blokować rozwodu.','<div class="cmp2"><div class="ok"><span>Zgodny podział</span><b>300 zł</b><small>opłata sądowa od wspólnego wniosku albo umowa u notariusza</small></div><div class="bad"><span>Spór o podział w kancelarii</span><b>od 10 800 zł</b><small>honorarium przy majątku od 200 000 zł</small></div></div><p>Podział ustalicie w mediacji, a rozwód nie musi na niego czekać.'+(a.home==='credit'?' Przy kredycie podpowiemy też, jak rozmawiać z bankiem o przejęciu długu.':'')+'</p>']},
+ {id:'r-home',type:'r',light:true,if:a=>a.home&&a.home!=='no',render:a=>['Mieszkanie możecie podzielić na dwa sposoby.','<p style="margin-top:0">Rozwód nie musi czekać na podział majątku. Różnica jest w tym, ile kosztuje i jak długo trwa sam podział:</p><div class="paths"><div class="ok"><h3>Polubownie, w mediacji</h3><ol><li>Ustalacie z mediatorem, kto zostaje w mieszkaniu'+(a.home==='credit'?' i kto spłaca kredyt':'')+'</li><li>Podpisujecie umowę u notariusza albo składacie wspólny wniosek do sądu</li></ol><dl><dt>Opłata sądowa</dt><dd>300 zł</dd><dt>Czas</dt><dd>zwykle tygodnie</dd></dl></div><div class="bad"><h3>W sporze, przed sądem</h3><ol><li>Osobny proces o podział majątku</li><li>Wycena przez biegłego, świadkowie, kolejne rozprawy</li></ol><dl><dt>Opłata sądowa</dt><dd>1 000 zł</dd><dt>Kancelaria</dt><dd>od 10 800 zł</dd><dt>Czas</dt><dd>często ponad rok</dd></dl></div></div><p>Honorarium kancelarii przy majątku od 200 000 zł; do tego koszt biegłego.'+(a.home==='credit'?' Przy kredycie podpowiemy też, jak rozmawiać z bankiem o przejęciu długu.':'')+'</p>']},
  {id:'fault',t:'Czy któreś z was chce, żeby sąd orzekł o winie?',o:[['no','Nie, rozwód bez orzekania o winie',4],['yes','Tak, ktoś chce orzekania o winie',2],['dk','Nie wiem, co to zmienia',2]],why:'Od tego zależy, ile rozpraw Cię czeka i czy 300 zł z opłaty wróci.'},
  {id:'r-fault',type:'r',render:a=>a.fault==='yes'
    ?['Spór o winę to najdroższa część rozwodu.','<div class="flow4 three warn"><div><b>Świadkowie</b>i kolejne rozprawy</div><div><b>Dowody</b>wiadomości, dokumenty, czasem detektyw za 15–20 tys. zł</div><div><b>Pisma</b>odpowiedź, odpowiedź na odpowiedź, zażalenia</div></div><p>Dlatego najpierw sprawdzamy w mediacji, czy da się tego uniknąć. Często się da, a wtedy sprawa staje się prosta.</p>']
@@ -564,7 +577,7 @@ function renderQuiz(){
       <div class="trustrow"><span>Bez spamu, wypiszesz się jednym kliknięciem</span><span>5000+ osób po rozwodzie</span><span>Pierwsza rozmowa bezpłatna</span></div>`;
   } else if(q.type==='phone'){
     const c=court(), p=path(), P=personal(A);
-    h=`<div class="qcount">Ostatni krok</div><h2>Twój plan jest gotowy.</h2><p class="sub">Podaj numer telefonu, żeby odblokować pełny plan. Wyślemy go też SMS-em.</p>
+    h=`<div class="qcount">Ostatni krok</div><h2>Twój plan jest gotowy.</h2><p class="sub">Podaj imię i numer telefonu, żeby odblokować pełny plan. Wyślemy go też SMS-em.</p>
       <div class="preview" aria-hidden="true"><div class="inner">
         <div class="vis"><span>Ścieżka</span><b>${esc(p.name)}</b></div>
         <div class="vis"><span>Właściwy sąd</span><b>${esc(c||'ustalimy w rozmowie')}</b></div>
@@ -574,7 +587,7 @@ function renderQuiz(){
         <div class="ml"><span>Lista dokumentów (${P.docs.length})</span><ul class="minilist blur">${P.docs.slice(0,3).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
         <div><span>Plan krok po kroku</span><b class="blur">5 etapów</b></div>
       </div><div class="veil">🔒 Odblokuj pełny plan</div></div>
-      <label class="f" style="margin-top:16px">Numer telefonu<input type="tel" id="ph" inputmode="tel" autocomplete="tel" placeholder="np. 600 123 456" value="${esc(A.phone||'')}"></label>
+      <div style="display:grid;gap:12px;margin-top:16px"><label class="f">Imię<input type="text" id="pnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?" value="${esc(A.name||'')}"></label><label class="f">Numer telefonu<div class="telgrp"><span>+48</span><input type="tel" id="ph" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
       <label class="consent" style="margin-top:10px"><input type="checkbox" id="cs" ${A.consent?'checked':''}><span>Zgadzam się na kontakt telefoniczny, SMS i e-mailowy w sprawie mojego planu. Administratorem danych jest Nowy Etap sp. z o.o. <a href="#lp">Klauzula informacyjna</a>.</span></label>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Odblokuj pełny plan →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
       <p class="note" style="margin-top:8px">Nie dzwonimy bez uprzedzenia. W następnym kroku wybierzesz, kiedy opiekun może zadzwonić.</p>
@@ -602,7 +615,7 @@ function renderQuiz(){
   });
   $$('#qcard .qopt[data-ab]').forEach(b=>b.onclick=()=>{ A.abroad=b.dataset.ab; save(); renderQuiz(); });
   const city=$('#city'); if(city){ city.onchange=e=>{A.city=e.target.value;save();renderPlan();upd();}; $('#still').onchange=e=>{A.still=e.target.value;save();renderPlan();upd();}; }
-  const ph=$('#ph'); if(ph){ ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd();}; $('#cs').onchange=e=>{A.consent=e.target.checked; save(); upd();};
+  const ph=$('#ph'); if(ph){ ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd();}; $('#pnm').oninput=e=>{A.name=e.target.value.trim(); save(); upd();}; $('#cs').onchange=e=>{A.consent=e.target.checked; save(); upd();};
     $('#nophone').onclick=()=>{ $('#npbox').hidden=!$('#npbox').hidden; };
     $('#npem').oninput=e=>{ $('#npsend').disabled=!okEmail(e.target.value.trim()); };
     $('#npsend').onclick=()=>{ A.email=$('#npem').value.trim(); A.noPhone=true; A.done=true; save(); location.hash='wynik'; }; }
@@ -610,7 +623,7 @@ function renderQuiz(){
   if($('#back')) $('#back').onclick=()=>{ if(idx>0){idx--;save();renderQuiz();} else location.hash='lp'; };
   if($('#skip')) $('#skip').onclick=()=>{ A.abroad=A.abroad||'skip'; next(); };
   const nx=$('#next'); if(nx) nx.onclick=next;
-  function upd(){ if(!nx) return; if(q.type==='phone') nx.disabled=(A.phone||'').replace(/\D/g,'').length<9||!A.consent; else if(q.type==='email') nx.disabled=!(okEmail(A.email)&&A.consent); else if(q.type==='loc') nx.disabled=!(A.abroad==='both'||(A.abroad&&A.city&&A.still)); else if(q.multi) nx.disabled=!(A[q.id]||[]).length; }
+  function upd(){ if(!nx) return; if(q.type==='phone') nx.disabled=(A.phone||'').replace(/\D/g,'').length<9||!A.consent||(A.name||'').trim().length<2; else if(q.type==='email') nx.disabled=!(okEmail(A.email)&&A.consent); else if(q.type==='loc') nx.disabled=!(A.abroad==='both'||(A.abroad&&A.city&&A.still)); else if(q.multi) nx.disabled=!(A[q.id]||[]).length; }
   upd();
   if(q.id==='contact'&&A.contact==='unsafe'){ const n=document.createElement('button'); n.className='btn btn-gold'; n.type='button'; n.textContent='Dalej →'; n.onclick=next; $('#qcard .qnav').prepend(n); }
 }
@@ -663,7 +676,7 @@ function renderResult(){
     </div>${locked?'<div class="lk-cta"><a href="#unlock" id="lk-go">🔒 Odblokuj koszt, termin i dokumenty</a></div>':''}</div>
   </div>
   <div style="display:flex;flex-direction:column;gap:18px">
-    ${locked?`<div class="card" id="unlock"><span class="eyebrow" style="color:var(--gold-2)">Skrócony plan wysłaliśmy na e-mail</span><h2 style="margin-top:6px;font-size:1.5rem">Odblokuj pełny plan</h2><p class="note" style="margin-top:6px">Dokładny koszt, termin w Twoim sądzie, wszystkie kwestie do ustalenia i lista dokumentów. Wyślemy go też SMS-em.</p><label class="f" style="margin-top:14px">Numer telefonu<input type="tel" id="ul-tel" inputmode="tel" autocomplete="tel" placeholder="np. 600 123 456"></label><button class="btn btn-gold" id="ul-btn" type="button" style="width:100%;margin-top:12px" disabled>Odblokuj pełny plan</button><p class="note" style="margin-top:8px">Zadzwonimy tylko, jeśli umówisz rozmowę.</p><div class="alt"><button type="button" id="nocall2">Wolę bez rozmowy<small>pakiet online albo pytanie na czacie</small></button></div><p class="note" id="alt-msg2" style="margin-top:8px"></p></div>`:''}
+    ${locked?`<div class="card" id="unlock"><span class="eyebrow" style="color:var(--gold-2)">Skrócony plan wysłaliśmy na e-mail</span><h2 style="margin-top:6px;font-size:1.5rem">Odblokuj pełny plan</h2><p class="note" style="margin-top:6px">Dokładny koszt, termin w Twoim sądzie, wszystkie kwestie do ustalenia i lista dokumentów. Wyślemy go też SMS-em.</p><label class="f" style="margin-top:14px">Numer telefonu<div class="telgrp"><span>+48</span><input type="tel" id="ul-tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><button class="btn btn-gold" id="ul-btn" type="button" style="width:100%;margin-top:12px" disabled>Odblokuj pełny plan</button><p class="note" style="margin-top:8px">Zadzwonimy tylko, jeśli umówisz rozmowę.</p><div class="alt"><button type="button" id="nocall2">Wolę bez rozmowy<small>pakiet online albo pytanie na czacie</small></button></div><p class="note" id="alt-msg2" style="margin-top:8px"></p></div>`:''}
     <div class="card book" id="book" ${locked?'hidden':''}>
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
       <h2 style="margin-top:6px">Kiedy możemy zadzwonić?</h2>
@@ -672,7 +685,7 @@ function renderResult(){
       ${booked?`<div class="done"><b>Rozmowa umówiona: ${booked}.</b><p class="note" style="margin-top:4px">${A.email?'Plan i potwierdzenie wysłaliśmy na '+esc(A.email)+'. ':'Potwierdzenie wyślemy SMS-em. '}Jeśli coś się zmieni, przełożysz termin jednym kliknięciem.</p></div>`:`
       <div class="days">${dd.map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':i===1&&(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
       <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','11:30','14:00','18:00']).map(s=>`<button type="button" data-slot="${s}" class="${pick.slot===s?'on':''}">${s}</button>`).join('')}</div>
-      <div style="display:grid;gap:10px;margin-top:14px"><label class="f">Numer telefonu<input type="tel" id="tel" inputmode="tel" autocomplete="tel" placeholder="np. 600 123 456"></label><label class="f">E-mail, żeby wysłać Ci plan<input type="email" id="rem" autocomplete="email" placeholder="twoj@email.pl"></label><label class="f">Imię (opcjonalnie)<input type="text" id="rnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?"></label></div>
+      <div style="display:grid;gap:10px;margin-top:14px"><label class="f">Numer telefonu<div class="telgrp"><span>+48</span><input type="tel" id="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><label class="f">E-mail, żeby wysłać Ci plan<input type="email" id="rem" autocomplete="email" placeholder="twoj@email.pl"></label><label class="f">Imię (opcjonalnie)<input type="text" id="rnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?"></label></div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" disabled>Umawiam rozmowę i wysyłam plan</button>
       <p class="note" id="bk-msg" style="margin-top:8px">Dzwonimy tylko o wybranej godzinie. E-mail jest opcjonalny.</p>`}
       <div class="alt">
