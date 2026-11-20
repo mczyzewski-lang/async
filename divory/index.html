@@ -63,7 +63,17 @@ button{font:inherit;cursor:pointer;color:inherit}
 .btn[disabled]{opacity:.35;cursor:not-allowed}
 
 /* pasek prototypu */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--proto)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.fab{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.fab-btn{display:flex;align-items:center;gap:8px;background:var(--proto);color:var(--proto-ink);border:0;border-radius:999px;padding:10px 16px;font-size:.85rem;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.fab-btn b{font-weight:600}
+.fab-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.fab-menu{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;min-width:220px;box-shadow:0 20px 50px -20px rgba(0,0,0,.45)}
+.fab-menu .eyebrow{padding:4px 10px 8px}
+.fab-menu a{color:var(--ink);text-decoration:none;padding:8px 10px;border-radius:8px;font-size:.92rem}
+.fab-menu a:hover{background:var(--sunk)}
+.fab-menu a.on{background:var(--green-soft);color:var(--accent);font-weight:600}
+@media (max-width:600px){.qz-mode .fab{bottom:auto;top:calc(12px + env(safe-area-inset-top,0px));left:auto;right:calc(12px + env(safe-area-inset-right,0px));align-items:flex-end;flex-direction:column-reverse}.qz-mode .fab-btn{padding:8px 12px}.qz-mode .fab-btn b{display:none}}
 .proto{background:var(--proto);color:var(--proto-ink);position:sticky;top:env(safe-area-inset-top,0px);z-index:9;font-size:.82rem}
 .proto .wrap{display:flex;gap:8px;align-items:center;padding-block:7px;overflow-x:auto;scrollbar-width:thin}
 .proto b{font-family:var(--f-mono);font-weight:600;white-space:nowrap;opacity:.8}
@@ -187,7 +197,7 @@ footer.site-foot{background:var(--dark);color:var(--dark-ink);padding-block:48px
 .disc{border-top:1px solid var(--dark-line);margin-top:30px;padding-top:18px;color:var(--dark-muted);font-size:.8rem}
 
 /* ===== QUIZ ===== */
-.qz{min-height:100%;display:flex;flex-direction:column;transition:background .4s}
+.qz{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;transition:background .4s}
 .qz.green{background:var(--green-soft)}
 .qz-top{width:100%;max-width:460px;margin:0 auto;padding:18px 16px 0}
 .qz-bar{height:3px;background:var(--line);margin-top:12px;border-radius:3px;overflow:hidden}
@@ -203,8 +213,9 @@ footer.site-foot{background:var(--dark);color:var(--dark-ink);padding-block:48px
 .qopt{text-align:left;background:var(--pill);border:1.5px solid transparent;border-radius:10px;padding:12px 16px;font-size:.95rem;color:var(--ink)}
 .qopt:hover{border-color:var(--line)}
 .qopt.sel{background:var(--green-soft);border-color:var(--green)}
-.whyask{margin-top:22px;background:var(--pill);border-radius:10px;padding:12px 14px;font-size:.88rem}
-.whyask b{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.whyask{margin-top:24px;display:grid;grid-template-columns:18px 1fr;gap:2px 10px;font-size:.86rem;color:var(--muted);background:none;padding:0}
+.whyask::before{content:"i";grid-row:1/3;width:18px;height:18px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:.7rem;font-weight:700;font-style:italic;font-family:var(--f-display);margin-top:1px}
+.whyask b{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .qz-foot{position:sticky;bottom:0;width:100%;background:linear-gradient(to top,var(--bg) 70%,transparent);padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px))}
 .qz.green .qz-foot{background:linear-gradient(to top,var(--green-soft) 70%,transparent)}
 .qz-foot .in{max-width:460px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -213,13 +224,24 @@ footer.site-foot{background:var(--dark);color:var(--dark-ink);padding-block:48px
 .qz-next{width:100%}
 .qz-back{background:none;border:0;font-size:.85rem;color:var(--muted);text-decoration:underline}
 .bignum{font-family:var(--f-display);font-size:3.4rem;line-height:1;margin:8px 0}
-.qbars{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:end;height:200px;background:var(--green-soft);border-radius:10px;padding:18px 26px 0;margin-top:18px}
-.qbars div{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.8rem;text-align:center;gap:6px}
-.qbars i{display:block;width:44px;border-radius:3px 3px 0 0;animation:rise 1.2s ease-out both}
-.qbars .r i{background:#c8392f;height:150px}
-.qbars .g i{background:var(--accent);height:22px;animation-delay:.9s}
+.qbars{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 170px;column-gap:20px;row-gap:12px;background:var(--green-soft);border-radius:10px;padding:18px 26px 0;margin-top:18px;overflow:hidden}
+.qbars .lb{font-size:.82rem;text-align:center;align-self:end}
+.qbars .lb b{display:block;font-size:.95rem}
+.qbars .col{display:flex;align-items:flex-end;justify-content:center;height:100%}
+.qbars i{display:block;width:48px;border-radius:3px 3px 0 0;animation:rise 1.2s ease-out both}
+.qbars .r i{background:#c8392f;height:100%}
+.qbars .g i{background:var(--accent);height:13.2%;animation-delay:.9s}
 @keyframes rise{from{height:0}}
 @media (prefers-reduced-motion:reduce){.qbars i{animation:none}}
+.cmp2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.cmp2>div{border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.cmp2 .ok{background:var(--green-soft)}
+.cmp2 .bad{background:var(--warn-soft)}
+.cmp2 span{font-size:.8rem;font-weight:600}
+.cmp2 b{font-family:var(--f-display);font-weight:400;font-size:1.8rem;line-height:1.1}
+.cmp2 .ok b{color:var(--accent)}
+.cmp2 .bad b{color:var(--warn)}
+.cmp2 small{font-size:.8rem;color:var(--muted)}
 .hl{background:var(--green-soft);color:var(--accent);padding:0 3px;border-radius:3px}
 .qz.green .hl{background:var(--surface)}
 .steps4{display:flex;flex-direction:column;gap:0;margin-top:18px}
@@ -382,16 +404,19 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
 @media (max-width:860px){.panel{grid-template-columns:minmax(0,1fr)}.pnav{flex-direction:row;overflow-x:auto}.pnav button{white-space:nowrap}.issue{grid-template-columns:minmax(0,1fr)}.track{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 
-<div class="proto"><div class="wrap">
-  <b>PROTOTYP ▸</b>
-  <a href="#start" data-v="start">1 Strona główna</a>
-  <a href="#quiz" data-v="quiz">2 Quiz</a>
-  <a href="#pakiety" data-v="pakiety">3 Wynik i pakiety</a>
-  <a href="#checkout" data-v="checkout">4 Płatność</a>
-  <a href="#panel" data-v="panel">5 Panel sprawy</a>
-  <a href="#narzedzia" data-v="narzedzia">6 Kalkulatory</a>
-  <a href="#strategia" data-v="strategia">7 Strategia</a>
-</div></div>
+<div class="fab" id="fab">
+  <nav class="fab-menu" id="fab-menu" hidden aria-label="Ekrany prototypu">
+    <span class="eyebrow">Ekrany prototypu</span>
+    <a href="#start" data-v="start">1 Strona główna</a>
+    <a href="#quiz" data-v="quiz">2 Quiz</a>
+    <a href="#pakiety" data-v="pakiety">3 Wynik i pakiety</a>
+    <a href="#checkout" data-v="checkout">4 Płatność</a>
+    <a href="#panel" data-v="panel">5 Panel sprawy</a>
+    <a href="#narzedzia" data-v="narzedzia">6 Kalkulatory</a>
+    <a href="#strategia" data-v="strategia">7 Strategia</a>
+  </nav>
+  <button type="button" class="fab-btn" id="fab-btn" aria-expanded="false" aria-controls="fab-menu"><span class="fab-dot"></span>Prototyp: <b id="fab-cur">Strona główna</b></button>
+</div>
 
 <header class="site" id="site-head"><div class="wrap">
   <a class="logo" href="#start">divory.pl</a>
@@ -1048,6 +1073,8 @@ $('#city-links').innerHTML=CITIES.map(c=>`<a href="#quiz">Rozwód ${esc(c[0])}</
 
 /* ---------- quiz ---------- */
 const CONC=[['cost','Koszty'],['kids','Dzieci'],['prop','Podział majątku'],['time','Czas'],['stress','Stres i emocje'],['right','Żeby zrobić to dobrze'],['conflict','Konflikt z małżonkiem']];
+const concOk=a=>c=>!(c[0]==='kids'&&a.kids==='no')&&!(c[0]==='prop'&&a.home==='no');
+const deal=a=>{const x=[]; if(a.kids==='yes'){x.push('opieka nad dziećmi','alimenty');} if(a.home&&a.home!=='no') x.push('mieszkanie'+(a.home==='credit'?' z kredytem':'')); if(!x.length) x.push('wszystkie wasze ustalenia'); return x.length>1?x.slice(0,-1).join(', ')+' i '+x[x.length-1]:x[0];};
 const S=[
  {id:'w',type:'s',green:true,render:()=>`<h2 style="font-size:2.2rem">Rozwód może być prostszy.</h2><p class="sub" style="font-size:1rem;margin-top:12px">Odpowiedz na kilka pytań i w 3 minuty zobacz <b>swoje możliwości</b>, właściwy sąd i <b>koszt z góry</b>.</p><p class="eyebrow" style="margin-top:22px">Cena znana z góry · Prowadzimy krok po kroku</p>`,btn:'Zaczynamy'},
  {id:'stage',t:'Na jakim etapie jesteś?',o:[['both','Oboje jesteśmy gotowi.'],['notready','Ja jestem gotowy/a. Małżonek jeszcze nie.'],['noknow','Ja jestem gotowy/a. Małżonek jeszcze nie wie.'],['weigh','Małżonek tego chce. Ja się zastanawiam.'],['other','Inna sytuacja.']]},
@@ -1060,25 +1087,27 @@ const S=[
  {id:'look',multi:true,t:'Czego szukasz?',s:'Zaznacz wszystko, co pasuje.',o:[['online','Chcę przeprowadzić rozwód online'],['mediation','Mediacji z małżonkiem'],['lawyer','Rozmowy z prawnikiem'],['rep','Prawnika, który pójdzie ze mną do sądu'],['pozew','Pomocy z pozwem'],['research','Na razie zbieram informacje']],why:'Twoja odpowiedź pomaga nam wskazać właściwy rodzaj pomocy w Twojej sytuacji.'},
  {id:'kids',t:'Czy macie wspólne małoletnie dzieci?',s:'Tylko dzieci poniżej 18 lat. Sąd zawsze orzeka o władzy rodzicielskiej, kontaktach i alimentach.',o:[['yes','Tak'],['no','Nie']]},
  {id:'s3',type:'s',render:a=>a.kids==='yes'
-   ?`<p class="sub" style="margin:0">Nie jesteście sami.</p><div class="bignum">art. 58 KRO</div><p class="sub">Sąd uwzględnia pisemne porozumienie rodziców o opiece i kontaktach, jeśli jest zgodne z dobrem dziecka. W mediacji przygotujecie je przed pozwem, więc rozprawa jest krótsza i spokojniejsza.</p>`
+   ?`<p class="sub" style="margin:0">Nie jesteście sami.</p><div class="bignum">62%</div><p class="sub" style="margin-top:0">osób wypełniających nasz quiz ma małoletnie dzieci. <span class="pill hint">dane demo</span></p><p class="sub" style="margin-top:16px">Sąd uwzględnia pisemne porozumienie rodziców o opiece i kontaktach, jeśli jest zgodne z dobrem dziecka (art. 58 KRO). W mediacji przygotujecie je przed pozwem, więc rozprawa jest krótsza i spokojniejsza.</p>`
    :`<h2>Jasne.</h2><p class="sub">Bez spraw dzieci sąd ma mniej do rozstrzygnięcia, a rozprawa jest zwykle krótka.</p>`},
  {id:'home',t:'Czy macie wspólne mieszkanie lub dom?',s:'Pomożemy też w podziale majątku i kredytu.',o:[['credit','Tak, z kredytem'],['yes','Tak, bez kredytu'],['no','Nie']]},
  {id:'s4',type:'s',render:a=>a.home==='no'
    ?`<h2>Wasz rozwód właśnie stał się prostszy.</h2><p class="sub">Bez wspólnej nieruchomości jest mniej do ustalenia i mniej do sporu.</p>`
-   :`<p class="sub" style="margin:0">Majątek nie musi blokować rozwodu.</p><div class="bignum">300 zł</div><p class="sub">tyle wynosi opłata od zgodnego wniosku o podział majątku. Ustalicie go w mediacji. Spór o podział w kancelarii to zwykle co najmniej 10 800 zł honorarium${a.home==='credit'?'. Przy kredycie podpowiemy, jak rozmawiać z bankiem o przejęciu długu':''}.</p>`},
+   :`<h2>Mieszkanie nie musi blokować rozwodu.</h2><p class="sub">Podział ustalicie w mediacji, a rozwód nie musi na niego czekać.</p>
+     <div class="cmp2"><div class="ok"><span>Zgodny podział</span><b class="num">300 zł</b><small>opłata sądowa od wspólnego wniosku (albo umowa u notariusza)</small></div><div class="bad"><span>Spór o podział</span><b class="num">od 10 800 zł</b><small>honorarium kancelarii przy majątku od 200 000 zł</small></div></div>
+     ${a.home==='credit'?'<p class="sub" style="margin-top:14px">Przy kredycie podpowiemy też, jak rozmawiać z bankiem o przejęciu długu przez jedno z was.</p>':''}`},
  {id:'abroad',t:'Czy oboje mieszkacie w Polsce?',o:[['pl','Tak'],['one','Jedno z nas mieszka za granicą'],['both','Oboje mieszkamy za granicą']],why:'Rozwód przed polskim sądem jest możliwy także wtedy, gdy ktoś mieszka za granicą. Mediacja online działa z każdego miejsca.'},
  {id:'safety',t:'Czy czujesz się bezpiecznie w kontakcie z małżonkiem?',s:'Odpowiedź widzisz tylko Ty.',o:[['safe','Tak'],['conflict','Kłócimy się, ale czuję się bezpiecznie'],['unsafe','Nie zawsze czuję się bezpiecznie'],['skip','Wolę nie odpowiadać']],why:'Przy przemocy lub zastraszaniu mediacja nie jest dobrym rozwiązaniem. Wtedy zaproponujemy rozmowę z prawnikiem.'},
- {id:'conc',multi:true,t:'Co martwi Cię najbardziej?',s:'Zaznacz wszystko, co pasuje.',o:CONC},
- {id:'s5',type:'s',render:a=>{const sel=CONC.filter(c=>(a.conc||[]).includes(c[0])).map((c,i)=>`<span class="hl">${i===0?c[1]:c[1].toLowerCase()}</span>`);const list=sel.length>1?sel.slice(0,-1).join(', ')+' i '+sel[sel.length-1]:(sel[0]||'<span class="hl">wszystko naraz</span>');
+ {id:'conc',multi:true,t:'Co martwi Cię najbardziej?',s:'Zaznacz wszystko, co pasuje.',o:CONC,filter:a=>c=>!(c[0]==='kids'&&a.kids==='no')&&!(c[0]==='prop'&&a.home==='no')},
+ {id:'s5',type:'s',render:a=>{const sel=CONC.filter(concOk(a)).filter(c=>(a.conc||[]).includes(c[0])).map((c,i)=>`<span class="hl">${i===0?c[1]:c[1].toLowerCase()}</span>`);const list=sel.length>1?sel.slice(0,-1).join(', ')+' i '+sel[sel.length-1]:(sel[0]||'<span class="hl">wszystko naraz</span>');
    return `<h2 style="font-size:1.45rem;line-height:1.35">${list}. To najczęstsze obawy przy rozwodzie i każdą z nich da się zmniejszyć.</h2><p class="sub" style="font-size:1rem;margin-top:18px">Zobacz, czym różni się tradycyjny rozwód od naszej drogi i dlaczego może być <b style="color:var(--accent)">prostsza i tańsza</b>.</p>`}},
  {id:'s6',type:'s',render:()=>`<h2 style="font-size:1.45rem">Tradycyjny rozwód w kancelarii to średnio <span style="color:#c8392f">ok. 30 000 zł</span>. U nas od <span style="color:var(--accent)">3 970 zł</span>.</h2>
-   <div class="qbars"><div class="r">Tradycyjnie<br><b>ok. 30 000 zł</b><i></i></div><div class="g">divory.pl<br><b>3 970 zł</b><i></i></div></div>
+   <div class="qbars" role="img" aria-label="Słupki w skali: tradycyjnie ok. 30 000 zł, divory.pl 3 970 zł"><div class="lb">Tradycyjnie<b>ok. 30 000 zł</b></div><div class="lb">divory.pl<b>3 970 zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div>
    <p class="note" style="margin-top:10px">Wyliczenie na podstawie wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium na start, 3 rozprawy, dodatkowe pisma, II instancja, koszty sądowe i dodatkowe. Kwota przykładowa, rozpiętość 15 000–50 000 zł.</p>`},
  {id:'s7',type:'s',render:()=>`<h2>W tradycyjnym modelu koszt rośnie z każdym pismem.</h2><p class="sub">Honorarium na start to zwykle 7 500–15 000 zł. Potem dochodzi opłata za każdą rozprawę, odpowiedzi na pisma drugiej strony, zabezpieczenia, zażalenia. Pismo, odpowiedź, odpowiedź na odpowiedź.</p>
    <div style="background:var(--hint-soft);border-radius:10px;padding:16px 18px;margin-top:18px;display:flex;gap:14px;align-items:center"><span class="bignum" style="font-size:2.4rem;margin:0;color:var(--hint)">75%</span><span class="sub" style="margin:0;color:var(--ink)">kosztów I instancji może dojść, jeśli druga strona złoży apelację (według jednej z wycen).</span></div>`},
- {id:'s8',type:'s',render:()=>`<h2>Dlatego odwracamy kolejność.</h2><p class="sub">Pozew nie zaczyna rozwodu. Pozew go kończy.</p>
-   <div class="steps4"><div><i></i><div><b>Mediacja</b><span>ustalacie wszystkie sprawy, online</span></div></div><div><i></i><div><b>Porozumienie</b><span>dzieci, alimenty, mieszkanie na piśmie</span></div></div><div><i></i><div><b>Pozew</b><span>zgodny z porozumieniem, bez wymiany pism</span></div></div><div><i></i><div><b>Jedna rozprawa</b><span>średnio 3–4 miesiące od złożenia pozwu</span></div></div></div>`},
- {id:'s9',type:'s',render:()=>`<div class="quote"><div><span class="eyebrow">Kamil Jura · prawnik, mediator, współzałożyciel</span><blockquote>„W chwili składania pozwu wiecie, jak będziecie opiekować się dziećmi, kto płaci alimenty i kto się wyprowadza. Nikt nie czuje już lęku przed tym, co druga strona zrobi w procesie.”</blockquote></div><div class="ph" aria-label="Miejsce na zdjęcie">KJ</div></div><p class="note" style="margin-top:12px">Cytat z materiału wideo; zdjęcie do uzupełnienia.</p>`},
+ {id:'s8',type:'s',render:a=>`<h2>Dlatego odwracamy kolejność.</h2><p class="sub">Pozew nie zaczyna rozwodu. Pozew go kończy.</p>
+   <div class="steps4"><div><i></i><div><b>Mediacja</b><span>ustalacie wszystkie sprawy, online</span></div></div><div><i></i><div><b>Porozumienie</b><span>${deal(a)} na piśmie</span></div></div><div><i></i><div><b>Pozew</b><span>zgodny z porozumieniem, bez wymiany pism</span></div></div><div><i></i><div><b>Jedna rozprawa</b><span>średnio 3–4 miesiące od złożenia pozwu</span></div></div></div>`},
+ {id:'s9',type:'s',render:a=>`<div class="quote"><div><span class="eyebrow">Kamil Jura · prawnik, mediator, współzałożyciel</span><blockquote>${a.kids==='yes'?'„Wiecie, jak będziecie opiekować się dziećmi. Wiecie, kto płaci alimenty i w jakiej wysokości. Wszystko jest ustalone.”':'„Wszystko jest ustalone. Nikt nie czuje już lęku i obawy przed tym, co druga strona zrobi w procesie.”'}</blockquote></div><div class="ph" aria-label="Miejsce na zdjęcie">KJ</div></div><p class="note" style="margin-top:12px">Cytat z materiału wideo; zdjęcie do uzupełnienia.</p>`},
  {id:'loc',type:'loc',t:'Gdzie było wasze ostatnie wspólne miejsce zamieszkania?'},
  {id:'email',type:'email',t:'Podaj e-mail, a wyślemy Ci wynik.'},
  {id:'s10',type:'s',render:()=>`<h2>W kancelarii najpierw płacisz za konsultację, żeby poznać cenę.</h2><p class="sub">Zwykle 300–750 zł. Potem honorarium na start i opłaty za każdą rozprawę.</p><hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><h2>U nas cenę widzisz od razu: <span style="color:var(--accent)">3 970 zł</span> za mediację i pozew.</h2><p class="sub">Stała cena, bez stawek godzinowych i bez abonamentu. Możesz rozłożyć ją na raty.</p>`},
@@ -1121,7 +1150,8 @@ function renderQuiz(){
     <button class="qz-back" id="q-skip" type="button" style="margin-top:14px;align-self:flex-start">Pokaż wynik bez podawania e-maila</button>`;
   }
   else {
-    h=`<h2>${q.t}</h2>${q.s?`<p class="sub">${q.s}</p>`:''}<div class="qopts" role="${q.multi?'group':'radiogroup'}">${q.o.map(([val,l])=>{const on=q.multi?(A[q.id]||[]).includes(val):A[q.id]===val;return `<button type="button" class="qopt${on?' sel':''}" data-v="${val}" role="${q.multi?'checkbox':'radio'}" aria-checked="${on}">${l}</button>`}).join('')}</div>${q.why?`<div class="whyask"><b>Dlaczego pytamy</b>${q.why}</div>`:''}`;
+    const opts=q.filter?q.o.filter(q.filter(A)):q.o; if(q.multi&&A[q.id]) A[q.id]=A[q.id].filter(v=>opts.some(o=>o[0]===v));
+    h=`<h2>${q.t}</h2>${q.s?`<p class="sub">${q.s}</p>`:''}<div class="qopts" role="${q.multi?'group':'radiogroup'}">${opts.map(([val,l])=>{const on=q.multi?(A[q.id]||[]).includes(val):A[q.id]===val;return `<button type="button" class="qopt${on?' sel':''}" data-v="${val}" role="${q.multi?'checkbox':'radio'}" aria-checked="${on}">${l}</button>`}).join('')}</div>${q.why?`<div class="whyask"><b>Dlaczego pytamy</b>${q.why}</div>`:''}`;
     if(q.id==='safety'&&A.safety==='unsafe') h+=`<div class="warnbox" style="margin-top:14px"><b>Twoje bezpieczeństwo jest najważniejsze.</b> Nie zaproponujemy mediacji ani nie skontaktujemy się z małżonkiem bez Twojej zgody. Niebieska Linia: <b>800 120 002</b>, w zagrożeniu życia <b>112</b>. Bezpłatnie połączymy Cię z prawnikiem.</div>`;
   }
   body.innerHTML=h;
@@ -1253,12 +1283,18 @@ function route(){
   if(!v){const el=document.getElementById(h); anchor=el; v=el?(el.closest('section.view')||{id:'v-start'}).id.slice(2):'start';}
   VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
   $('#site-head').hidden=v==='quiz'; $('#site-foot').hidden=v==='quiz'||v==='checkout';
-  $$('.proto a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  $$('.fab-menu a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  $('#fab-cur').textContent=($('.fab-menu a[data-v="'+v+'"]')||{textContent:''}).textContent.replace(/^\d+ /,'');
+  document.body.classList.toggle('qz-mode',v==='quiz'); fabClose();
   if(v==='quiz') renderQuiz();
   if(v==='pakiety') renderPakiety();
   if(v==='checkout') renderCheckout();
   if(anchor) anchor.scrollIntoView(); else window.scrollTo(0,0);
 }
+function fabClose(){ $('#fab-menu').hidden=true; $('#fab-btn').setAttribute('aria-expanded','false'); }
+$('#fab-btn').onclick=()=>{ const m=$('#fab-menu'); m.hidden=!m.hidden; $('#fab-btn').setAttribute('aria-expanded',String(!m.hidden)); };
+document.addEventListener('click',e=>{ if(!e.target.closest('#fab')) fabClose(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape') fabClose(); });
 addEventListener('hashchange',route);
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){ $$('.hm-hero animate').forEach(a=>{const p=a.parentNode;p.setAttribute('d',a.getAttribute('values').split(';')[1]);a.remove();}); }
 if(sc){calcCost();calcAlim();calcCourt();calcMini();}
