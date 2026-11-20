@@ -150,7 +150,7 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .flow4.warn div:last-child::before{background:rgba(255,255,255,.14);color:#fff}
 .flow4.warn div:not(:last-child)::after{content:"+"}
 .telgrp{display:flex;align-items:stretch}
-.telgrp span{display:flex;align-items:center;padding:0 12px;border:1.5px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:var(--sunk);font-weight:700;color:var(--muted)}
+.telgrp select{width:auto;flex:none;padding:0 8px 0 10px;border:1.5px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:var(--sunk);font-weight:700;color:var(--ink)}
 .telgrp input{border-radius:0 10px 10px 0}
 .paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .paths>div{background:var(--surface);border-radius:12px;padding:16px;border-top:4px solid var(--ok)}
@@ -502,6 +502,10 @@ function path(){
   return {key:'std',name:'Mediacja online + dokumenty, z reprezentacją w cenie',tag:'Polecana ścieżka'};
 }
 
+const CC=[['+48','🇵🇱 +48'],['+44','🇬🇧 +44'],['+49','🇩🇪 +49'],['+353','🇮🇪 +353'],['+31','🇳🇱 +31'],['+47','🇳🇴 +47'],['+46','🇸🇪 +46'],['+45','🇩🇰 +45'],['+32','🇧🇪 +32'],['+33','🇫🇷 +33'],['+43','🇦🇹 +43'],['+41','🇨🇭 +41'],['+39','🇮🇹 +39'],['+34','🇪🇸 +34'],['+420','🇨🇿 +420'],['+421','🇸🇰 +421'],['+380','🇺🇦 +380'],['+1','🇺🇸 🇨🇦 +1']];
+const ccSel=()=>`<select class="ccsel" aria-label="Kierunkowy kraju">${CC.map(c=>`<option value="${c[0]}" ${(A.cc||'+48')===c[0]?'selected':''}>${c[1]}</option>`).join('')}</select>`;
+const phoneOk=v=>{ const d=String(v||'').replace(/\D/g,''); return (A.cc||'+48')==='+48'?d.length===9:d.length>=6&&d.length<=12; };
+document.addEventListener('change',e=>{ if(!e.target.classList||!e.target.classList.contains('ccsel')) return; A.cc=e.target.value; save(); $$('.ccsel').forEach(x=>x.value=A.cc); const inp=e.target.closest('.telgrp').querySelector('input'); inp.placeholder=A.cc==='+48'?'600 123 456':'numer bez kierunkowego'; inp.dispatchEvent(new Event('input')); });
 const zl=n=>String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' zł';
 function personal(a){
   const docs=['Pozew z odpisem dla drugiej strony','Odpis skrócony aktu małżeństwa','Potwierdzenie opłaty 600 zł'];
@@ -587,7 +591,7 @@ function renderQuiz(){
         <div class="ml"><span>Lista dokumentów (${P.docs.length})</span><ul class="minilist blur">${P.docs.slice(0,3).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
         <div><span>Plan krok po kroku</span><b class="blur">5 etapów</b></div>
       </div><div class="veil">🔒 Odblokuj pełny plan</div></div>
-      <div style="display:grid;gap:12px;margin-top:16px"><label class="f">Imię<input type="text" id="pnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?" value="${esc(A.name||'')}"></label><label class="f">Numer telefonu<div class="telgrp"><span>+48</span><input type="tel" id="ph" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
+      <div style="display:grid;gap:12px;margin-top:16px"><label class="f">Imię<input type="text" id="pnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?" value="${esc(A.name||'')}"></label><label class="f">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="ph" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
       <label class="consent" style="margin-top:10px"><input type="checkbox" id="cs" ${A.consent?'checked':''}><span>Zgadzam się na kontakt telefoniczny, SMS i e-mailowy w sprawie mojego planu. Administratorem danych jest Nowy Etap sp. z o.o. <a href="#lp">Klauzula informacyjna</a>.</span></label>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Odblokuj pełny plan →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
       <p class="note" style="margin-top:8px">Nie dzwonimy bez uprzedzenia. W następnym kroku wybierzesz, kiedy opiekun może zadzwonić.</p>
@@ -623,7 +627,7 @@ function renderQuiz(){
   if($('#back')) $('#back').onclick=()=>{ if(idx>0){idx--;save();renderQuiz();} else location.hash='lp'; };
   if($('#skip')) $('#skip').onclick=()=>{ A.abroad=A.abroad||'skip'; next(); };
   const nx=$('#next'); if(nx) nx.onclick=next;
-  function upd(){ if(!nx) return; if(q.type==='phone') nx.disabled=(A.phone||'').replace(/\D/g,'').length<9||!A.consent||(A.name||'').trim().length<2; else if(q.type==='email') nx.disabled=!(okEmail(A.email)&&A.consent); else if(q.type==='loc') nx.disabled=!(A.abroad==='both'||(A.abroad&&A.city&&A.still)); else if(q.multi) nx.disabled=!(A[q.id]||[]).length; }
+  function upd(){ if(!nx) return; if(q.type==='phone') nx.disabled=!phoneOk(A.phone)||!A.consent||(A.name||'').trim().length<2; else if(q.type==='email') nx.disabled=!(okEmail(A.email)&&A.consent); else if(q.type==='loc') nx.disabled=!(A.abroad==='both'||(A.abroad&&A.city&&A.still)); else if(q.multi) nx.disabled=!(A[q.id]||[]).length; }
   upd();
   if(q.id==='contact'&&A.contact==='unsafe'){ const n=document.createElement('button'); n.className='btn btn-gold'; n.type='button'; n.textContent='Dalej →'; n.onclick=next; $('#qcard .qnav').prepend(n); }
 }
@@ -637,7 +641,7 @@ function renderResult(){
   const demo=!A.done;
   const a=demo?{stage:'talked',partner:'unsure',kids:'yes',home:'credit',fault:'no',contact:'hard',abroad:'pl',city:'Poznań',still:'yes',when:'asap',pri:['kids','cost'],name:'Anna',phone:'600123456',ct:'eve'}:A;
   const keep=A; A=a; const p=path(), c=court()||'ustalimy w rozmowie', sc=score(); A=keep;
-  const P=personal(a); const locked=!!a.noPhone && (a.phone||'').replace(/\D/g,'').length<9;
+  const P=personal(a); const locked=!!a.noPhone && !phoneOk(a.phone);
   const nm=(A.name||a.name)?esc(A.name||a.name)+', T':'T';
   const reasons=[];
   if(a.stage==='talked'||a.partner==='yes') reasons.push('Oboje rozmawiacie o rozwodzie, więc porozumienie jest realne');
@@ -676,7 +680,7 @@ function renderResult(){
     </div>${locked?'<div class="lk-cta"><a href="#unlock" id="lk-go">🔒 Odblokuj koszt, termin i dokumenty</a></div>':''}</div>
   </div>
   <div style="display:flex;flex-direction:column;gap:18px">
-    ${locked?`<div class="card" id="unlock"><span class="eyebrow" style="color:var(--gold-2)">Skrócony plan wysłaliśmy na e-mail</span><h2 style="margin-top:6px;font-size:1.5rem">Odblokuj pełny plan</h2><p class="note" style="margin-top:6px">Dokładny koszt, termin w Twoim sądzie, wszystkie kwestie do ustalenia i lista dokumentów. Wyślemy go też SMS-em.</p><label class="f" style="margin-top:14px">Numer telefonu<div class="telgrp"><span>+48</span><input type="tel" id="ul-tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><button class="btn btn-gold" id="ul-btn" type="button" style="width:100%;margin-top:12px" disabled>Odblokuj pełny plan</button><p class="note" style="margin-top:8px">Zadzwonimy tylko, jeśli umówisz rozmowę.</p><div class="alt"><button type="button" id="nocall2">Wolę bez rozmowy<small>pakiet online albo pytanie na czacie</small></button></div><p class="note" id="alt-msg2" style="margin-top:8px"></p></div>`:''}
+    ${locked?`<div class="card" id="unlock"><span class="eyebrow" style="color:var(--gold-2)">Skrócony plan wysłaliśmy na e-mail</span><h2 style="margin-top:6px;font-size:1.5rem">Odblokuj pełny plan</h2><p class="note" style="margin-top:6px">Dokładny koszt, termin w Twoim sądzie, wszystkie kwestie do ustalenia i lista dokumentów. Wyślemy go też SMS-em.</p><label class="f" style="margin-top:14px">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="ul-tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><button class="btn btn-gold" id="ul-btn" type="button" style="width:100%;margin-top:12px" disabled>Odblokuj pełny plan</button><p class="note" style="margin-top:8px">Zadzwonimy tylko, jeśli umówisz rozmowę.</p><div class="alt"><button type="button" id="nocall2">Wolę bez rozmowy<small>pakiet online albo pytanie na czacie</small></button></div><p class="note" id="alt-msg2" style="margin-top:8px"></p></div>`:''}
     <div class="card book" id="book" ${locked?'hidden':''}>
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
       <h2 style="margin-top:6px">Kiedy możemy zadzwonić?</h2>
@@ -685,7 +689,7 @@ function renderResult(){
       ${booked?`<div class="done"><b>Rozmowa umówiona: ${booked}.</b><p class="note" style="margin-top:4px">${A.email?'Plan i potwierdzenie wysłaliśmy na '+esc(A.email)+'. ':'Potwierdzenie wyślemy SMS-em. '}Jeśli coś się zmieni, przełożysz termin jednym kliknięciem.</p></div>`:`
       <div class="days">${dd.map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':i===1&&(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
       <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','11:30','14:00','18:00']).map(s=>`<button type="button" data-slot="${s}" class="${pick.slot===s?'on':''}">${s}</button>`).join('')}</div>
-      <div style="display:grid;gap:10px;margin-top:14px"><label class="f">Numer telefonu<div class="telgrp"><span>+48</span><input type="tel" id="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><label class="f">E-mail, żeby wysłać Ci plan<input type="email" id="rem" autocomplete="email" placeholder="twoj@email.pl"></label><label class="f">Imię (opcjonalnie)<input type="text" id="rnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?"></label></div>
+      <div style="display:grid;gap:10px;margin-top:14px"><label class="f">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><label class="f">E-mail, żeby wysłać Ci plan<input type="email" id="rem" autocomplete="email" placeholder="twoj@email.pl"></label><label class="f">Imię (opcjonalnie)<input type="text" id="rnm" autocomplete="given-name" placeholder="Jak mamy się zwracać?"></label></div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" disabled>Umawiam rozmowę i wysyłam plan</button>
       <p class="note" id="bk-msg" style="margin-top:8px">Dzwonimy tylko o wybranej godzinie. E-mail jest opcjonalny.</p>`}
       <div class="alt">
@@ -699,9 +703,9 @@ function renderResult(){
   $$('[data-day]').forEach(b=>b.onclick=()=>{pick.day=+b.dataset.day;pick.slot=null;renderResult();});
   $$('[data-slot]').forEach(b=>b.onclick=()=>{pick.slot=b.dataset.slot;renderResult();});
   const tel=$('#tel'), bk=$('#bk');
-  if(tel){ tel.value=A.phone||''; const rem=$('#rem'), rnm=$('#rnm'); rem.value=A.email||''; rnm.value=A.name||''; const u=()=>{ A.phone=tel.value; A.email=rem.value.trim(); A.name=rnm.value.trim(); save(); bk.disabled=!(pick.slot&&tel.value.replace(/\D/g,'').length>=9&&(!A.email||okEmail(A.email))); }; tel.oninput=u; rem.oninput=u; rnm.oninput=u; u();
+  if(tel){ tel.value=A.phone||''; const rem=$('#rem'), rnm=$('#rnm'); rem.value=A.email||''; rnm.value=A.name||''; const u=()=>{ A.phone=tel.value; A.email=rem.value.trim(); A.name=rnm.value.trim(); save(); bk.disabled=!(pick.slot&&phoneOk(tel.value)&&(!A.email||okEmail(A.email))); }; tel.oninput=u; rem.oninput=u; rnm.oninput=u; u();
     bk.onclick=()=>{ const d=dd[pick.day]; booked=`${pick.day===0?'dziś':DN[d.getDay()]+' '+d.getDate()+'.'+String(d.getMonth()+1).padStart(2,'0')}, ${pick.slot}`; renderResult(); }; }
-  const ut=$('#ul-tel'); if(ut){ ut.oninput=()=>{ $('#ul-btn').disabled=ut.value.replace(/\D/g,'').length<9; }; $('#ul-btn').onclick=()=>{ A.phone=ut.value; A.noPhone=false; save(); renderResult(); window.scrollTo(0,0); }; $('#nocall2').onclick=()=>{ $('#alt-msg2').textContent='W produkcie: zakup online (divory) albo czat. Lead trafia do sekwencji e-mail A.'; }; }
+  const ut=$('#ul-tel'); if(ut){ ut.oninput=()=>{ $('#ul-btn').disabled=!phoneOk(ut.value); }; $('#ul-btn').onclick=()=>{ A.phone=ut.value; A.noPhone=false; save(); renderResult(); window.scrollTo(0,0); }; $('#nocall2').onclick=()=>{ $('#alt-msg2').textContent='W produkcie: zakup online (divory) albo czat. Lead trafia do sekwencji e-mail A.'; }; }
   $('#now').onclick=()=>{ $('#alt-msg').textContent='W produkcie: pole na numer i natychmiastowe powiadomienie dla handlowca. Poza godzinami pracy proponujemy termin w kalendarzu.'; };
   $('#nocall').onclick=()=>{ $('#alt-msg').textContent='W produkcie: przejście do zakupu online (divory) albo czat z opiekunem. Ten lead nie przepada.'; };
 }
