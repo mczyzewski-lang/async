@@ -230,7 +230,8 @@ footer.site-foot{background:var(--dark);color:var(--dark-ink);padding-block:48px
 .qbars .col{display:flex;align-items:flex-end;justify-content:center;height:100%}
 .qbars i{display:block;width:48px;border-radius:3px 3px 0 0;animation:rise 1.2s ease-out both}
 .qbars .r i{background:#c8392f;height:100%}
-.qbars .g i{background:var(--accent);height:13.2%;animation-delay:.9s}
+.qbars .g i{background:var(--accent);height:13.2%;animation:shrink 1.6s cubic-bezier(.6,0,.2,1) 1.1s both}
+@keyframes shrink{from{height:100%}to{height:13.2%}}
 @keyframes rise{from{height:0}}
 @media (prefers-reduced-motion:reduce){.qbars i{animation:none}}
 .cmp2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
@@ -278,6 +279,46 @@ img.ph{width:100%;height:auto;object-fit:cover;display:block}
 img.avatar{object-fit:cover}
 @media (max-width:640px){.contact{grid-template-columns:minmax(0,1fr)}.pk-anchor{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:420px){.guar2{grid-template-columns:minmax(0,1fr);justify-items:start}}
+/* strona miasta */
+.ct-hero{background:linear-gradient(120deg,var(--dark) 0%,#2a3a2c 55%,var(--green) 140%);color:var(--dark-ink);position:relative;overflow:hidden}
+.ct-hero .wrap{padding-block:56px 40px;display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:30px;align-items:center}
+.ct-card{background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:28px clamp(18px,3vw,32px);backdrop-filter:blur(6px)}
+.ct-card .kick{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.ct-card h1{font-size:clamp(2.1rem,4.5vw,3rem);margin-top:12px;color:#fff}
+.ct-card p.lead{margin-top:14px;font-size:1.05rem;color:#e7e5dd}
+.ct-card .btn{width:100%}
+.ct-card .b1{background:var(--green);color:#0d2410;margin-top:22px}
+.ct-card .b2{background:transparent;color:#fff;border-color:rgba(255,255,255,.7);margin-top:12px}
+.ct-card .fine{font-size:.8rem;color:#cfccc3;margin-top:14px}
+.ct-card .fine a{color:#fff}
+.ct-court{justify-self:center;width:min(320px,100%);height:auto}
+.ct-court *{fill:none;stroke:rgba(255,255,255,.55);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ct-badges{display:flex;flex-wrap:wrap;gap:24px;margin-top:26px}
+.ct-badge{display:flex;align-items:center;gap:6px}
+.ct-badge svg{width:30px;height:auto}
+.ct-badge svg .lf{fill:#fff}.ct-badge svg .st{fill:none;stroke:#fff;stroke-width:1.6}
+.ct-badge div{text-align:center;font-size:.8rem;line-height:1.25;color:#fff}
+.ct-badge b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.1rem}
+.ct-stats{background:var(--green-soft)}
+.ct-stats .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:18px;padding-block:24px;text-align:center}
+.ct-stats svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.8}
+.ct-stats b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.5rem;margin-top:4px}
+.ct-stats span{font-size:.92rem}
+.ct-sec{padding-block:56px}
+.ct-why{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:start}
+.ct-why h3{margin-top:26px}
+.ct-why p{margin-top:8px;color:var(--muted)}
+.ct-docs{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:30px;align-items:start}
+.ct-docs .card ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.ct-req{display:grid;grid-template-columns:minmax(0,.6fr) minmax(0,1.4fr);gap:30px;border-top:1px solid var(--line);padding-top:36px}
+.ct-req h4{font-family:var(--f-body);font-weight:700;font-size:1rem;margin-top:22px}
+.ct-req h4:first-child{margin-top:0}
+.ct-req p,.ct-req li{color:var(--ink);font-size:.98rem;margin-top:8px}
+.ct-req ul{margin:6px 0 0;padding-left:20px}
+.ct-other{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px 18px;margin-top:16px;font-size:.92rem}
+.ct-other a{color:var(--ink);text-decoration:none}
+.ct-other a:hover{color:var(--accent);text-decoration:underline}
+@media (max-width:860px){.ct-hero .wrap,.ct-why,.ct-docs,.ct-req{grid-template-columns:minmax(0,1fr)}.ct-court{display:none}}
 .hl{background:var(--green-soft);color:var(--accent);padding:0 3px;border-radius:3px}
 .qz.green .hl{background:var(--surface)}
 .steps4{display:flex;flex-direction:column;gap:0;margin-top:18px}
@@ -450,6 +491,7 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
     <a href="#panel" data-v="panel">5 Panel sprawy</a>
     <a href="#narzedzia" data-v="narzedzia">6 Kalkulatory</a>
     <a href="#strategia" data-v="strategia">7 Strategia</a>
+    <a href="#rozwod-krakow" data-v="miasto">8 Strona miasta (SEO)</a>
   </nav>
   <button type="button" class="fab-btn" id="fab-btn" aria-expanded="false" aria-controls="fab-menu"><span class="fab-dot"></span>Prototyp: <b id="fab-cur">Strona główna</b></button>
 </div>
@@ -532,7 +574,7 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
         <div><h3>Opiekun sprawy</h3><p>Jedna osoba, która zna waszą sprawę i odpisuje na czacie. Telefon tylko, jeśli o niego poprosisz.</p></div>
         <div><h3>Prawnik, gdy go potrzebujesz</h3><p>Jeśli mediacja się nie uda, reprezentacja w sądzie w cenie ryczałtowej, bez niespodzianek.</p></div>
       </div>
-      <details class="showme" id="start-cities"><summary>Pokaż sądy okręgowe i poradniki dla mojego miasta</summary><div class="cities" id="city-links"></div></details>
+      <details class="showme" id="start-cities"><summary>Rozwód online w Twoim mieście: wybierz sąd okręgowy</summary><div class="cities" id="city-links"></div></details>
     </div>
   </div>
 
@@ -695,6 +737,81 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
     <div class="tl" id="tl"></div>
   </div></div>
   <div class="wrap guarantee narrow" id="guar-big"></div>
+</section>
+
+<!-- ============ STRONA MIASTA ============ -->
+<section class="view" id="v-miasto" hidden>
+  <div class="ct-hero"><div class="wrap">
+    <div>
+      <div class="ct-card">
+        <div class="kick">Rozwód bez wojny i bez niespodzianek w kosztach</div>
+        <h1 id="ct-h1">Rozwód online w Krakowie</h1>
+        <p class="lead" id="ct-lead"></p>
+        <a class="btn b1" href="#quiz">Zacznij</a>
+        <a class="btn b2" href="#quiz">Sprawdź, czy to dla mnie</a>
+        <p class="fine">Nie to miasto? <a href="#ct-others">Wybierz swoje</a> · Wynik quizu bez zakładania konta.</p>
+        <p class="fine">✓ Gwarancja bez gwiazdek: 14 dni na pełny zwrot.</p>
+      </div>
+      <div class="ct-badges" id="ct-badges"></div>
+    </div>
+    <svg class="ct-court" viewBox="0 0 240 220" aria-hidden="true"><path d="M20 70 120 20l100 50z"/><path d="M30 80h180M30 190h180M16 204h208"/><path d="M48 88v94M84 88v94M120 88v94M156 88v94M192 88v94"/><circle cx="120" cy="52" r="8"/></svg>
+  </div></div>
+  <div class="ct-stats"><div class="wrap">
+    <div><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.4 3.4 0 0 1 0 6.4M18 14.8c2 .7 3.2 2.5 3.6 5.2"/></svg><b>5000+</b><span>osób przeprowadzonych przez rozwód</span></div>
+    <div><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M8 7V5h8v2M9 13h6"/></svg><b>do 87% taniej</b><span>niż średni rozwód w kancelarii</span></div>
+    <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg><b>3–4 miesiące</b><span>średnio od pozwu do rozprawy</span></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 7.8 8 9 4.6-1.2 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><b>14 dni</b><span>gwarancji pełnego zwrotu</span></div>
+  </div></div>
+  <div class="wrap ct-sec ct-why">
+    <div>
+      <div class="eyebrow">Dlaczego divory.pl</div>
+      <h2 style="font-size:1.7rem;margin-top:6px" id="ct-why-h">Dlaczego divory.pl w Krakowie?</h2>
+      <p id="ct-why-p"></p>
+      <h3 id="ct-pozew-h">Pozew o rozwód</h3>
+      <p id="ct-pozew-p"></p>
+      <h3>Jak wygląda sprawa</h3>
+      <p>Najpierw ustalacie z mediatorem online wszystkie sprawy. Potem składamy pozew zgodny z porozumieniem. Sąd doręcza odpis pozwu drugiej stronie i wyznacza rozprawę. W rozwodzie bez orzekania o winie, z gotowym porozumieniem, zwykle wystarcza jedna rozprawa.</p>
+    </div>
+    <div class="illus" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="40" y="30" width="120" height="150" rx="6"/><path d="M62 70h76M62 92h76M62 114h50"/><circle cx="132" cy="146" r="18"/><path d="M124 146l6 6 10-12"/></svg></div>
+  </div>
+  <div class="wrap ct-docs" style="padding-bottom:56px">
+    <div><h2 style="font-size:1.7rem">Dokumenty do pozwu</h2><p class="muted" style="margin-top:8px">Listę dopasujemy do Twojej sytuacji w panelu. Odpisy aktów stanu cywilnego zamówisz online przez gov.pl.</p></div>
+    <div class="card"><h3>Czego zwykle potrzebujesz</h3><ul>
+      <li>Pozew o rozwód z odpisem dla drugiej strony</li>
+      <li>Odpis skrócony aktu małżeństwa</li>
+      <li>Odpisy aktów urodzenia małoletnich dzieci</li>
+      <li>Porozumienie rodzicielskie (plan wychowawczy), jeśli są dzieci</li>
+      <li>Zaświadczenia o dochodach i zestawienie kosztów utrzymania dziecka, jeśli wnosicie o alimenty</li>
+      <li>Potwierdzenie uiszczenia opłaty 600 zł albo wniosek o zwolnienie od kosztów</li>
+    </ul></div>
+  </div>
+  <div class="wrap ct-req" style="padding-bottom:56px">
+    <div><div class="eyebrow">Krok po kroku</div><h2 style="font-size:1.7rem;margin-top:6px">Wymogi formalne</h2></div>
+    <div>
+      <h4>Który sąd</h4>
+      <p id="ct-court-p"></p>
+      <h4>Kiedy sąd orzeka rozwód</h4>
+      <p>Gdy rozkład pożycia jest zupełny i trwały, czyli ustała więź uczuciowa, fizyczna i gospodarcza (art. 56 KRO). Sąd może odmówić, jeśli rozwód zaszkodziłby dobru wspólnych małoletnich dzieci, albo gdy żąda go wyłącznie winny małżonek, a drugi się nie zgadza.</p>
+      <h4>Opłata</h4>
+      <p>600 zł od pozwu. Jeśli sąd orzeknie rozwód bez orzekania o winie, zwraca połowę, czyli 300 zł. Osoba, której nie stać na opłatę, może złożyć wniosek o zwolnienie od kosztów sądowych wraz z oświadczeniem o stanie rodzinnym, majątku i dochodach.</p>
+      <h4>Złożenie pozwu</h4>
+      <p>Pozew składa się w biurze podawczym sądu albo wysyła listem poleconym, z odpisem dla drugiej strony. W pakietach z opiekunem możemy go wysłać za Ciebie.</p>
+      <h4>Dzieci</h4>
+      <p>Sąd zawsze rozstrzyga o władzy rodzicielskiej, kontaktach i alimentach. Uwzględnia pisemne porozumienie rodziców o sposobie wykonywania władzy rodzicielskiej i kontaktach, jeśli jest zgodne z dobrem dziecka (art. 58 KRO).</p>
+      <h4>Mediacja</h4>
+      <p>Mediację możecie przeprowadzić przed złożeniem pozwu. Sąd może też skierować strony do mediacji w trakcie sprawy. U nas mediacja jest pierwszym krokiem, dlatego pozew zamyka sprawę zamiast ją zaczynać.</p>
+      <p class="note" style="margin-top:18px">Adres sądu, numer wydziału i numer konta do opłaty pokażemy w panelu sprawy (dane pobierane z oficjalnych źródeł).</p>
+    </div>
+  </div>
+  <div class="band"><div class="wrap">
+    <h2 id="ct-band-h">Zacznij rozwód w Krakowie dziś.</h2>
+    <p>Wynik i koszt zobaczysz w 3 minuty.</p>
+    <a class="btn btn-black" href="#quiz">Zacznij</a>
+  </div></div>
+  <div class="wrap ct-sec" id="ct-others">
+    <h2 style="font-size:1.6rem">Rozwód online w innych miastach</h2>
+    <div class="ct-other" id="ct-other"></div>
+  </div>
 </section>
 
 <!-- ============ CHECKOUT ============ -->
@@ -1085,6 +1202,7 @@ select,input[type=number],input[type=text],input[type=email]{font:inherit;paddin
     <div><b>Usługi</b><a href="#pakiety">Mediacja + pozew</a><a href="#pakiety">Pozew online</a><a href="#pakiety">Z reprezentacją</a><a href="#pakiety">Podział majątku</a><a href="#pakiety">Separacja</a></div>
     <div><b>Kalkulatory</b><a href="#narzedzia">Koszt rozwodu</a><a href="#narzedzia">Budżet dziecka i alimenty</a><a href="#narzedzia">Który sąd?</a><a href="#narzedzia">Plan kontaktów z dzieckiem</a></div>
     <div><b>Poradnik</b><a href="#strategia">Pozew o rozwód</a><a href="#strategia">Rozwód bez orzekania o winie</a><a href="#strategia">Mediacja rozwodowa</a><a href="#strategia">Rozwód a kredyt</a><a href="#start-cities">Sądy okręgowe</a></div>
+    <div><b>Popularne miasta</b><a href="#rozwod-warszawa">Rozwód Warszawa</a><a href="#rozwod-krakow">Rozwód Kraków</a><a href="#rozwod-wroclaw">Rozwód Wrocław</a><a href="#rozwod-poznan">Rozwód Poznań</a><a href="#rozwod-gdansk">Rozwód Gdańsk</a><a href="#rozwod-lodz">Rozwód Łódź</a></div>
   </div>
   <div class="disc">divory.pl to prototyp koncepcyjny. Platforma nie jest kancelarią i nie świadczy pomocy prawnej w rozumieniu ustaw o adwokaturze i radcach prawnych. Reprezentację zapewniają współpracujący pełnomocnicy. Telefon dla osób doznających przemocy domowej: Niebieska Linia 800 120 002, w zagrożeniu życia 112.</div>
 </div></footer>
@@ -1122,7 +1240,25 @@ const laurel=f=>{let l='';for(let i=0;i<8;i++){const a=(105+i*19)*Math.PI/180,x=
 const laurelBlock=()=>`<div class="laurel">${laurel(0)}<div class="mid"><div class="bignum">1000+</div><p>opinii klientów<br>Pravna i Nowego Etapu</p></div>${laurel(1)}</div>`;
 const ANCHOR=30000;
 const CITIES=[['Warszawa','w Warszawie lub Warszawa-Praga w Warszawie (zależy od dzielnicy)'],['Kraków','w Krakowie'],['Łódź','w Łodzi'],['Wrocław','we Wrocławiu'],['Poznań','w Poznaniu'],['Gdańsk','w Gdańsku'],['Szczecin','w Szczecinie'],['Bydgoszcz','w Bydgoszczy'],['Lublin','w Lublinie'],['Białystok','w Białymstoku'],['Katowice','w Katowicach'],['Gliwice','w Gliwicach'],['Częstochowa','w Częstochowie'],['Bielsko-Biała','w Bielsku-Białej'],['Rzeszów','w Rzeszowie'],['Kielce','w Kielcach'],['Olsztyn','w Olsztynie'],['Opole','w Opolu'],['Toruń','w Toruniu'],['Zielona Góra','w Zielonej Górze'],['Gorzów Wielkopolski','w Gorzowie Wielkopolskim'],['Radom','w Radomiu'],['Płock','w Płocku'],['Siedlce','w Siedlcach'],['Łomża','w Łomży'],['Suwałki','w Suwałkach'],['Elbląg','w Elblągu'],['Słupsk','w Słupsku'],['Koszalin','w Koszalinie'],['Kalisz','w Kaliszu'],['Konin','w Koninie'],['Legnica','w Legnicy'],['Świdnica','w Świdnicy'],['Jelenia Góra','w Jeleniej Górze'],['Tarnów','w Tarnowie'],['Nowy Sącz','w Nowym Sączu'],['Krosno','w Krośnie'],['Przemyśl','w Przemyślu'],['Tarnobrzeg','w Tarnobrzegu'],['Zamość','w Zamościu'],['Piotrków Trybunalski','w Piotrkowie Trybunalskim'],['Sieradz','w Sieradzu'],['Ostrołęka','w Ostrołęce']];
-$('#city-links').innerHTML=CITIES.map(c=>`<a href="#quiz">Rozwód ${esc(c[0])}</a>`).join('');
+const slug=n=>'rozwod-'+n.toLowerCase().replace(/ą/g,'a').replace(/ć/g,'c').replace(/ę/g,'e').replace(/ł/g,'l').replace(/ń/g,'n').replace(/ó/g,'o').replace(/ś/g,'s').replace(/[źż]/g,'z').replace(/[^a-z0-9]+/g,'-').replace(/-+$/,'');
+const locShort=c=>c[0]==='Warszawa'?'w Warszawie':c[1];
+const courtFull=c=>c[0]==='Warszawa'?'Sąd Okręgowy w Warszawie albo Sąd Okręgowy Warszawa-Praga w Warszawie (zależnie od dzielnicy)':'Sąd Okręgowy '+c[1];
+const cityLinks=()=>CITIES.map(c=>`<a href="#${slug(c[0])}">Rozwód ${esc(locShort(c))}</a>`).join('');
+$('#city-links').innerHTML=cityLinks();
+function renderCity(c){
+  const L=locShort(c);
+  $('#ct-h1').textContent='Rozwód online '+L;
+  $('#ct-lead').textContent='Mediacja online, pozew zgodny z porozumieniem i jedna rozprawa przed sądem okręgowym '+L+'. Koszt znasz z góry, zanim cokolwiek zapłacisz.';
+  $('#ct-why-h').textContent='Dlaczego divory.pl '+L+'?';
+  $('#ct-why-p').textContent='Pomagamy przeprowadzić rozwód bez orzekania o winie szybciej i taniej niż w tradycyjnej kancelarii. Ustalenia robicie online, w swoim tempie, a na rozprawę przychodzicie z gotowym porozumieniem. Koszt: od 297 zł za samodzielny kreator do 3 970 zł za mediację z pozwem, zamiast średnio ok. 30 000 zł w kancelarii.';
+  $('#ct-pozew-h').textContent='Pozew o rozwód '+L;
+  $('#ct-pozew-p').textContent='Pozew o rozwód składa się do sądu okręgowego. Jeśli wasze ostatnie wspólne miejsce zamieszkania było '+L+' i któreś z was nadal tam mieszka, właściwy będzie '+courtFull(c)+'.';
+  $('#ct-court-p').textContent='Właściwy jest sąd okręgowy ostatniego wspólnego miejsca zamieszkania małżonków, jeśli choć jedno z nich nadal tam mieszka. W przeciwnym razie sąd miejsca zamieszkania pozwanego, a gdy i tego nie da się ustalić, powoda (art. 41 KPC). Przykład dla miasta '+c[0]+': '+courtFull(c)+'.';
+  $('#ct-band-h').textContent='Zacznij rozwód '+L+' dziś.';
+  $('#ct-badges').innerHTML=[['1000+','opinii klientów'],['5000+','osób po rozwodzie'],['8 dni','rekord do wyroku']].map(x=>`<div class="ct-badge">${laurel(0)}<div><b>${x[0]}</b>${x[1]}</div>${laurel(1)}</div>`).join('');
+  $('#ct-other').innerHTML=cityLinks();
+  document.title='Rozwód online '+L+' · divory.pl';
+}
 
 /* ---------- quiz ---------- */
 const CONC=[['cost','Koszty'],['kids','Dzieci'],['prop','Podział majątku'],['time','Czas'],['stress','Stres i emocje'],['right','Żeby zrobić to dobrze'],['conflict','Konflikt z małżonkiem']];
@@ -1329,20 +1465,23 @@ function calcMini(){ const ok=$('#m-1').checked&&$('#m-2').checked, k=$('#m-3').
 ['#m-1','#m-2','#m-3'].forEach(s=>$(s)&&$(s).addEventListener('input',calcMini));
 
 /* ---------- routing ---------- */
-const VIEWS=['start','quiz','pakiety','checkout','panel','narzedzia','strategia'];
+const VIEWS=['start','quiz','pakiety','checkout','panel','narzedzia','strategia','miasto'];
 const ALIAS={wynik:'pakiety',cennik:'pakiety'};
 function route(){
   let h=(location.hash||'#start').slice(1); h=ALIAS[h]||h;
-  let v=VIEWS.includes(h)?h:null, anchor=null;
+  let v=VIEWS.includes(h)&&h!=='miasto'?h:null, anchor=null;
+  const city=CITIES.find(c=>slug(c[0])===h); if(h==='miasto') {v='miasto';} if(city){v='miasto';}
   if(!v){const el=document.getElementById(h); anchor=el; v=el?(el.closest('section.view')||{id:'v-start'}).id.slice(2):'start';}
   VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
   $('#site-head').hidden=v==='quiz'; $('#site-foot').hidden=v==='quiz'||v==='checkout';
   $$('.fab-menu a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  $$('.fab-menu a').forEach(a=>{ if(a.dataset.v==='miasto') a.classList.toggle('on',v==='miasto'); });
   $('#fab-cur').textContent=($('.fab-menu a[data-v="'+v+'"]')||{textContent:''}).textContent.replace(/^\d+ /,'');
   document.body.classList.toggle('qz-mode',v==='quiz'); fabClose();
   if(v==='quiz') renderQuiz();
   if(v==='pakiety') renderPakiety();
   if(v==='checkout') renderCheckout();
+  if(v==='miasto') renderCity(city||CITIES.find(c=>c[0]==='Kraków')); else document.title='Divory.pl prototyp';
   if(anchor) anchor.scrollIntoView(); else window.scrollTo(0,0);
 }
 function fabClose(){ $('#fab-menu').hidden=true; $('#fab-btn').setAttribute('aria-expanded','false'); }
