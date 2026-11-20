@@ -177,6 +177,37 @@ select,input[type=number]{font:inherit;padding:10px 12px;border-radius:8px;borde
 .mark-yes{color:var(--ok);font-weight:700}
 .mark-no{color:var(--warn);font-weight:700}
 
+/* quiz: ekrany edukacyjne */
+.screen{margin-top:14px;color:var(--ink)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bars>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center}
+.bars span{grid-column:1/-1;font-size:.92rem;color:var(--muted)}
+.bars i{display:block;height:22px;width:var(--w);max-width:100%;background:var(--accent);border-radius:4px;animation:grow .9s ease-out both}
+.bars i.b-warn{background:var(--warn)}
+@keyframes grow{from{width:0}}
+@media (prefers-reduced-motion:reduce){.bars i{animation:none}}
+.factcard{display:flex;gap:16px;align-items:center;background:var(--hint-soft);border-radius:var(--r);padding:16px 18px}
+.factcard b{font-family:var(--f-display);font-size:2.2rem;color:var(--hint);white-space:nowrap}
+.person{display:flex;gap:14px;align-items:center}
+.person b{display:block}
+.avatar{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:1.1rem;flex:none}
+.concern{display:grid;gap:2px;padding:10px 14px;border-left:3px solid var(--accent);background:var(--surface);border-radius:4px}
+.concern span{color:var(--muted);font-size:.95rem}
+.opt.multi .dot{border-radius:4px}
+.why{margin:8px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.95rem}
+.why li::before{content:"✓ ";color:var(--accent);font-weight:700}
+input[type=email],input[type=text]{font:inherit;padding:10px 12px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+/* checkout */
+.co{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:start}
+.paym{display:grid;gap:8px}
+.paym label{display:flex;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:var(--r);padding:12px 14px;background:var(--surface);font-weight:600}
+.paym label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.paym input{accent-color:var(--accent)}
+.paym small{margin-left:auto;color:var(--muted);font-weight:400}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.9rem}
+.consent input{margin-top:4px;accent-color:var(--accent);width:17px;height:17px;flex:none}
+@media (max-width:860px){.co{grid-template-columns:minmax(0,1fr)}}
+
 footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;color:var(--muted)}
 
 @media (max-width:860px){
@@ -194,6 +225,7 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
   <a href="#start" data-v="start">1 Strona główna</a>
   <a href="#quiz" data-v="quiz">2 Quiz</a>
   <a href="#wynik" data-v="wynik">3 Wynik i plan</a>
+  <a href="#checkout" data-v="checkout">3b Płatność</a>
   <a href="#panel" data-v="panel">4 Panel sprawy</a>
   <a href="#cennik" data-v="cennik">5 Cennik</a>
   <a href="#narzedzia" data-v="narzedzia">6 Narzędzia</a>
@@ -244,7 +276,7 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
   <div class="strip">
     <div><b>9 pytań</b><span class="muted">i wiesz, czy sprawa nadaje się na tryb porozumieniowy</span></div>
     <div><b>2 konta</b><span class="muted">oboje małżonkowie pracują na jednej, wspólnej sprawie</span></div>
-    <div><b>od 349 zł</b><span class="muted">stała cena, bez stawek godzinowych</span></div>
+    <div><b>od 690 zł</b><span class="muted">stała cena, raty 0%, bez stawek godzinowych</span></div>
     <div><b>art. 58 KRO</b><span class="muted">kreator porozumienia o dzieciach, które sąd może przyjąć</span></div>
   </div>
 
@@ -299,6 +331,41 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
 
 <!-- ============ 3 WYNIK ============ -->
 <section class="view" id="v-wynik" hidden><div class="wrap" id="wynik-root"></div></section>
+
+<!-- ============ 3b CHECKOUT ============ -->
+<section class="view" id="v-checkout" hidden><div class="wrap">
+  <a href="#wynik" class="note">← Wróć do wyniku</a>
+  <h2 style="margin-top:10px">Płatność</h2>
+  <p class="muted" style="margin-top:6px">Jeden krok. Konto i panel sprawy założą się automatycznie po płatności.</p>
+  <div class="co" style="margin-top:22px">
+    <form id="co-form" class="stack">
+      <div class="grid g2" style="gap:12px">
+        <label class="f">E-mail (tu wyślemy link do panelu)<input type="email" id="co-email" required placeholder="adres@przyklad.pl"></label>
+        <label class="f">Imię i nazwisko<input type="text" id="co-name" required placeholder="Jan Kowalski"></label>
+      </div>
+      <h3 style="margin-top:8px">Metoda płatności</h3>
+      <div class="paym">
+        <label><input type="radio" name="pm" id="pm-blik" checked> BLIK <small>kod z aplikacji banku</small></label>
+        <label><input type="radio" name="pm" id="pm-p24"> Przelew online <small>Przelewy24</small></label>
+        <label><input type="radio" name="pm" id="pm-card"> Karta, Apple Pay, Google Pay</label>
+        <label><input type="radio" name="pm" id="pm-raty"> Raty <small id="co-raty"></small></label>
+      </div>
+      <label class="tog" style="margin-top:6px"><input type="checkbox" id="co-fv"> Chcę fakturę na firmę (NIP)</label>
+      <label class="consent"><input type="checkbox" id="co-c1" required><span>Akceptuję <a href="#strategia">regulamin</a> i <a href="#strategia">politykę prywatności</a>. Wiem, że divory.pl nie jest kancelarią, a weryfikację pozwu wykonuje współpracujący radca prawny.</span></label>
+      <label class="consent"><input type="checkbox" id="co-c2" required><span>Chcę, żeby usługa zaczęła się od razu, przed upływem 14 dni na odstąpienie od umowy. Wiem, że po jej pełnym wykonaniu tracę prawo odstąpienia.</span></label>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start">Płacę i zaczynam</button>
+      <div id="co-msg"></div>
+    </form>
+    <aside class="card stack">
+      <div class="eyebrow">Podsumowanie</div>
+      <div class="sum"><span id="co-pkg">Pakiet</span><span class="num" id="co-price"></span></div>
+      <div class="sum total"><span>Do zapłaty</span><span class="num" id="co-total"></span></div>
+      <p class="note">Opłatę od pozwu (600 zł) płacisz bezpośrednio na konto sądu: <span id="co-court"></span>. Numer konta pokażemy w panelu.</p>
+      <div class="hintbox"><strong>Gwarancja bez gwiazdek.</strong> Przez 14 dni możesz zrezygnować z pełnym zwrotem, dopóki pozew nie zostanie wygenerowany. Jeśli sąd wezwie do uzupełnienia braków z naszej winy, poprawimy pismo bezpłatnie. Jeśli zwróci pozew z naszej winy, oddamy pieniądze.</div>
+      <p class="note">Bez abonamentu i bez dodatków zaznaczonych za Ciebie.</p>
+    </aside>
+  </div>
+</div></section>
 
 <!-- ============ 4 PANEL ============ -->
 <section class="view" id="v-panel" hidden><div class="wrap">
@@ -393,9 +460,20 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
           <label class="chk"><input type="checkbox" id="p6"><span>Podział majątku: zgodny wniosek (300 zł) albo umowa u notariusza</span></label>
           <label class="chk"><input type="checkbox" id="p7"><span>Kalendarz opieki i rozliczanie alimentów w aplikacji</span></label>
         </div>
+        <h3 style="margin-top:20px">Sprawdzeni partnerzy</h3>
+        <p class="note">Wybrane usługi na etap po rozwodzie. Przy linkach partnerskich zawsze piszemy, że dostajemy prowizję.</p>
+        <div class="grid g3" style="margin-top:10px;gap:10px">
+          <div class="card" style="padding:14px"><b>Wycena mieszkania</b><p class="note">rzeczoznawca online</p></div>
+          <div class="card" style="padding:14px"><b>Kredyt na jedną osobę</b><p class="note">przejęcie lub refinansowanie</p></div>
+          <div class="card" style="padding:14px"><b>Notariusz</b><p class="note">umowa o podział majątku</p></div>
+          <div class="card" style="padding:14px"><b>Psycholog online</b><p class="note">dla dorosłych i dzieci</p></div>
+          <div class="card" style="padding:14px"><b>Ubezpieczenia</b><p class="note">polisa na życie, zmiana uposażonych</p></div>
+          <div class="card" style="padding:14px"><b>Przeprowadzka</b><p class="note">firmy i magazyny</p></div>
+        </div>
       </div>
       <!-- pomoc -->
       <div data-pp="pomoc" class="grid g2" hidden>
+        <div class="card stack"><div class="person"><div class="avatar" aria-hidden="true">AK</div><div><b>Anna K., Twoja opiekunka sprawy</b><span class="muted">Odpowiada na czacie w dni robocze</span></div></div></div>
         <div class="card stack"><h3>Czat z asystentem</h3><p class="muted">Odpowiada na pytania o proces i wypełnianie formularzy, 24/7. Nie ocenia szans w sporze.</p></div>
         <div class="card stack"><h3>Pytanie do prawnika</h3><p class="muted">Pisemna odpowiedź radcy prawnego w 24 h. W Pakiecie Plus 2 pytania w cenie.</p></div>
         <div class="card stack"><h3>Konsultacja wideo</h3><p class="muted">30 min z prawnikiem rodzinnym, 199 zł. Dla tych, którzy jednak wolą porozmawiać.</p></div>
@@ -409,15 +487,15 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
 <section class="view" id="v-cennik" hidden><div class="wrap">
   <div class="eyebrow">Cennik · propozycja</div>
   <h2 style="margin-top:6px">Stała cena. Opłata sądowa osobno i tylko raz.</h2>
-  <p class="muted" style="margin-top:8px;max-width:62ch">Opłata od pozwu o rozwód to 600 zł. Gdy sąd orzeka rozwód bez orzekania o winie, połowa (300 zł) wraca. Te pieniądze płacisz sądowi, nie nam.</p>
+  <p class="muted" style="margin-top:8px;max-width:62ch">Dla porównania: rozwód porozumieniowy prowadzony przez kancelarię to zwykle kilka tysięcy złotych honorarium. Opłata od pozwu o rozwód to 600 zł. Gdy sąd orzeka rozwód bez orzekania o winie, połowa (300 zł) wraca. Te pieniądze płacisz sądowi, nie nam.</p>
   <div class="grid g4" style="margin-top:26px">
-    <div class="card stack"><h3>Start</h3><div class="bigprice num">349 zł</div><p class="muted">Sam(a) online</p>
+    <div class="card stack"><h3>Start</h3><div class="bigprice num">690 zł</div><p class="muted">Sam(a) online, bez dzieci · 4 × 173 zł</p>
       <ul class="note" style="padding-left:18px;margin:0"><li>Quiz i plan sprawy</li><li>Generator pozwu</li><li>Kreator porozumienia o dzieciach</li><li>Instrukcja złożenia w sądzie</li><li>Symulator rozprawy</li></ul></div>
-    <div class="card stack" style="border:2px solid var(--accent)"><span class="pill ok" style="align-self:flex-start">Najczęściej wybierany</span><h3>Plus</h3><div class="bigprice num">899 zł</div><p class="muted">Online + prawnik sprawdza</p>
-      <ul class="note" style="padding-left:18px;margin:0"><li>Wszystko ze Start</li><li>Konto dla małżonka</li><li>Weryfikacja pozwu przez radcę w 48 h</li><li>2 pisemne pytania do prawnika</li><li>Wysyłka pozwu za Ciebie</li></ul></div>
-    <div class="card stack"><h3>Mediacja</h3><div class="bigprice num">1 690 zł</div><p class="muted">Za parę, gdy są różnice</p>
+    <div class="card stack" style="border:2px solid var(--accent)"><span class="pill ok" style="align-self:flex-start">Najczęściej wybierany</span><h3>Plus</h3><div class="bigprice num">1 290 zł</div><p class="muted">Online + radca sprawdza · 4 × 323 zł</p>
+      <ul class="note" style="padding-left:18px;margin:0"><li>Wszystko ze Start</li><li>Konto dla małżonka</li><li>Weryfikacja pozwu przez radcę w 48 h</li><li>2 pisemne pytania do prawnika</li><li>Opiekun sprawy na czacie</li><li>Wysyłka pozwu za Ciebie</li></ul></div>
+    <div class="card stack"><h3>Mediacja</h3><div class="bigprice num">2 290 zł</div><p class="muted">Za parę, czyli po 1 145 zł na osobę</p>
       <ul class="note" style="padding-left:18px;margin:0"><li>Wszystko z Plus</li><li>3 sesje wideo po 90 min</li><li>Ugoda / porozumienie rodzicielskie</li><li>Mediator z listy przy sądzie okręgowym</li></ul></div>
-    <div class="card stack"><h3>Ochrona</h3><div class="bigprice num">od 3 900 zł</div><p class="muted">Pełnomocnik w sporze</p>
+    <div class="card stack"><h3>Ochrona</h3><div class="bigprice num">od 4 500 zł</div><p class="muted">Pełnomocnik w sporze</p>
       <ul class="note" style="padding-left:18px;margin:0"><li>Sprawa w partnerskiej kancelarii</li><li>Reprezentacja w sądzie</li><li>Spór o winę, brak zgody, przemoc</li><li>Wycena po bezpłatnej analizie</li></ul></div>
   </div>
   <h3 style="margin-top:34px">Dodatki</h3>
@@ -429,7 +507,7 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
     <tr><td>Aplikacja „Po rozwodzie” (kalendarz opieki, alimenty, wydatki)</td><td class="num">19 zł / mies.</td><td>Rodzice po rozwodzie; pierwsze 6 miesięcy w cenie Plus</td></tr>
     <tr><td>Płatność w 4 ratach</td><td class="num">0 zł</td><td>Każdy pakiet</td></tr>
   </table></div>
-  <p class="note" style="margin-top:12px">Gwarancja: jeśli sąd zwróci pozew z powodu błędu w dokumentach, które przygotowaliśmy, poprawimy je bezpłatnie albo zwrócimy pieniądze. Ceny w prototypie są hipotezą do testów.</p>
+  <p class="note" style="margin-top:12px">Gwarancja: 14 dni na rezygnację z pełnym zwrotem, dopóki pozew nie zostanie wygenerowany. Jeśli sąd zwróci pozew przez błąd w dokumentach, które przygotowaliśmy, poprawimy je bezpłatnie albo zwrócimy pieniądze. Ceny są hipotezą do testu A/B (wariant niższy: 490 / 990 / 1 890 zł).</p>
 </div></section>
 
 <!-- ============ 6 NARZĘDZIA ============ -->
@@ -488,36 +566,47 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
   </div>
 
   <section id="s1">
-    <h2>1. Mapa divorce.com</h2>
-    <div class="prose"><p>Divorce.com to amerykańska platforma rozwodów online. Sama zastrzega, że nie jest kancelarią: sprzedaje oprogramowanie do przygotowania dokumentów, obsługę (case manager), mediację i dostęp do niezależnych prawników. Sprzedaje trzy pakiety, a mediację jako drożej wyceniany poziom.</p></div>
+    <h2>1. Mapa divorce.com (audyt 20.11.2026)</h2>
+    <div class="prose"><p>Divorce.com, LLC z Birmingham w Alabamie od 2022 r. należy do funduszu Featheringill Capital. Jest spółką technologiczną: w stopce pisze, że nie jest kancelarią ani „attorney referral service”. Zarabia na trzech pakietach, kotwicy w postaci wersji z adwokatem i marketplace partnerów na życie po rozwodzie. Wizerunek budują wyłączne partnerstwo z LegalZoom, wyróżnienie Forbes i współzałożycielka-adwokatka Laura Wasser. Dane pochodzą z audytu wykonanego przez Claude w Chrome bez zakupu, więc portalu klienta nie widzieliśmy.</p></div>
     <div class="tbl" style="margin-top:16px"><table>
       <tr><th>Produkt</th><th>Cena</th><th>Co zawiera</th></tr>
-      <tr><td>Basic / DIY</td><td class="num">$499</td><td>Kreator dokumentów do samodzielnego złożenia, instrukcje dla stanu</td></tr>
-      <tr><td>We File For You</td><td class="num">$999</td><td>Jak wyżej + złożenie dokumentów w sądzie za klienta</td></tr>
-      <tr><td>Fully Guided Divorce</td><td class="num">$1 999</td><td>4 sesje mediacji, dokumenty, wsparcie przy złożeniu, dedykowany Case Manager</td></tr>
-      <tr><td>Mediacja osobno</td><td class="num">od $250 / sesja</td><td>Pakiety godzinowe 1 / 3 / 5 h; ugoda trafia potem do dokumentów</td></tr>
-      <tr><td>W cenie pakietów</td><td>—</td><td>Aplikacja do współrodzicielstwa (coParenter), kalkulatory finansowe, sejf na dokumenty, aplikacja mobilna</td></tr>
+      <tr><td>Paperwork Only (DIY)</td><td class="num">$499</td><td>Kwestionariusz → dokumenty do samodzielnego złożenia, edycja przez 12 mies.</td></tr>
+      <tr><td>We File For You</td><td class="num">$999</td><td>+ złożenie w sądzie, zebranie podpisów małżonka, Case Manager „CDS®”</td></tr>
+      <tr><td>Fully Guided</td><td class="num">$1 999</td><td>+ 4 sesje mediacji, coParenter, obsługa korespondencji z sądem; raty 4 × $499,75</td></tr>
+      <tr><td>Attorney-Led</td><td class="num">$12 500</td><td>Bez przycisku zakupu. Pełni rolę kotwicy cenowej w tabeli porównawczej</td></tr>
+      <tr><td>Mediacja osobno</td><td class="num">od $250</td><td>Do niższych pakietów</td></tr>
     </table></div>
-    <h3 style="margin-top:22px">Lejek (wzorzec)</h3>
-    <div class="flow" style="margin-top:10px"><span>SEO: poradniki per stan</span><em>→</em><span>Quiz kwalifikacyjny</span><em>→</em><span>Rekomendacja pakietu</span><em>→</em><span>Checkout, raty ×4</span><em>→</em><span>Kreator dokumentów</span><em>→</em><span>Case manager / mediator</span><em>→</em><span>Złożenie</span><em>→</em><span>Upsell: prawnik, co-parenting</span></div>
-    <div class="grid g2" style="margin-top:18px">
-      <div class="card"><h3>Co warto skopiować</h3><ul>
-        <li>Pakiety z jasną ceną zamiast stawki godzinowej</li>
-        <li>Mediacja jako osobny, wyższy szczebel, nie jako wymóg</li>
-        <li>Gwarancja: zwrot, jeśli sąd odrzuci dokumenty z winy platformy</li>
-        <li>Raty, które obniżają barierę wejścia</li>
-        <li>Narzędzia po rozwodzie, które dają przychód cykliczny</li>
-      </ul></div>
-      <div class="card"><h3>Słabe punkty do ominięcia</h3><ul>
-        <li>Recenzje wskazują błędy w dokumentach i słabą obsługę. W PL weryfikacja przez radcę powinna być widoczną częścią produktu</li>
-        <li>Cena wyższa niż u konkurencji; w PL trzeba się zmieścić poniżej kancelarii (1 500–3 500 zł)</li>
-        <li>Tylko jeden klient na sprawę. Divory od początku obsługuje oboje małżonków</li>
-        <li>Zwrot w 30 dni „minus opłata aktywacyjna” budzi nieufność; lepiej prosto</li>
-      </ul></div>
+
+    <h3 style="margin-top:22px">Lejek, jak działa naprawdę</h3>
+    <div class="flow" style="margin-top:10px"><span>Każde CTA (nawet „Learn More”) → quiz</span><em>→</em><span>7 pytań + ok. 15 ekranów perswazji</span><em>→</em><span>E-mail przy ~55% paska</span><em>→</em><span>4 ekrany domykające: $300/h, Case Manager z twarzą, opinie, Forbes</span><em>→</em><span>Ta sama strona 3 pakietów dla wszystkich</span><em>→</em><span>Checkout bez rejestracji, Affirm, Apple Pay</span></div>
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card"><h3>Quiz to lejek, nie diagnoza</h3><p class="muted">Pytania są te same w każdym wariancie, rozgałęziają się tylko teksty reakcji. Para w sporze, z dziećmi i domem, która prosi o adwokata, dostaje tę samą stronę pakietów co zgodna para bez dzieci. Nie ma pytań o przemoc ani o zakres sporu.</p></div>
+      <div class="card"><h3>Perswazja w ok. 60% ekranów</h3><p class="muted">Mikroreakcje po odpowiedziach („You're not alone. 400,000…”), personalizacja obawami, animowany wykres oszczędności, twarz CEO, gwarancja tuż przed bramką e-mail, pasek postępu, który nigdy nie dochodzi do 100%.</p></div>
+      <div class="card"><h3>Najmocniejsze aktywo: SEO</h3><p class="muted">Macierz stan × temat × miasto (przewodniki z rokiem w tytule, strony hrabstw), darmowe kalkulatory bez e-maila, generator planu rodzicielskiego, checklisty PDF bez formularza.</p></div>
     </div>
+
+    <h3 style="margin-top:22px">Co bierzemy, co robimy lepiej</h3>
+    <div class="tbl" style="margin-top:10px"><table>
+      <tr><th>Element divorce.com</th><th>W divory.pl</th></tr>
+      <tr><td>Ekrany reakcji i edukacji między pytaniami</td><td><span class="mark-yes">Bierzemy.</span> Ok. 1 ekran na 2 pytania, każdy z konkretną informacją (art. 130 KPC, opłata, podział majątku), a nie z samą perswazją</td></tr>
+      <tr><td>Pytanie o obawy i dynamiczny ekran</td><td><span class="mark-yes">Bierzemy</span>, ale bez odpowiedzi zaznaczonych za klienta</td></tr>
+      <tr><td>Ta sama oferta dla wszystkich</td><td><span class="mark-yes">Robimy lepiej:</span> prawdziwa rekomendacja z sekcją „Dlaczego ta rekomendacja”. Spór → pełnomocnik, rozbieżności → mediacja. Wyższy średni koszyk i więcej zaufania</td></tr>
+      <tr><td>E-mail obowiązkowy przy 55%</td><td><span class="mark-yes">Inaczej:</span> wynik bez e-maila, e-mail dopiero przy płatności albo dobrowolnie. Do testu A/B, bo bramka daje leady do remarketingu</td></tr>
+      <tr><td>Kotwica Attorney-Led $12 500</td><td><span class="mark-yes">Bierzemy:</span> pakiet Ochrona z ceną „od” i porównanie z typowym honorarium kancelarii</td></tr>
+      <tr><td>Case Manager z imieniem i twarzą</td><td><span class="mark-yes">Bierzemy:</span> opiekun sprawy na czacie. Nawet klient, który woli klikać, chce wiedzieć, że po drugiej stronie jest człowiek</td></tr>
+      <tr><td>Checkout bez rejestracji, raty</td><td><span class="mark-yes">Bierzemy:</span> BLIK domyślnie, Przelewy24, raty 0%, konto zakłada się po płatności</td></tr>
+      <tr><td>„100% money-back”, które przestaje działać po wysłaniu kwestionariusza</td><td><span class="mark-no">Nie kopiujemy.</span> W UE i tak obowiązuje 14 dni na odstąpienie i zgoda na wcześniejsze rozpoczęcie usługi. Gwarancję piszemy bez gwiazdek</td></tr>
+      <tr><td>Niespójne liczby (oceny, „Most Popular”, oszczędności)</td><td><span class="mark-no">Unikamy.</span> Jedno źródło liczb dla całego serwisu, każda z przypisem</td></tr>
+      <tr><td>„We file and you're divorced”</td><td><span class="mark-no">Nie da się w PL.</span> Każdy rozwód kończy się rozprawą w sądzie okręgowym. Obiecujemy dobrze przygotowany pozew i przygotowanie do rozprawy, a nie rozwód bez sądu</td></tr>
+      <tr><td>Marketplace partnerów</td><td><span class="mark-yes">Bierzemy:</span> wycena mieszkania, kredyt, notariusz, psycholog, ubezpieczenia. Prowizje oznaczone jawnie</td></tr>
+      <tr><td>Twarz znanej adwokatki (Laura Wasser)</td><td><span class="mark-yes">Warto rozważyć:</span> rozpoznawalny polski prawnik rodzinny lub mediator jako współzałożyciel albo ambasador</td></tr>
+      <tr><td>Partnerstwo LegalZoom</td><td><span class="mark-yes">Odpowiednik:</span> portal prawny, bank lub ubezpieczyciel jako kanał dystrybucji</td></tr>
+    </table></div>
+    <p class="note" style="margin-top:10px">Nie sprawdzono: portalu po zakupie, sekwencji maili po podaniu adresu, działania „Help me choose a package”.</p>
   </section>
 
-  <section id="s2">
+  
+<section id="s2">
     <h2>2. Polska: prawo i rynek</h2>
     <div class="grid g2">
       <div class="card"><h3>Co mówi prawo</h3><ul>
@@ -568,7 +657,7 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
       <tr><th>Wymiar</th><th>nowy-etap.pl</th><th>divory.pl</th></tr>
       <tr><td>Model</td><td>Usługa: mediatorzy i prawnicy prowadzą sprawę, technologia wspiera</td><td>Produkt: klient przechodzi sprawę sam w aplikacji, ludzie są dodatkiem</td></tr>
       <tr><td>Pierwszy kontakt</td><td>Formularz i bezpłatna konsultacja telefoniczna</td><td>Quiz z wynikiem od razu, bez zostawiania numeru</td></tr>
-      <tr><td>Cena</td><td>Wycena indywidualna, w treściach „od”</td><td>Stały cennik i kalkulator przed zakupem</td></tr>
+      <tr><td>Cena</td><td>Wycena indywidualna, w treściach „od”</td><td>Stały cennik (690 / 1 290 / 2 290 zł), raty 0%, kalkulator przed zakupem</td></tr>
       <tr><td>Rdzeń oferty</td><td>Mediacja online</td><td>Generator pozwu i ustaleń; mediacja tylko dla rozbieżności</td></tr>
       <tr><td>Druga strona</td><td>Zapraszana do mediacji przez firmę</td><td>Zaproszenie linkiem do wspólnej sprawy, własne konto</td></tr>
       <tr><td>Skalowanie</td><td>Rośnie liczbą mediatorów i handlowców</td><td>Rośnie ruchem i konwersją, koszt człowieka tylko przy dodatkach</td></tr>
@@ -590,7 +679,7 @@ footer.f{border-top:1px solid var(--line);padding-block:26px;font-size:.85rem;co
         <li>B2B: licencja kreatorów dla kancelarii i mediatorów</li>
       </ul></div>
       <div class="card"><h3>Prosty rachunek do testu (hipoteza)</h3>
-        <p class="muted">Przychód na sprawę = udział Start × 349 + udział Plus × 899 + udział Mediacja × 1 690 + dodatki.</p>
+        <p class="muted">Przychód na sprawę = udział Start × 690 + udział Plus × 1 290 + udział Mediacja × 2 290 + dodatki + prowizje partnerów.</p>
         <p class="muted" style="margin-top:8px">Koszt na sprawę = pozyskanie (CAC) + czas radcy przy weryfikacji + obsługa + płatności.</p>
         <p style="margin-top:8px">Pierwsze 3 miesiące: mierzyć konwersję quiz → wynik → zakup, udział Plus i czas weryfikacji pozwu. To trzy liczby, które przesądzają, czy model się spina.</p>
       </div>
@@ -647,7 +736,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const zl=n=>n.toLocaleString('pl-PL')+' zł';
 
 /* ---------- routing ---------- */
-const VIEWS=['start','quiz','wynik','panel','cennik','narzedzia','strategia'];
+const VIEWS=['start','quiz','wynik','checkout','panel','cennik','narzedzia','strategia'];
 function route(){
   let h=(location.hash||'#start').slice(1);
   let v=VIEWS.includes(h)?h:null;
@@ -655,31 +744,50 @@ function route(){
   VIEWS.forEach(x=>{ $('#v-'+x).hidden = x!==v; });
   $$('.proto a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
   if(v==='wynik') renderResult();
+  if(v==='checkout') renderCheckout();
   if(VIEWS.includes(h)) window.scrollTo(0,0); else { const el=document.getElementById(h); el && el.scrollIntoView(); }
 }
 addEventListener('hashchange',route);
 
 /* ---------- quiz ---------- */
 const CITIES=[['waw','Warszawa','Sąd Okręgowy w Warszawie albo Warszawa-Praga (zależy od dzielnicy)'],['krk','Kraków','Sąd Okręgowy w Krakowie'],['lodz','Łódź','Sąd Okręgowy w Łodzi'],['wro','Wrocław','Sąd Okręgowy we Wrocławiu'],['poz','Poznań','Sąd Okręgowy w Poznaniu'],['gda','Gdańsk','Sąd Okręgowy w Gdańsku'],['kat','Katowice','Sąd Okręgowy w Katowicach'],['inne','Inna miejscowość','sąd okręgowy właściwy dla tej miejscowości']];
+const PRICES={Start:690,Plus:1290,Mediacja:2290,Ochrona:4500};
+const CONCERNS=[['cost','Koszty','Pokażemy pełny koszt z góry, z opłatą sądową, i rozłożymy go na raty.'],['time','Czas','Pozew bez braków formalnych to brak wezwań do uzupełnienia i szybszy termin.'],['kids','Dzieci','Kreator porozumienia rodzicielskiego, który sąd może przyjąć (art. 58 KRO).'],['money','Majątek i kredyt','Podpowiemy, jak wyłączyć podział z rozwodu i zrobić go osobno.'],['stress','Stres i emocje','Robicie to we własnym tempie, z domu. Lista psychologów w panelu.'],['errors','Żeby nie popełnić błędu','Radca prawny sprawdza pozew, zanim go złożysz.'],['contact','Kontakt z małżonkiem','Ustalenia piszecie osobno, a system pokazuje tylko różnice.']];
 const Q=[
  {id:'agree',t:'Czy oboje chcecie rozwodu?',s:'Od tego zależy, czy sprawa może pójść trybem porozumieniowym.',
   o:[['both','Tak, oboje tego chcemy'],['hesitant','Ja chcę, druga strona się waha'],['no','Druga strona nie chce rozwodu'],['unsure','Sam(a) jeszcze nie jestem pewien/pewna']],
   h:'<strong>Dlaczego pytamy.</strong> Gdy oboje chcecie rozwodu, sąd zwykle kończy sprawę na jednej rozprawie. Jeśli druga strona się nie zgadza, rozwód nadal jest możliwy, ale sprawa trwa dłużej i warto mieć pełnomocnika.'},
+ {id:'r-agree',type:'s',if:a=>!!a.agree,render:a=>({
+   both:['Zgodny rozwód to najprostsza droga.','W wielu sądach okręgowych sprawa porozumieniowa kończy się na jednej rozprawie. Waszym zadaniem jest dobrze przygotowany pozew.'],
+   hesitant:['To bardzo częsta sytuacja.','Druga strona łatwiej się zgadza, gdy widzi konkretny plan, koszty i to, że nikt nie będzie szukał winnych. Zaprosisz ją, kiedy będziesz gotowy/gotowa.'],
+   no:['Rozwód jest możliwy także bez zgody drugiej strony.','Sprawa trwa wtedy dłużej i zwykle wymaga kilku rozpraw. Pokażemy, kiedy warto mieć pełnomocnika.'],
+   unsure:['Nie musisz decydować dziś.','Pokażemy, czym różni się rozwód od separacji, ile to kosztuje i jak wygląda każda z dróg.']}[a.agree])},
  {id:'safety',t:'Czy czujesz się bezpiecznie w kontakcie z małżonkiem?',s:'Odpowiedź widzisz tylko Ty. Nie pokazujemy jej drugiej stronie.',
   o:[['safe','Tak'],['conflict','Kłócimy się, ale czuję się bezpiecznie'],['unsafe','Nie zawsze czuję się bezpiecznie'],['skip','Wolę nie odpowiadać']],
   h:'<strong>Dlaczego pytamy.</strong> Przy przemocy lub zastraszaniu mediacja i wspólne konto nie są dobrym pomysłem. Wtedy pokazujemy inną ścieżkę i kontakt do prawnika.'},
  {id:'fault',t:'Czy ktoś z was chce, by sąd orzekł o winie?',s:'Np. z powodu zdrady lub porzucenia rodziny.',
   o:[['none','Nie, rozwód bez orzekania o winie'],['me','Ja chcę, by sąd orzekł winę małżonka'],['other','Małżonek chce orzeczenia mojej winy'],['dk','Nie wiem, co to zmienia']],
-  h:'<strong>Co to zmienia.</strong> Bez orzekania o winie sąd nie przesłuchuje świadków na okoliczność winy, a połowa opłaty (300 zł) wraca. Orzeczenie winy ma znaczenie m.in. dla alimentów między byłymi małżonkami (art. 60 KRO), ale wydłuża sprawę zwykle o wiele miesięcy.'},
+  h:'<strong>Co to zmienia.</strong> Bez orzekania o winie sąd nie przesłuchuje świadków na okoliczność winy, a połowa opłaty (300 zł) wraca. Orzeczenie winy ma znaczenie m.in. dla alimentów między byłymi małżonkami (art. 60 KRO), ale zwykle wydłuża sprawę o wiele miesięcy.'},
+ {id:'r-fault',type:'s',if:a=>!!a.fault,render:a=>a.fault==='me'||a.fault==='other'
+   ?['Spór o winę to świadkowie i kilka rozpraw.','Dobrze wiedzieć to na starcie. W takiej sprawie pełnomocnik zbiera dowody i prowadzi przesłuchania. Pokażemy, ile to realnie kosztuje.']
+   :['Bez orzekania o winie: krócej i taniej.','Sąd nie szuka winnego, nie trzeba świadków na tę okoliczność, a po wyroku wraca 300 zł z opłaty od pozwu.']},
  {id:'kids',t:'Czy macie wspólne małoletnie dzieci?',s:'Dzieci poniżej 18 lat.',
   o:[['no','Nie'],['one','Tak, jedno'],['more','Tak, dwoje lub więcej'],['adult','Tylko pełnoletnie']],
   h:'<strong>Dlaczego pytamy.</strong> Przy małoletnich dzieciach sąd zawsze orzeka o władzy rodzicielskiej, kontaktach i alimentach. Jeśli przedstawicie wspólne pisemne porozumienie, sąd je uwzględni, o ile jest zgodne z dobrem dziecka (art. 58 KRO).'},
  {id:'kidsDeal',t:'Czy macie uzgodnione sprawy dzieci?',s:'Miejsce zamieszkania, kontakty, wakacje, alimenty.',if:a=>a.kids==='one'||a.kids==='more',
   o:[['all','Tak, wszystko'],['some','Częściowo, kilka punktów spornych'],['none','Nie, nie rozmawialiśmy albo się nie zgadzamy']],
   h:'<strong>Podpowiedź.</strong> W panelu każde z was wypełnia porozumienie osobno. System pokaże zgodne i sporne punkty. Często sporna jest tylko kwota alimentów, a to da się rozwiązać jedną krótką mediacją.'},
+ {id:'r-kids',type:'s',if:a=>(a.kids==='one'||a.kids==='more')&&!!a.kidsDeal,render:a=>a.kidsDeal==='all'
+   ?['Gotowe porozumienie to krótsza rozprawa.','Zapiszemy je w formie, której oczekuje sąd: władza rodzicielska, miejsce zamieszkania, kontakty, wakacje, alimenty, ważne decyzje.']
+   :['Spory o dzieci zwykle dotyczą jednego, dwóch punktów.','Najczęściej to kontakty albo kwota alimentów. Pokażemy różnice czarno na białym, a mediator zajmie się tylko nimi.']},
  {id:'property',t:'Co z majątkiem wspólnym?',s:'Mieszkanie, kredyt, samochód, oszczędności.',
   o:[['none','Nie mamy nic istotnego do podziału'],['agreed','Mamy i wiemy, jak podzielić'],['dispute','Mamy i się nie zgadzamy'],['later','Podzielimy później, osobno']],
   h:'<strong>Podpowiedź.</strong> Większość par dzieli majątek osobno: zgodnym wnioskiem do sądu (opłata 300 zł) albo umową u notariusza. Spór o majątek w sprawie rozwodowej mocno ją wydłuża, więc sąd i tak często go wyłącza.'},
+ {id:'r-prop',type:'s',if:a=>!!a.property,render:a=>({
+   none:['Bez podziału majątku sprawa jest prostsza.','W pozwie wniesiemy o nieorzekanie o podziale. Jedna rzecz mniej do omówienia na rozprawie.'],
+   later:['Podział osobno to dobry wybór.','Po rozwodzie zrobicie go zgodnym wnioskiem (300 zł) albo u notariusza. Pomożemy przygotować wniosek.'],
+   agreed:['Uzgodniony podział zrobicie osobno i taniej.','Zgodny wniosek o podział majątku kosztuje 300 zł opłaty, sporny 1 000 zł. Przy mieszkaniu z kredytem warto od razu porozmawiać z bankiem.'],
+   dispute:['Spór o majątek najlepiej wyłączyć z rozwodu.','Rozwód nie musi czekać na podział. Najpierw wyrok, potem osobna sprawa albo negocjacje z mediatorem.']}[a.property])},
  {id:'sep',t:'Od kiedy nie prowadzicie wspólnego życia?',s:'Chodzi o więź uczuciową, fizyczną i wspólne finanse.',
   o:[['12','Ponad rok'],['3','Od 3 do 12 miesięcy'],['lt3','Krócej niż 3 miesiące'],['together','Mieszkamy razem, ale żyjemy osobno']],
   h:'<strong>Co sprawdza sąd.</strong> Rozkład pożycia musi być zupełny i trwały. Nie ma minimalnego okresu, ale przy krótkim rozstaniu sąd dopyta o szczegóły. Wspólne mieszkanie nie wyklucza rozwodu, jeśli prowadzicie osobne życie.'},
@@ -689,15 +797,34 @@ const Q=[
  {id:'still',t:'Czy któreś z was nadal tam mieszka?',s:'',
   o:[['yes','Tak'],['no','Nie, oboje się wyprowadziliśmy']],
   h:'<strong>Podpowiedź.</strong> Jeśli oboje się wyprowadziliście, pozew składa się do sądu okręgowego, w którego okręgu mieszka druga strona (pozwany).'},
+ {id:'concerns',multi:true,t:'Co martwi Cię najbardziej?',s:'Zaznacz wszystko, co pasuje.',
+  o:CONCERNS.map(c=>[c[0],c[1]]),
+  h:'<strong>Dlaczego pytamy.</strong> Ułożymy plan sprawy tak, żeby najpierw zająć się tym, co dla Ciebie najważniejsze. Nic nie jest zaznaczone za Ciebie.'},
+ {id:'r-concerns',type:'s',if:a=>(a.concerns||[]).length>0,render:a=>['Tym zajmiemy się w pierwszej kolejności.',
+   '<div class="stack">'+CONCERNS.filter(c=>a.concerns.includes(c[0])).map(c=>`<div class="concern"><b>${c[1]}</b><span>${c[2]}</span></div>`).join('')+'</div>']},
+ {id:'r-cost',type:'s',render:a=>['Ile kosztuje rozwód porozumieniowy?',
+   `<div class="bars">
+     <div><span>Kancelaria, typowe honorarium</span><i class="b-warn" style="--w:100%"></i><b class="num">2 500–5 000 zł</b></div>
+     <div><span>divory.pl Plus (z weryfikacją radcy)</span><i style="--w:34%"></i><b class="num">1 290 zł</b></div>
+     <div><span>divory.pl Start (samodzielnie)</span><i style="--w:18%"></i><b class="num">690 zł</b></div>
+   </div>
+   <p class="note">Opłata sądowa 600 zł jest taka sama w każdym wariancie. Stawki kancelarii to szacunek rynkowy, do potwierdzenia badaniem cen. Stała cena, bez stawek godzinowych i bez abonamentu.</p>`]},
+ {id:'r-errors',type:'s',render:a=>['Najczęstszy powód opóźnień: braki formalne pozwu.',
+   `<div class="factcard"><b class="num">7 dni</b><span>tyle sąd daje na uzupełnienie braków. Po terminie pozew jest zwracany (art. 130 KPC) i wszystko zaczyna się od nowa.</span></div>
+   <p class="muted" style="margin-top:12px">Dlatego generator sprawdza komplet: oznaczenie sądu, PESEL, odpisy aktów, opłatę, odpis dla drugiej strony. W pakiecie Plus pozew czyta jeszcze radca prawny.</p>`]},
+ {id:'r-human',type:'s',render:a=>['Gdy czegoś nie wiesz, odpisze człowiek.',
+   `<div class="person"><div class="avatar" aria-hidden="true">AK</div><div><b>Anna K., opiekunka sprawy</b><span class="muted">Przykładowa osoba w prototypie</span></div></div>
+   <ul class="note" style="margin:12px 0 0;padding-left:18px"><li>Czat w panelu, odpowiedź w ciągu kilku godzin w dni robocze</li><li>Pisemne pytania do radcy prawnego</li><li>Rozmowa wideo tylko wtedy, gdy o nią poprosisz</li></ul>`]},
  {id:'style',t:'Jak wolisz załatwić formalności?',s:'Każdą opcję możesz później zmienić.',
   o:[['self','Sam(a), online, z instrukcją'],['hybrid','Online, ale niech prawnik sprawdzi dokumenty'],['done','Chcę, żeby ktoś zrobił większość za mnie']],
   h:'<strong>Podpowiedź.</strong> W zgodnej sprawie bez dzieci wiele osób składa pozew samodzielnie. Przy dzieciach i alimentach warto, żeby pozew sprawdził prawnik, bo poprawki wydłużają sprawę.'}
 ];
 let A={}, idx=0;
-try{ const s=JSON.parse(localStorage.getItem('divory-quiz')||'null'); if(s&&s.A){A=s.A;idx=Math.min(s.idx||0,Q.length-1);} }catch(e){}
-if(!Object.keys(A).length){ A={agree:'both',safety:'safe',fault:'none',kids:'one',kidsDeal:'some'}; idx=5; } // przykładowy stan startowy
-const save=()=>{try{localStorage.setItem('divory-quiz',JSON.stringify({A,idx}))}catch(e){}};
+try{ const s=JSON.parse(localStorage.getItem('divory-quiz2')||'null'); if(s&&s.A){A=s.A;idx=s.idx||0;} }catch(e){}
+if(!Object.keys(A).length){ A={agree:'both',safety:'safe',fault:'none',kids:'one',kidsDeal:'some'}; idx=8; } // przykładowy stan startowy
+const save=()=>{try{localStorage.setItem('divory-quiz2',JSON.stringify({A,idx}))}catch(e){}};
 const visible=()=>Q.filter(q=>!q.if||q.if(A));
+const answered=q=>q.type==='s'||(q.multi?(A[q.id]||[]).length>0:!!A[q.id]);
 
 function evaluate(a){
   const kids=a.kids==='one'||a.kids==='more';
@@ -715,47 +842,69 @@ function evaluate(a){
     think:{name:'Plan na spokojnie: najpierw informacja',tag:'',time:'bez pośpiechu'}
   }[path]||null;
   let pkg=null;
-  if(path==='agreed') pkg=a.style==='self'&&!kids?['Start',349]:['Plus',899];
-  if(path==='mediation') pkg=['Mediacja',1690];
-  if(path==='contested'||path==='protect') pkg=['Ochrona',3900];
-  if(path==='think') pkg=['Bezpłatny poradnik',0];
-  const fee = (path==='think')?0:600;
-  const refund = (a.fault==='none'||a.fault==='dk') && path!=='contested' && path!=='think' ? 300 : 0;
-  const prop = a.property==='agreed'?300:a.property==='dispute'?1000:0;
-  const cost = pkg ? pkg[1]+fee-refund+(path==='agreed'||path==='mediation'?prop:0) : null;
+  if(path==='agreed') pkg=a.style==='self'&&!kids?'Start':'Plus';
+  if(path==='mediation') pkg='Mediacja';
+  if(path==='contested'||path==='protect') pkg='Ochrona';
+  const price=pkg?PRICES[pkg]:0;
+  const fee=(path==='think'||!path)?0:600;
+  const refund=(a.fault==='none'||a.fault==='dk')&&(path==='agreed'||path==='mediation')?300:0;
+  const prop=a.property==='agreed'?300:a.property==='dispute'?1000:0;
+  const cost=path?(price+fee-refund+(path==='agreed'||path==='mediation'?prop:0)):null;
   const city=CITIES.find(c=>c[0]===a.city);
   let court='—';
-  if(city){ court = a.still==='no' ? 'sąd okręgowy miejsca zamieszkania pozwanego' : city[2]; }
-  return {path,P,pkg,fee,refund,prop,cost,court,kids};
+  if(city){ court=a.still==='no'?'sąd okręgowy miejsca zamieszkania pozwanego':city[2]; }
+  const why=[];
+  if(a.agree==='both')why.push('Oboje chcecie rozwodu');
+  if(a.agree==='hesitant')why.push('Druga strona się waha, a mediacja pomaga to przegadać');
+  if(a.agree==='no')why.push('Druga strona nie zgadza się na rozwód');
+  if(a.fault==='none')why.push('Nikt nie chce orzekania o winie, więc 300 zł wraca');
+  if(a.fault==='me'||a.fault==='other')why.push('Jest spór o winę: potrzebne dowody i świadkowie');
+  if(a.kidsDeal==='all')why.push('Sprawy dzieci macie uzgodnione');
+  if(a.kidsDeal==='some'||a.kidsDeal==='none')why.push('Część spraw dzieci jest sporna');
+  if(a.property==='dispute')why.push('Spór o majątek proponujemy wyłączyć z rozwodu');
+  if(a.safety==='unsafe')why.push('Bezpieczeństwo: bez mediacji i bez zaproszenia małżonka');
+  if(path==='agreed'&&pkg==='Plus'&&kids)why.push('Przy dzieciach i alimentach radca sprawdza pozew');
+  if(a.style==='done'&&path==='agreed')why.push('Wolisz, żeby ktoś poprowadził większość za Ciebie');
+  return {path,P,pkg,price,fee,refund,prop,cost,court,kids,why};
 }
 
 function renderQuiz(){
-  const vq=visible(); if(idx>=vq.length) idx=vq.length-1;
+  const vq=visible(); if(idx>=vq.length) idx=vq.length-1; if(idx<0) idx=0;
   const q=vq[idx];
-  $('#q-count').textContent=`Pytanie ${idx+1} z ${vq.length}`;
-  $('#q-bar').style.width=((idx)/vq.length*100)+'%';
-  $('#q-title').textContent=q.t; $('#q-sub').textContent=q.s;
-  $('#q-hint').innerHTML=q.h;
-  const box=$('#q-opts'); box.innerHTML='';
-  q.o.forEach(([v,l])=>{
-    const b=document.createElement('button'); b.type='button'; b.className='opt'+(A[q.id]===v?' sel':''); b.setAttribute('role','radio'); b.setAttribute('aria-checked',A[q.id]===v);
-    b.innerHTML='<span class="dot"></span><span>'+l+'</span>';
-    b.onclick=()=>{A[q.id]=v; save(); renderQuiz();};
-    box.appendChild(b);
-  });
-  const al=$('#q-alert'); al.innerHTML='';
-  if(q.id==='safety'&&A.safety==='unsafe') al.innerHTML='<div class="warnbox"><b>Twoje bezpieczeństwo jest najważniejsze.</b> Nie wyślemy zaproszenia do małżonka i nie zaproponujemy mediacji. Możesz zadzwonić na Niebieską Linię: <b>800 120 002</b>, a w zagrożeniu życia na <b>112</b>. Bezpłatnie połączymy Cię z prawnikiem.</div>';
-  if(q.id==='sep'&&A.sep==='lt3') al.innerHTML='<div class="hintbox">Przy krótkim rozstaniu przygotuj w uzasadnieniu konkretne fakty: wyprowadzkę, osobne konta, brak wspólnych wyjazdów. Pomożemy to opisać.</div>';
+  const totalQ=vq.filter(x=>x.type!=='s').length, nQ=vq.slice(0,idx+1).filter(x=>x.type!=='s').length;
+  $('#q-bar').style.width=(idx/(vq.length-1)*100)+'%';
+  const box=$('#q-opts'); box.innerHTML=''; $('#q-alert').innerHTML='';
+  if(q.type==='s'){
+    const [t,html]=q.render(A);
+    $('#q-count').textContent='Dobrze wiedzieć';
+    $('#q-title').textContent=t; $('#q-sub').innerHTML=html; $('#q-sub').className='screen';
+    $('#q-hint').innerHTML='<strong>Krótka przerwa.</strong> Ten ekran nie zbiera danych. Wyjaśniamy, co Twoje odpowiedzi znaczą w praktyce.';
+  } else {
+    $('#q-count').textContent=`Pytanie ${nQ} z ${totalQ}`;
+    $('#q-title').textContent=q.t; $('#q-sub').textContent=q.s; $('#q-sub').className='muted';
+    $('#q-hint').innerHTML=q.h;
+    const cur=A[q.id];
+    q.o.forEach(([v,l])=>{
+      const on=q.multi?(cur||[]).includes(v):cur===v;
+      const b=document.createElement('button'); b.type='button'; b.className='opt'+(q.multi?' multi':'')+(on?' sel':'');
+      b.setAttribute('role',q.multi?'checkbox':'radio'); b.setAttribute('aria-checked',on);
+      b.innerHTML='<span class="dot"></span><span>'+l+'</span>';
+      b.onclick=()=>{ if(q.multi){const arr=new Set(A[q.id]||[]); arr.has(v)?arr.delete(v):arr.add(v); A[q.id]=[...arr];} else A[q.id]=v; save(); renderQuiz(); };
+      box.appendChild(b);
+    });
+    if(q.id==='safety'&&A.safety==='unsafe') $('#q-alert').innerHTML='<div class="warnbox"><b>Twoje bezpieczeństwo jest najważniejsze.</b> Nie wyślemy zaproszenia do małżonka i nie zaproponujemy mediacji. Możesz zadzwonić na Niebieską Linię: <b>800 120 002</b>, a w zagrożeniu życia na <b>112</b>. Bezpłatnie połączymy Cię z prawnikiem.</div>';
+    if(q.id==='sep'&&A.sep==='lt3') $('#q-alert').innerHTML='<div class="hintbox">Przy krótkim rozstaniu przygotuj w uzasadnieniu konkretne fakty: wyprowadzkę, osobne konta, brak wspólnych wyjazdów. Pomożemy to opisać.</div>';
+  }
   $('#q-back').disabled=idx===0;
-  $('#q-next').disabled=!A[q.id];
-  $('#q-next').textContent= idx===vq.length-1 ? 'Pokaż wynik →' : 'Dalej →';
+  $('#q-next').disabled=!answered(q);
+  $('#q-next').textContent=idx===vq.length-1?'Pokaż wynik →':'Dalej →';
   const r=evaluate(A);
   $('#l-path').innerHTML=r.P?'<span class="pill '+r.P.tag+'">'+r.P.name+'</span>':'—';
   $('#l-court').textContent=r.court;
   $('#l-cost').textContent=r.cost!=null?zl(r.cost):'—';
   $('#l-time').textContent=r.P?r.P.time:'—';
 }
-$('#q-next').onclick=()=>{ const vq=visible(); if(idx<vq.length-1){idx++;save();renderQuiz();} else { location.hash='wynik'; } };
+$('#q-next').onclick=()=>{ const vq=visible(); if(idx<vq.length-1){idx++;save();renderQuiz();window.scrollTo(0,0);} else { location.hash='wynik'; } };
 $('#q-back').onclick=()=>{ if(idx>0){idx--;save();renderQuiz();} };
 $('#q-reset').onclick=()=>{ A={}; idx=0; save(); renderQuiz(); };
 
@@ -763,43 +912,63 @@ function renderResult(){
   const r=evaluate(A); const root=$('#wynik-root');
   if(!r.P){ root.innerHTML='<div class="card stack"><h2>Najpierw quiz</h2><p class="muted">Odpowiedz na pytania, a pokażemy Twoją ścieżkę.</p><a class="btn btn-primary" href="#quiz" style="align-self:flex-start">Przejdź do quizu</a></div>'; return; }
   const steps={
-    agreed:['Załóż konto i zaproś małżonka','Uzupełnijcie porozumienie'+(r.kids?' o dzieciach':'')+' i dane do pozwu','Pobierz pozew, podpiszcie, opłać 600 zł','Złóż w sądzie osobiście lub listem poleconym (2 odpisy)','Przejdź symulator rozprawy','Po wyroku: lista spraw do załatwienia'],
-    mediation:['Załóż konto i zaproś małżonka','Każde z was wypełnia ustalenia osobno','Mediator online pracuje tylko nad punktami spornymi','Ugoda trafia do pozwu jako porozumienie','Złożenie pozwu i rozprawa','Po wyroku: lista spraw do załatwienia'],
-    contested:['Bezpłatna analiza sprawy na podstawie quizu','Przekazanie do partnerskiej kancelarii','Pełnomocnik przygotowuje pozew i dowody','Postępowanie dowodowe, świadkowie, rozprawy','Wyrok i ewentualna apelacja'],
+    agreed:['Opłać pakiet (konto zakłada się samo) i zaproś małżonka','Uzupełnijcie porozumienie'+(r.kids?' o dzieciach':'')+' i dane do pozwu','Pobierz pozew, podpiszcie, opłać 600 zł na konto sądu','Złóż w sądzie osobiście lub listem poleconym (z odpisem dla drugiej strony)','Przejdź symulator rozprawy','Po wyroku: lista spraw do załatwienia'],
+    mediation:['Opłać pakiet i zaproś małżonka','Każde z was wypełnia ustalenia osobno','Mediator online pracuje tylko nad punktami spornymi','Ugoda trafia do pozwu jako porozumienie','Złożenie pozwu i rozprawa','Po wyroku: lista spraw do załatwienia'],
+    contested:['Bezpłatna analiza sprawy na podstawie quizu','Przekazanie do partnerskiej kancelarii z wyceną z góry','Pełnomocnik przygotowuje pozew i dowody','Postępowanie dowodowe, świadkowie, rozprawy','Wyrok i ewentualna apelacja'],
     protect:['Bezpłatny kontakt z prawnikiem, bez powiadamiania małżonka','Plan bezpieczeństwa i dokumentowanie zdarzeń','Pozew przygotowany przez pełnomocnika','Możliwe zabezpieczenia na czas procesu'],
     think:['Przeczytaj: rozwód, separacja, terapia, czym się różnią','Policz koszty w kalkulatorze','Zapisz wynik i wróć, kiedy będziesz gotowy/gotowa']
   }[r.path];
   const rows=[];
-  if(r.pkg) rows.push(['Pakiet '+r.pkg[0],r.pkg[1]]);
+  if(r.pkg) rows.push(['Pakiet '+r.pkg+(r.path==='contested'||r.path==='protect'?' (od)':''),r.price]);
   if(r.fee) rows.push(['Opłata od pozwu (dla sądu)',r.fee]);
   if(r.refund) rows.push(['Zwrot połowy opłaty po wyroku bez winy',-r.refund]);
   if(r.prop&&(r.path==='agreed'||r.path==='mediation')) rows.push([r.prop===300?'Zgodny wniosek o podział majątku (osobno)':'Sporny podział majątku (osobno)',r.prop]);
+  const head={agreed:'Wasza sprawa nadaje się na rozwód online.',mediation:'Jesteście blisko. Brakuje kilku ustaleń.',think:'Nie musisz decydować dziś.',contested:'Ta sprawa wymaga pełnomocnika.',protect:'Najpierw Twoje bezpieczeństwo.'}[r.path];
+  const lead={agreed:'Przygotujecie pozew w panelu, a sąd zwykle kończy taką sprawę na jednej rozprawie.',mediation:'Zgodne ustalenia zapiszemy od razu, mediator online zajmie się tylko resztą.',think:'Zebraliśmy informacje, które pomogą Ci podjąć decyzję.',contested:'Przekażemy sprawę partnerskiej kancelarii. Wycena z góry, bez stawek godzinowych.',protect:'Połączymy Cię z prawnikiem bez powiadamiania małżonka.'}[r.path];
   root.innerHTML=`
   <div class="result-head">
     <div class="stack">
-      <div class="eyebrow">Twój wynik</div>
+      <div class="eyebrow">Twój wynik · bez podawania e-maila</div>
       <span class="pill ${r.P.tag}" style="align-self:flex-start">${r.P.name}</span>
-      <h2>${r.path==='agreed'?'Wasza sprawa nadaje się na rozwód online.':r.path==='mediation'?'Jesteście blisko. Brakuje kilku ustaleń.':r.path==='think'?'Nie musisz decydować dziś.':'Ta sprawa wymaga pełnomocnika.'}</h2>
-      <p class="muted">${r.path==='agreed'?'Oboje chcecie rozwodu bez orzekania o winie'+(r.kids?' i macie ustalenia co do dzieci':'')+'. Przygotujecie pozew w panelu, a sąd zwykle kończy taką sprawę na jednej rozprawie.':r.path==='mediation'?'Mediacja online pomoże domknąć sporne punkty. Zgodne ustalenia zapiszemy od razu, mediator zajmie się tylko resztą.':r.path==='think'?'Zebraliśmy informacje, które pomogą Ci podjąć decyzję. Wynik zapiszemy, jeśli zechcesz.':'Spór o winę, brak zgody lub kwestie bezpieczeństwa to sprawy dla adwokata lub radcy prawnego. Przekażemy sprawę partnerskiej kancelarii z wyceną z góry.'}</p>
-      <dl class="live" style="display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:6px 0 0">
+      <h2>${head}</h2>
+      <p class="muted">${lead}</p>
+      <div class="card" style="padding:16px 18px">
+        <h3 style="font-size:1rem">Dlaczego ta rekomendacja</h3>
+        <ul class="why">${r.why.map(w=>`<li>${w}</li>`).join('')}</ul>
+      </div>
+      <dl style="display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:6px 0 0">
         <dt class="muted">Właściwy sąd</dt><dd style="margin:0;font-weight:700">${r.court}</dd>
         <dt class="muted">Czas</dt><dd style="margin:0;font-weight:700">${r.P.time}</dd>
       </dl>
-      <h3 style="margin-top:18px">Co dalej</h3>
+      <h3 style="margin-top:14px">Co dalej</h3>
       <div class="timeline">${steps.map((s,i)=>`<div><span class="n">${i+1}</span><span>${s}</span></div>`).join('')}</div>
     </div>
     <div class="card stack">
-      <div class="eyebrow">Szacunkowy koszt</div>
+      <div class="eyebrow">Szacunkowy koszt całości</div>
       <div class="bigprice num">${zl(r.cost)}</div>
       ${rows.map(x=>`<div class="sum"><span>${x[0]}</span><span class="num">${x[1]<0?'− '+zl(-x[1]):zl(x[1])}</span></div>`).join('')}
-      ${r.path==='contested'||r.path==='protect'?'<p class="note">Cena kancelarii „od”, ostateczna po bezpłatnej analizie.</p>':''}
-      <a class="btn btn-primary" href="#panel">${r.path==='think'?'Zapisz wynik':'Załóż sprawę · Pakiet '+r.pkg[0]}</a>
-      <a class="btn btn-ghost" href="#cennik">Porównaj pakiety</a>
-      <div class="hintbox"><strong>Dobrze wiedzieć.</strong> Płacisz w ratach bez odsetek. Jeśli sąd zwróci pozew przez nasz błąd, poprawimy go bezpłatnie lub oddamy pieniądze.</div>
+      ${r.pkg?`<p class="note">Pakiet możesz rozłożyć na 4 raty po ${zl(Math.ceil(r.price/4))}.</p>`:''}
+      ${r.path==='think'?'<a class="btn btn-primary" href="#narzedzia">Przejdź do kalkulatorów</a>':`<a class="btn btn-primary" href="#checkout">Wybieram pakiet ${r.pkg}</a>`}
+      <a class="btn btn-ghost" href="#cennik">Porównaj wszystkie pakiety</a>
+      <label class="f" style="margin-top:6px">Wyślij wynik na e-mail (nieobowiązkowe)
+        <span class="row" style="flex-wrap:nowrap"><input type="email" id="r-email" placeholder="adres@przyklad.pl" style="flex:1;min-width:0"><button class="btn btn-ghost btn-sm" type="button" id="r-send">Wyślij</button></span></label>
+      <p class="note" id="r-sent"></p>
     </div>
   </div>
   <div class="row" style="margin-top:26px"><a class="btn btn-ghost btn-sm" href="#quiz">← Zmień odpowiedzi</a></div>`;
+  $('#r-send').onclick=()=>{ $('#r-sent').textContent='W prototypie nic nie jest wysyłane. W produkcie: e-mail z wynikiem i jednym przypomnieniem, bez sekwencji sprzedażowej.'; };
 }
+
+function renderCheckout(){
+  const r=evaluate(A);
+  const pkg=r.pkg||'Plus', price=PRICES[pkg];
+  $('#co-pkg').textContent='Pakiet '+pkg+(pkg==='Ochrona'?' (zaliczka na analizę)':'');
+  $('#co-price').textContent=zl(price);
+  $('#co-total').textContent=zl(price);
+  $('#co-raty').textContent='4 × '+zl(Math.ceil(price/4))+', 0%';
+  $('#co-court').textContent=r.court==='—'?'sąd ustalimy w panelu':r.court;
+}
+$('#co-form').addEventListener('submit',e=>{e.preventDefault(); $('#co-msg').innerHTML='<div class="hintbox"><strong>To prototyp.</strong> Płatność nie jest pobierana. W produkcie: potwierdzenie, faktura i link do panelu sprawy na e-mail, konto zakłada się automatycznie.</div>';});
 
 /* ---------- panel tabs ---------- */
 $$('#pnav button').forEach(b=>b.onclick=()=>{
@@ -814,9 +983,9 @@ function calcCost(){
   if(!fault) rows.push(['Zwrot połowy (bez orzekania o winie)',-300]);
   if(prop==='agreed') rows.push(['Zgodny wniosek o podział majątku',300]);
   if(prop==='dispute') rows.push(['Wniosek o podział majątku (sporny)',1000]);
-  if(med) rows.push(['Mediacja (przykład: pakiet 3 sesji)',1690]);
+  if(med) rows.push(['Mediacja (pakiet 3 sesji, za parę)',2290]);
   if(law) rows.push([fault?'Pełnomocnik w sprawie spornej (przykład)':'Pełnomocnik w sprawie zgodnej (przykład)',fault?6000:2500]);
-  else rows.push(['Divory Plus',899]);
+  else rows.push(['Divory Plus',1290]);
   const t=rows.reduce((s,r)=>s+r[1],0);
   $('#c-out').innerHTML=rows.map(r=>`<div class="sum"><span>${r[0]}</span><span class="num">${r[1]<0?'− '+zl(-r[1]):zl(r[1])}</span></div>`).join('')+`<div class="sum total"><span>Razem, orientacyjnie</span><span class="num">${zl(t)}</span></div>`;
 }
