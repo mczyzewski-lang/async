@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-ui: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-brand: 'Space Grotesk Variable', 'Inter Variable', sans-serif;
+  --font-play: 'Baloo 2 Variable', 'Inter Variable', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --color-ink: #0b0c10;
+  --color-panel: #13151b;
+  --color-panel2: #191c24;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-mute: #8b90a0;
+}
+
+html, body, #root { height: 100%; }
+body { margin: 0; background: var(--color-ink); color: #e9ebf1; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
+.font-ui { font-family: var(--font-ui); }
+.font-brand { font-family: var(--font-brand); }
+.font-play { font-family: var(--font-play); }
+.font-mono { font-family: var(--font-mono); }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+/* ---------- film layers (sizes in cqw so they scale with the stage and export 1:1) ---------- */
+.stage canvas { display: block; }
+.film-tag { white-space: nowrap; font-family: var(--font-ui); font-size: 1.35cqw; font-weight: 600; will-change: opacity, transform; }
+.film-sub { text-align: center; font-size: 2.15cqw; line-height: 1.25; font-weight: 600; padding: 0.35cqw 1.1cqw; border-radius: 0.6cqw; transition: opacity 0.12s; max-width: 86%; }
+.sub-cinematic { font-family: var(--font-ui); color: #fff; text-shadow: 0 0.15cqw 0.9cqw rgba(0, 0, 0, 0.85), 0 0 0.2cqw rgba(0, 0, 0, 0.9); }
+.sub-minimal { font-family: var(--font-brand); color: #101218; background: rgba(255, 255, 255, 0.86); }
+.sub-playful { font-family: var(--font-play); font-size: 2.5cqw; font-weight: 700; color: #fff; background: rgba(38, 30, 84, 0.82); border-radius: 1.4cqw; padding: 0.3cqw 1.6cqw; }
+.sub-xray { font-family: var(--font-mono); font-size: 1.75cqw; font-weight: 500; color: #d9fbff; background: rgba(2, 10, 18, 0.72); border: 1px solid rgba(56, 225, 255, 0.28); }
+@container (max-width: 520px) {
+  .film-sub { font-size: 3.1cqw; }
+  .sub-xray { font-size: 2.6cqw; }
+  .film-tag { font-size: 2cqw; }
+}
+
+/* ---------- lab UI ---------- */
+.panel { background: var(--color-panel); border: 1px solid var(--color-line); border-radius: 16px; }
+.btn { display: inline-flex; align-items: center; gap: 0.45rem; height: 2.25rem; padding: 0 0.8rem; border-radius: 10px; font-size: 0.8125rem; font-weight: 550; color: #dfe2ea; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--color-line); transition: background 0.15s, border-color 0.15s, opacity 0.15s; white-space: nowrap; }
+.btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); }
+.btn:disabled { opacity: 0.45; }
+.btn-primary { background: #f3f4f7; color: #0b0c10; border-color: transparent; }
+.btn-primary:hover:not(:disabled) { background: #fff; }
+.btn-icon { width: 2.25rem; padding: 0; justify-content: center; }
+.btn:focus-visible, select:focus-visible, .scrub:focus-visible { outline: 2px solid #7aa7ff; outline-offset: 2px; }
+.sel { height: 2.25rem; border-radius: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--color-line); color: #dfe2ea; font-size: 0.8125rem; padding: 0 0.6rem; max-width: 100%; }
+.sel option { background: #191c24; }
+.chip { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 550; padding: 0.28rem 0.6rem; border-radius: 999px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--color-line); color: #c3c7d3; }
+.dot { width: 7px; height: 7px; border-radius: 50%; }
