@@ -643,20 +643,24 @@ function renderQuiz(){
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Dalej →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
       <figure class="rev sm"><q>Zawsze są wątpliwości, kiedy bierze się kontakt do firmy z internetu. Pierwsza rozmowa je rozwiała.</q><small>Sebastian, Warszawa · z wywiadu w podcaście „Sekrety rozwodu”</small></figure>
       <div class="trustrow"><span>Bez spamu, wypiszesz się jednym kliknięciem</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
-    else h=`${steps}<h2>${A.name?esc(A.name)+', g':'G'}dzie wysłać SMS z 7 bezpłatnymi wideo?</h2><p class="sub">Codziennie o 9:30 dostaniesz dyskretny SMS z linkiem do krótkiego filmu Kamila Jury. W następnym kroku wybierzesz, czy i kiedy mamy zadzwonić.</p>
+    else h=`${steps}<h2>${A.name?esc(A.name)+', g':'G'}dzie wysłać SMS z 7 bezpłatnymi wideo?</h2><p class="sub">Codziennie o 9:30 dostaniesz dyskretny SMS z linkiem do krótkiego filmu Kamila Jury. Na ten numer też zadzwonimy: w następnym kroku wybierzesz, kiedy.</p>
       <p class="sentto">✓ Plan wyślemy na <b>${esc(A.email||'')}</b></p>
       <div style="display:grid;gap:12px;margin-top:16px"><label class="f">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Dalej →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
-      <p class="note" style="margin-top:8px">SMS-y nie zawierają słowa „rozwód”. Nie zadzwonimy bez Twojej zgody: wybierzesz to w następnym kroku.</p>
+      <p class="note" style="margin-top:8px">SMS-y nie zawierają słowa „rozwód”. Porę rozmowy wybierzesz w następnym kroku.</p>
       <button class="linkbtn" id="nophone" type="button" style="margin-top:6px">Wolę dostać wideo tylko e-mailem</button>
       <figure class="rev sm"><q>Telefon do firmy, rozmowa z panią, która opowiedziała mi w szczegółach, jak to będzie wyglądało.</q><small>Piotr, Warszawa · z wywiadu w podcaście „Sekrety rozwodu”</small></figure>
       ${prev}
       <div class="trustrow"><span>Pierwsza rozmowa bezpłatna i niezobowiązująca</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
   } else if(q.type==='call'){
-    const CO=[['now','Zadzwońcie teraz','W dni robocze w ciągu 15 minut (9:00–19:00), w weekend do południa w najbliższy dzień roboczy.'],['later','Wybiorę termin rozmowy','Dzień i godzinę wskażesz na następnym ekranie.'],['none','Na razie tylko plan i wideo','Nie zadzwonimy. Wrócisz do rozmowy, kiedy zechcesz.']];
-    h=`${gsteps(3)}<h2>Kiedy mamy zadzwonić?</h2><p class="sub">Krótka rozmowa, około 3 minut. Sprawdzamy, czy dobrze rozumiemy Twoją sytuację. Niczego nie uruchamia.</p>
+    if(A.call!=='now'&&A.call!=='later') A.call=null;
+    const dd=days(), CO=[['now','Teraz','Zadzwonimy w ciągu 15 minut (pon.–pt. 9:00–19:00). W weekend do południa w najbliższy dzień roboczy.'],['later','Wybiorę dzień i godzinę','Zadzwonimy dokładnie o tej porze.']];
+    h=`${gsteps(3)}<h2>Kiedy możesz swobodnie rozmawiać?</h2><p class="sub">Krótka rozmowa, około 3 minut. Sprawdzamy, czy dobrze rozumiemy Twoją sytuację. Niczego nie uruchamia.</p>
       <div class="qopts" role="radiogroup">${CO.map(o=>`<button type="button" class="qopt two${A.call===o[0]?' sel':''}" data-call="${o[0]}" role="radio" aria-checked="${A.call===o[0]}"><span class="k"></span><span><b>${o[1]}</b><small>${o[2]}</small></span></button>`).join('')}</div>
-      <div class="qnav"><button class="linkbtn" id="back" type="button">Wstecz</button></div>
+      ${A.call==='later'?`<div class="days">${dd.map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':i===1&&(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
+      <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','11:30','14:00','18:00']).map(x=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}">${x}</button>`).join('')}</div>`:''}
+      <div class="qnav">${A.call==='later'?`<button class="btn btn-gold" id="callok" type="button" ${pick.slot?'':'disabled'}>Potwierdź termin →</button>`:''}<button class="linkbtn" id="back" type="button">Wstecz</button></div>
+      <p class="note" style="margin-top:8px">Przed rozmową dostaniesz SMS z numerem, z którego zadzwonimy.</p>
       <div class="trustrow"><span>Pierwsza rozmowa bezpłatna i niezobowiązująca</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
   } else {
     const opts=q.filter?q.o.filter(q.filter(A)):q.o;
@@ -677,7 +681,11 @@ function renderQuiz(){
     $$('#qcard .qopt').forEach(x=>x.classList.toggle('sel',x===b));
     setTimeout(next,260);
   });
-  $$('#qcard .qopt[data-call]').forEach(b=>b.onclick=()=>{ A.call=b.dataset.call; A.done=true; save(); pick.open=A.call==='later'; location.hash='wynik'; });
+  $$('#qcard .qopt[data-call]').forEach(b=>b.onclick=()=>{ A.call=b.dataset.call; save();
+    if(A.call==='now'){ booked=null; A.done=true; save(); location.hash='wynik'; } else renderQuiz(); });
+  $$('#qcard [data-day]').forEach(b=>b.onclick=()=>{ pick.day=+b.dataset.day; pick.slot=null; renderQuiz(); });
+  $$('#qcard [data-slot]').forEach(b=>b.onclick=()=>{ pick.slot=b.dataset.slot; renderQuiz(); });
+  if($('#callok')) $('#callok').onclick=()=>{ const d=days()[pick.day]; booked=`${pick.day===0?'dziś':DN[d.getDay()]+' '+d.getDate()+'.'+String(d.getMonth()+1).padStart(2,'0')}, ${pick.slot}`; A.done=true; save(); location.hash='wynik'; };
   $$('#qcard .qopt[data-ab]').forEach(b=>b.onclick=()=>{ A.abroad=b.dataset.ab; save(); renderQuiz(); });
   const city=$('#city'); if(city){ city.onchange=e=>{A.city=e.target.value;save();renderPlan();upd();}; $('#still').onchange=e=>{A.still=e.target.value;save();renderPlan();upd();}; }
   const ph=$('#ph'); if(ph){ ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd();};
@@ -716,7 +724,7 @@ function renderResult(){
     :p.key==='court'?[['Analiza akt i stanowisk','w rozmowie, bezpłatnie'],['Mediacja w trakcie sprawy','sąd może skierować strony do mediacji'],['Ugoda lub porozumienie','przedstawione sądowi'],['Zakończenie sprawy','zwykle szybciej niż w sporze']]
     :[['Plan: bezpłatna konsultacja','układamy plan i podajemy dokładną cenę'],['Zaproszenie drugiej strony','mediator kontaktuje się, kiedy zdecydujesz'],['Mediacja online','ustalenia: '+(a.kids==='yes'?'dzieci, alimenty':'wszystkie sprawy')+(a.home&&a.home!=='no'?', mieszkanie':'')],['Pozew zgodny z porozumieniem','przygotowujemy dokumenty'],['Jedna rozprawa','przed sądem: '+c]];
   const hot=sc>=33?'Gorący':sc>=22?'Ciepły':'Zimny';
-  const cm=a.call||'now';
+  const cm=a.call==='later'?'later':'now';
   const dd=days();
   $('#res').innerHTML=`
   <div class="a-rec">
@@ -766,7 +774,7 @@ function renderResult(){
       <p class="note" id="alt-msg" style="margin-top:8px"></p>
       <p class="note" style="margin-top:4px;font-weight:700" ${cm==='none'?'hidden':''}>Odebranie telefonu niczego nie uruchamia.</p>
     </div>
-    <div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':({now:'teraz, do presales',later:'wybiera termin',none:'tylko plan i wideo, do serii'})[cm]}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div>
+    <div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'termin '+booked:({now:'teraz, do presales',later:'wybiera termin'})[cm])}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div>
   </div>`;
   $$('[data-day]').forEach(b=>b.onclick=()=>{pick.day=+b.dataset.day;pick.slot=null;pick.open=true;renderResult();});
   const lt=$('details.later'); if(lt) lt.addEventListener('toggle',()=>{pick.open=lt.open;});
