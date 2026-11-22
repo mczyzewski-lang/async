@@ -1,0 +1,69 @@
+{
+  "episodeId": "flight",
+  "variantId": "C",
+  "text": "This plane weighs as much as eighty elephants. Eighty! And it's just up there. Relaxing. No strings. No balloons. No flapping. So what's the trick? You already know it. Ever put your hand out of a car window? Tilt it up a little, and whoosh! The air shoves it upward. A wing is that hand, perfected. Tilted, curved, and super smooth. Air hugs the curve, and gets flung downward. And air pushes back. Up! Scientists also see it as pressure: lower on top, higher underneath. Same push, different glasses. The catch? It needs speed. Lots of it. That's the engines' job. Not lifting. Just going fast. So the plane isn't floating like a balloon. It's surfing, on air it keeps throwing down. Push air down, get pushed up. Eighty elephants, no strings attached.",
+  "audioPath": "/api/audio/flight/C-GQQpeRnV.mp3",
+  "voiceId": "GQQpeRnV5mCWTgxKhGo5",
+  "modelId": "eleven_multilingual_v2",
+  "speed": 1,
+  "duration": 58.88,
+  "cues": {
+    "c-hook-1": {
+      "start": 0.6,
+      "end": 4.408
+    },
+    "c-hook-2": {
+      "start": 4.733,
+      "end": 7.253
+    },
+    "c-mys-1": {
+      "start": 7.311,
+      "end": 12.222
+    },
+    "c-hand-1": {
+      "start": 12.338,
+      "end": 16.691
+    },
+    "c-hand-2": {
+      "start": 16.866,
+      "end": 21.069
+    },
+    "c-wing-1": {
+      "start": 21.301,
+      "end": 26.212
+    },
+    "c-wing-2": {
+      "start": 26.479,
+      "end": 29.649
+    },
+    "c-wing-3": {
+      "start": 29.811,
+      "end": 31.808
+    },
+    "c-pres-1": {
+      "start": 32.052,
+      "end": 38.925
+    },
+    "c-speed-1": {
+      "start": 39.169,
+      "end": 42.268
+    },
+    "c-speed-2": {
+      "start": 42.512,
+      "end": 46.808
+    },
+    "c-aha-1": {
+      "start": 46.959,
+      "end": 49.432
+    },
+    "c-aha-2": {
+      "start": 49.676,
+      "end": 53.182
+    },
+    "c-rev-1": {
+      "start": 53.426,
+      "end": 58.836
+    }
+  },
+  "createdAt": "2026-11-22T10:02:37.982Z"
+}

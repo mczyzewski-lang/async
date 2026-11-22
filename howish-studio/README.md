@@ -34,6 +34,13 @@ cp .env.example .env    # set ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID, restar
 - The server calls `POST /v1/text-to-speech/{voice_id}/with-timestamps` and stores `public/audio/<episode>/<variant>-<hash>.mp3` plus a manifest with per-sentence times taken from the character timestamps. Identical requests are served from this cache.
 - Once a manifest exists, the film re-times itself to the real audio: every animation, camera key and subtitle is keyed to cue ids, not to hard-coded seconds.
 
+The four narrations currently in `public/audio/flight` were generated in the ElevenLabs app (voice "Ryan – American Documentary Narrator", `eleven_multilingual_v2`) and brought in with word timestamps from a transcription:
+
+```bash
+node scripts/narration.mjs A                                  # exact text the voice must read
+node scripts/import-voiceover.mjs A narration.mp3 words.json  # sync film A to that recording
+```
+
 > The ElevenLabs endpoint, field names and default model (`eleven_multilingual_v2`) were written from prior knowledge of the API: the docs site was not reachable from the build environment, and no key was available to make a live call. Check them against the current API reference before relying on it; model and speed are set in `.env`.
 
 ## Export

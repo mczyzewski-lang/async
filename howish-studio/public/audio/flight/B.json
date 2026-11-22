@@ -1,0 +1,61 @@
+{
+  "episodeId": "flight",
+  "variantId": "B",
+  "text": "A plane is heavier than air. Much heavier. So why doesn't it fall? You may have heard that air on top has to speed up to catch the air below. That is a myth. Watch two bits of air that start together. The top one wins. It never waits. Here is what really happens. One: the wing moves forward, fast. Two: it is curved, and tilted a few degrees. Three: air flowing past bends to follow it, and leaves heading down. Four: pushing air down pushes the wing up. That push is lift. Measure the pressure and you find the same thing: less on top, more below. More speed means more lift. Twice the speed gives four times the lift. When lift equals weight, the plane holds its height. Nothing is floating. The wing is working, every moment. A wing turns air down. Air pushes the wing up. That's flight.",
+  "audioPath": "/api/audio/flight/B-GQQpeRnV.mp3",
+  "voiceId": "GQQpeRnV5mCWTgxKhGo5",
+  "modelId": "eleven_multilingual_v2",
+  "speed": 1,
+  "duration": 62.877,
+  "cues": {
+    "b-hook-1": {
+      "start": 0.6,
+      "end": 5.766
+    },
+    "b-myth-1": {
+      "start": 6.15,
+      "end": 11.177
+    },
+    "b-myth-2": {
+      "start": 11.42,
+      "end": 18.596
+    },
+    "b-step-1": {
+      "start": 18.805,
+      "end": 23.565
+    },
+    "b-step-2": {
+      "start": 23.809,
+      "end": 27.826
+    },
+    "b-step-3": {
+      "start": 28,
+      "end": 33.19
+    },
+    "b-step-4": {
+      "start": 33.515,
+      "end": 38.367
+    },
+    "b-pres-1": {
+      "start": 38.692,
+      "end": 43.255
+    },
+    "b-speed-1": {
+      "start": 43.569,
+      "end": 49.13
+    },
+    "b-aha-1": {
+      "start": 49.513,
+      "end": 53.158
+    },
+    "b-aha-2": {
+      "start": 53.588,
+      "end": 57.919
+    },
+    "b-rev-1": {
+      "start": 58.127,
+      "end": 62.83
+    }
+  },
+  "createdAt": "2026-11-22T10:02:37.882Z"
+}

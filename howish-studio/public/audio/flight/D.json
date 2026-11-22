@@ -1,0 +1,61 @@
+{
+  "episodeId": "flight",
+  "variantId": "D",
+  "text": "Let's switch off the paint, and look at flight the way an engineer does. One pair of wings. Four hundred tons. Where exactly does the force come from? Start with the airflow. Each line is a path that air takes around the wing. Above the wing, the lines squeeze together. The air there speeds up, and its pressure drops. Below, the air slows and pressure rises. The wing is pulled from above and pushed from below. Most of the lift comes from the top. Now follow the air behind the wing. It leaves angled downward. Low pressure above, air turned down behind: one force, measured two ways. The force scales with the square of speed. At takeoff speed, lift finally exceeds weight. So lift is not a property of the wing alone. It is a continuous exchange. The wing changes the air's momentum, and the air returns the favor. Weight, lift, thrust, drag. Balance all four, and four hundred tons fly straight and level.",
+  "audioPath": "/api/audio/flight/D-GQQpeRnV.mp3",
+  "voiceId": "GQQpeRnV5mCWTgxKhGo5",
+  "modelId": "eleven_multilingual_v2",
+  "speed": 1,
+  "duration": 70.348,
+  "cues": {
+    "d-hook-1": {
+      "start": 0.6,
+      "end": 5.499
+    },
+    "d-mys-1": {
+      "start": 5.824,
+      "end": 12.431
+    },
+    "d-flow-1": {
+      "start": 12.814,
+      "end": 18.05
+    },
+    "d-flow-2": {
+      "start": 18.375,
+      "end": 24.702
+    },
+    "d-pres-1": {
+      "start": 25.028,
+      "end": 27.965
+    },
+    "d-pres-2": {
+      "start": 28.29,
+      "end": 33.874
+    },
+    "d-wake-1": {
+      "start": 34.199,
+      "end": 38.565
+    },
+    "d-wake-2": {
+      "start": 39.006,
+      "end": 44.765
+    },
+    "d-speed-1": {
+      "start": 45.09,
+      "end": 51.603
+    },
+    "d-aha-1": {
+      "start": 51.777,
+      "end": 54.506
+    },
+    "d-aha-2": {
+      "start": 54.831,
+      "end": 61.565
+    },
+    "d-rev-1": {
+      "start": 61.948,
+      "end": 70.307
+    }
+  },
+  "createdAt": "2026-11-22T10:02:38.071Z"
+}

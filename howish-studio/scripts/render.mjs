@@ -50,7 +50,7 @@ if (info.audio) {
 }
 const ff = ['-y', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-'];
 if (audioFile) ff.push('-ss', String(from), '-i', audioFile);
-ff.push('-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-r', String(fps), '-movflags', '+faststart');
+ff.push('-c:v', 'libx264', '-preset', 'medium', '-crf', String(args.crf || 18), '-pix_fmt', 'yuv420p', '-r', String(fps), '-movflags', '+faststart');
 if (audioFile) ff.push('-c:a', 'aac', '-b:a', '192k', '-af', 'apad', '-shortest');
 ff.push('-t', String(frames / fps), out);
 const ffmpeg = spawn('ffmpeg', ff, { stdio: ['pipe', 'ignore', 'pipe'] });

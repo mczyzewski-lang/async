@@ -1,0 +1,77 @@
+{
+  "episodeId": "flight",
+  "variantId": "A",
+  "text": "Four hundred tons of metal, fuel and people. Eleven kilometers above the ground. And nothing is holding it up. Air seems like nothing. You walk through it without noticing. So how can something so thin carry something so heavy? The answer is the wing, and what it does to the air. It is curved, and tilted slightly upward. Air follows that surface, above and below, and leaves pointing down. The wing pushes air down. The air pushes the wing up. You can measure the same push as pressure: lower above the wing, higher below. Two views of one force. Lift. But it only works at speed. Double the speed, and lift grows four times. That is what the engines are for. So an airplane is not floating. Every second, it throws tons of air toward the ground, and rides the reaction. Lift balances weight. Thrust balances drag. That is how four hundred tons stay in the sky.",
+  "audioPath": "/api/audio/flight/A-GQQpeRnV.mp3",
+  "voiceId": "GQQpeRnV5mCWTgxKhGo5",
+  "modelId": "eleven_multilingual_v2",
+  "speed": 1,
+  "duration": 66.9,
+  "cues": {
+    "a-hook-1": {
+      "start": 0.6,
+      "end": 4.466
+    },
+    "a-hook-2": {
+      "start": 4.64,
+      "end": 8.982
+    },
+    "a-mys-1": {
+      "start": 9.261,
+      "end": 13.801
+    },
+    "a-mys-2": {
+      "start": 14.044,
+      "end": 17.69
+    },
+    "a-wing-1": {
+      "start": 17.934,
+      "end": 21.637
+    },
+    "a-wing-2": {
+      "start": 22.021,
+      "end": 25.26
+    },
+    "a-turn-1": {
+      "start": 25.585,
+      "end": 30.867
+    },
+    "a-turn-2": {
+      "start": 31.308,
+      "end": 35.175
+    },
+    "a-pres-1": {
+      "start": 35.5,
+      "end": 40.91
+    },
+    "a-pres-2": {
+      "start": 41.119,
+      "end": 43.65
+    },
+    "a-speed-1": {
+      "start": 43.801,
+      "end": 49.188
+    },
+    "a-speed-2": {
+      "start": 49.466,
+      "end": 51.487
+    },
+    "a-aha-1": {
+      "start": 51.73,
+      "end": 53.843
+    },
+    "a-aha-2": {
+      "start": 54.168,
+      "end": 59.73
+    },
+    "a-rev-1": {
+      "start": 60.055,
+      "end": 63.34
+    },
+    "a-rev-2": {
+      "start": 63.665,
+      "end": 66.87
+    }
+  },
+  "createdAt": "2026-11-22T10:02:37.783Z"
+}
