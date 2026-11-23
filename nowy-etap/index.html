@@ -872,7 +872,7 @@ const S=[
  {id:'lead',type:'email'},
  {id:'slot',type:'slot',if:()=>VAR==='b'},
  {id:'phone',type:'phone'},
- {id:'code',type:'code'}
+ {id:'code',type:'code',if:()=>VAR!=='b'}
 ];
 
 /* ---------- stan ---------- */
@@ -981,8 +981,8 @@ function renderQuiz(){
         <div><span>Plan krok po kroku</span><b class="blur">5 etapów</b></div>
       </div><div class="veil">🔒 ${st===1?'Jeszcze dwa krótkie kroki':'Ostatni krok'}</div></div>`;
     const steps=gsteps(st);
-    const GN=VAR==='b'?4:3, sl=VAR==='b'?slotLabel():null;
-    const stepno=VAR==='b'?({email:1,slot:2,phone:3,code:4})[q.type]:(q.type==='email'?1:q.type==='phone'?2:3);
+    const GN=3, sl=VAR==='b'?slotLabel():null;
+    const stepno=VAR==='b'?({email:1,slot:2,phone:3})[q.type]:(q.type==='email'?1:q.type==='phone'?2:3);
     const dec=A.stage==='decided'||A.stage==='talked';
     if(q.type==='slot'&&A.gslot===undefined){ A.gday=0; A.gslot=SL[0][0]; A.gskip=false; save(); }
     const dd2=days();
@@ -1004,11 +1004,11 @@ function renderQuiz(){
         <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:12px">${A.gslot?'Potwierdzam: '+((A.gday||0)===0?'dziś':'jutro')+', '+A.gslot+' →':'Wybierz godzinę'}</button>
         <p class="note" style="margin-top:8px">Termin odwołasz jednym kliknięciem. Rozmowa niczego nie uruchamia, a poza tą porą nie dzwonimy.</p>
         <p style="margin:6px 0 0;text-align:center"><button class="linkbtn" id="noslot" type="button">${dec?'Żaden termin mi nie pasuje':'Na razie pokaż sam plan'}</button></p>`
-      :q.type==='phone'?`${dots}<h2>${sl?(A.name?esc(A.name)+', n':'N')+'a jaki numer opiekun ma zadzwonić '+sl.replace(', ',' o ')+'?':(A.name?esc(A.name)+', g':'G')+'dzie wysłać kod SMS do logowania?'}</h2>
-        <p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Twój plan jest prywatny.</b> Otworzy go tylko osoba, która ma Twój telefon.</span></p>
-        <div style="display:grid;gap:12px;margin-top:14px"><label class="f">Telefon<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
-        <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:14px">Wyślij kod →</button>
-        <p class="note" style="margin-top:10px">${sl?'Wyślemy kod SMS, który potwierdza numer i termin rozmowy. ':''}SMS przyjdzie od nadawcy „K Jura” i zawiera sam kod, bez słowa „rozwód”.</p>`
+      :q.type==='phone'?`${dots}<h2>${sl?(A.name?esc(A.name)+', n':'N')+'a jaki numer opiekun ma zadzwonić '+sl.replace(', ',' o ')+'?':(A.name?esc(A.name)+', ':'')+(VAR==='b'?(A.name?'n':'N')+'a jaki numer wysłać linki do filmów?':(A.name?'g':'G')+'dzie wysłać kod SMS do logowania?')}</h2>
+        ${VAR==='b'?`<p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Dzwonimy tylko o wybranej porze.</b> SMS-y przychodzą od nadawcy „K Jura” i nie zawierają słowa „rozwód”.</span></p>`:`<p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Twój plan jest prywatny.</b> Otworzy go tylko osoba, która ma Twój telefon.</span></p>`}
+        <div style="display:grid;gap:12px;margin-top:14px"><label class="f">Telefon<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label>${VAR==='b'?'<p class="note" id="ph-prev" style="margin:0;font-weight:700;color:var(--ink)"></p>':''}</div>
+        <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:14px">${VAR==='b'?(sl?'Potwierdzam termin i zobacz plan →':'Zobacz mój plan →'):'Wyślij kod →'}</button>
+        <p class="note" style="margin-top:10px">${VAR==='b'?(sl?'Zaraz po tym kroku dostaniesz SMS z potwierdzeniem terminu, imieniem opiekuna i linkiem do zmiany godziny. Plan otworzy się od razu.':'Na ten numer wyślemy linki do filmów. Plan otworzy się od razu.'):'SMS przyjdzie od nadawcy „K Jura” i zawiera sam kod, bez słowa „rozwód”.'}</p>`
       :`${dots}<h2>Wpisz kod z SMS-a</h2>
         <p class="note" style="margin-top:8px;font-size:.95rem">Wysłaliśmy 4-cyfrowy kod na numer <b style="color:var(--ink);white-space:nowrap">${esc(fmtPh())}</b>.</p>
         <label class="f" style="margin-top:14px">Kod<input type="text" id="otp" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="• • • •" value="${esc(A.otp||'')}"></label>
@@ -1072,7 +1072,7 @@ function renderQuiz(){
   const city=$('#city'); if(city){ city.onchange=e=>{ const v=e.target.value; A.city=v; A.abroad=A.abroad==='one'?'one':(v?'pl':null); if(v&&!A.still) A.still='yes'; save(); renderQuiz(); };
     $$('#qcard [data-still]').forEach(b=>b.onclick=()=>{ A.still=b.dataset.still; save(); renderQuiz(); });
     const oa=$('#oneab'); if(oa) oa.onchange=()=>{ A.abroad=oa.checked?'one':'pl'; save(); }; }
-  const ph=$('#ph'); if(ph){ ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd();}; }
+  const ph=$('#ph'); if(ph){ const pv=()=>{ const el=$('#ph-prev'); if(el) el.textContent=phoneOk(A.phone)?(slotLabel()?'Zadzwonimy na ':'Numer: ')+fmtPh():''; }; ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd(); pv();}; pv(); }
   const em=$('#em'); if(em){
     const fx=()=>{ const sug=fixEmail(em.value.trim()); $('#emfix').innerHTML=sug?`<button class="linkbtn" id="emfix-b" type="button">Czy chodziło Ci o <b>${esc(sug)}</b>?</button>`:''; const b=$('#emfix-b'); if(b) b.onclick=()=>{ em.value=sug; A.email=sug; save(); fx(); upd(); }; $('#csw').hidden=!emShape(em.value.trim()); };
     em.oninput=e=>{A.email=e.target.value.trim();save();fx();upd();}; $('#nm').oninput=e=>{A.name=e.target.value.trim();save();upd();}; $('#cs').onchange=e=>{A.consent=e.target.checked;save();upd();}; $('#cs-more').onclick=e=>{ e.preventDefault(); $('#cs-rest').hidden=false; $('#cs-dots').hidden=true; }; fx(); }
