@@ -297,6 +297,8 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .pill{border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--surface);color:var(--ink);font-weight:700}
 .qz-main:has(.gate){padding-bottom:0;padding-top:0}
 .gate{padding-top:28px}
+.okbox{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:var(--ok-soft);color:var(--ink);font-size:.9rem;line-height:1.45}
+.okbox b{color:var(--ok)}
 .gate-card .bk-sub{margin-top:10px;font-size:.92rem}
 .grow{display:flex;gap:8px;align-items:stretch;margin-top:6px}
 .grow select{flex:none;width:auto;font-weight:700;padding:8px 8px}
@@ -806,7 +808,8 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
       <option>rozwód a mieszkanie i kredyt</option>
     </select>
     <span class="eyebrow">Wersja lejka</span>
-    <a href="#lp" data-var="b">B: termin rozmowy przed planem</a>
+    <a href="#lp" data-var="c">C: e-mail, termin, potem numer na przypomnienie</a>
+    <a href="#lp" data-var="b">B: termin, potem numer do rozmowy</a>
     <a href="#lp" data-var="a">A: plan od razu, rezerwacja w planie</a>
     <span class="eyebrow">Dane</span>
     <a href="#quiz" id="reset">Wyczyść odpowiedzi i zacznij od nowa</a>
@@ -870,16 +873,16 @@ const S=[
  {id:'e-cost',type:'r',render:()=>['Ile kosztuje rozwód?','<p style="margin-top:0">Z nami para płaci zwykle <b style="color:#fff">kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.</p><div class="bars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60&nbsp;000&nbsp;zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div><ul class="cpts"><li><b>Zwykle kilka tysięcy złotych</b> za cały proces. Możliwe <b>10 rat 0%</b>.</li><li><b>Porównujemy koszt dla pary.</b> Tradycyjnie każde z Was płaci swojemu prawnikowi średnio ok. 30 000 zł, razem ok. 60 000 zł. U nas jest jedna kwota dla Was obojga.</li><li><b>Koszt możecie podzielić.</b> Jeśli zechcesz, w trakcie mediacji staramy się rozłożyć go na Ciebie i małżonka.</li><li><b>Cena z góry, która się nie zmienia.</b> Podajemy całkowity koszt rozwodu, dlatego potrzebna jest krótka rozmowa: zbieramy dane, dzięki którym dostajesz konkretną kwotę, niezależną od liczby rozpraw.</li></ul><p class="note" style="color:var(--on-dark-muted);margin-top:10px">Średnia z wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium, 3 rozprawy, pisma, II instancja, koszty dodatkowe. Rozpiętość 15–50 tys. zł na osobę.<span class="src">źródło: youtube.com/[adres odcinka o cenach]</span></p>']},
  {id:'e-method',type:'r',render:a=>['Dlatego odwracamy kolejność.','<p style="margin-top:0">Pozew nie zaczyna rozwodu. Pozew go kończy. To Metoda Odwróconych Etapów:</p><div class="mth-w"><button type="button" class="replay" id="replay">↻ Odtwórz ponownie</button><svg class="mth" viewBox="0 -10 340 152" role="img" aria-label="Tradycyjnie: pozew, sąd, ustalenia, rozprawy. U nas przed pozwem są plan i ustalenia, a potem jedna rozprawa."><path class="m-l1" d="M0 40H180" fill="none" stroke="#d6a54c" stroke-width="4"/><path class="m-l2" d="M180 40H340" fill="none" stroke="#d6a54c" stroke-width="4"/><path class="m-stairs" d="M180 40V85H75V130H0" fill="none" stroke="#d6a54c" stroke-width="4" stroke-linejoin="round"/><g class="m-t m-arrows" fill="#d6a54c" font-size="13" font-weight="800" text-anchor="middle"><text x="82" y="31">→</text><text x="142" y="31">→</text><text x="240" y="31">→</text></g><g fill="#fff" font-weight="800" font-size="12.5" letter-spacing="1" text-anchor="middle"><g class="m-t m-pozew"><rect class="m-box" x="12" y="15" width="66" height="21" rx="5" fill="rgba(0,0,0,.32)" stroke="rgba(255,255,255,.1)"/><text x="45" y="30">POZEW</text></g><text class="m-t m-sad" x="112" y="30">SĄD</text><text class="m-t m-ust" x="190" y="30">USTALENIA</text><g class="m-new m-ust2"><rect x="80" y="60" width="96" height="21" rx="5" fill="rgba(0,0,0,.32)" stroke="rgba(255,255,255,.1)"/><text x="128" y="75">USTALENIA</text></g><g class="m-new m-plan"><rect x="10" y="105" width="56" height="21" rx="5" fill="rgba(0,0,0,.32)" stroke="rgba(255,255,255,.1)"/><text x="38" y="120">PLAN</text></g></g><text class="m-t m-roz" x="258" y="30" textLength="72" fill="#fff" font-weight="800" font-size="12.5">ROZPRAWY</text><path class="m-strike" d="M317 36L333 17" fill="none" stroke="#f0d9a8" stroke-width="2.6" stroke-linecap="round"/><g class="m-hand" transform="rotate(-5 333 80)" fill="#f0d9a8" font-size="30" text-anchor="end"><text x="333" y="68">jedna</text><text x="333" y="94">rozprawa</text></g><g transform="rotate(-5 333 80)"><path class="m-u1" d="M319 101H335" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/><path class="m-u2" d="M320 106H334" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/></g><g class="m-new m-nums" fill="#d6a54c" font-weight="800" font-size="11" text-anchor="middle"><text x="38" y="101">1</text><text x="128" y="56">2</text><text x="208" y="11">3</text></g></svg></div><p class="m-after m-sep"><b style="color:#fff">Dzięki temu rozwód najczęściej:</b></p><div class="info2 m-after"><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="41" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">1</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9.5" y="4.5" width="9" height="5" rx="1" transform="rotate(45 14 7)"/><path d="M11.6 9.4L4 17M12.5 20.5H21M14.5 17.5h4.5"/></svg><b>Rozwód na pierwszej rozprawie</b></div><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring r2" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="37" text-anchor="middle" fill="#fff" font-size="17" font-weight="800">60</text><text x="32" y="48" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">MIN</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9.5 2.5h5M12 2.5V5"/></svg><b>Sprawa trwa maksymalnie 60 minut</b></div></div>']},
  {id:'lead',type:'email'},
- {id:'slot',type:'slot',if:()=>VAR==='b'},
+ {id:'slot',type:'slot',if:()=>VAR!=='a'},
  {id:'phone',type:'phone'},
- {id:'code',type:'code',if:()=>VAR!=='b'}
+ {id:'code',type:'code',if:()=>VAR==='a'}
 ];
 
 /* ---------- stan ---------- */
 let A={}, idx=0;
 try{const s=JSON.parse(localStorage.getItem('ne-quiz5')||'null'); if(s&&s.A){A=s.A; idx=s.idx||0;}}catch(e){}
 const save=()=>{try{localStorage.setItem('ne-quiz5',JSON.stringify({A,idx}))}catch(e){}};
-let VAR='b'; try{ const pv=new URLSearchParams(location.search).get('v'); VAR=(pv==='a'||pv==='b')?pv:(localStorage.getItem('ne-var')||'b'); }catch(e){}
+let VAR='c'; try{ const pv=new URLSearchParams(location.search).get('v'); VAR=['a','b','c'].includes(pv)?pv:(localStorage.getItem('ne-var3')||'c'); }catch(e){}
 const SL=[['17:00','17:30','18:30','19:00'],['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']];
 function slotLabel(){ if(!A.gslot||A.gskip) return null; const dd=days(); const i=A.gday||0; return (i===0?'dziś':((dd[1]-dd[0])===864e5?'jutro':DN[dd[1].getDay()]))+', '+A.gslot; }
 const vis=()=>S.filter(q=>!q.if||q.if(A));
@@ -981,8 +984,8 @@ function renderQuiz(){
         <div><span>Plan krok po kroku</span><b class="blur">5 etapów</b></div>
       </div><div class="veil">🔒 ${st===1?'Jeszcze dwa krótkie kroki':'Ostatni krok'}</div></div>`;
     const steps=gsteps(st);
-    const GN=3, sl=VAR==='b'?slotLabel():null;
-    const stepno=VAR==='b'?({email:1,slot:2,phone:3})[q.type]:(q.type==='email'?1:q.type==='phone'?2:3);
+    const VC=VAR==='c'; const GN=3, sl=VAR!=='a'?slotLabel():null;
+    const stepno=VAR!=='a'?({email:1,slot:2,phone:3})[q.type]:(q.type==='email'?1:q.type==='phone'?2:3);
     const dec=A.stage==='decided'||A.stage==='talked';
     if(q.type==='slot'&&A.gslot===undefined){ A.gday=0; A.gslot=SL[0][0]; A.gskip=false; save(); }
     const dd2=days();
@@ -1004,11 +1007,11 @@ function renderQuiz(){
         <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:12px">${A.gslot?'Potwierdzam: '+((A.gday||0)===0?'dziś':'jutro')+', '+A.gslot+' →':'Wybierz godzinę'}</button>
         <p class="note" style="margin-top:8px">Termin odwołasz jednym kliknięciem. Rozmowa niczego nie uruchamia, a poza tą porą nie dzwonimy.</p>
         <p style="margin:6px 0 0;text-align:center"><button class="linkbtn" id="noslot" type="button">${dec?'Żaden termin mi nie pasuje':'Na razie pokaż sam plan'}</button></p>`
-      :q.type==='phone'?`${dots}<h2>${sl?(A.name?esc(A.name)+', n':'N')+'a jaki numer opiekun ma zadzwonić '+sl.replace(', ',' o ')+'?':(A.name?esc(A.name)+', ':'')+(VAR==='b'?(A.name?'n':'N')+'a jaki numer wysłać linki do filmów?':(A.name?'g':'G')+'dzie wysłać kod SMS do logowania?')}</h2>
-        ${VAR==='b'?`<p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Dzwonimy tylko o wybranej porze.</b> SMS-y przychodzą od nadawcy „K Jura” i nie zawierają słowa „rozwód”.</span></p>`:`<p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Twój plan jest prywatny.</b> Otworzy go tylko osoba, która ma Twój telefon.</span></p>`}
-        <div style="display:grid;gap:12px;margin-top:14px"><label class="f">Telefon<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label>${VAR==='b'?'<p class="note" id="ph-prev" style="margin:0;font-weight:700;color:var(--ink)"></p>':''}</div>
-        <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:14px">${VAR==='b'?(sl?'Potwierdzam termin i zobacz plan →':'Zobacz mój plan →'):'Wyślij kod →'}</button>
-        <p class="note" style="margin-top:10px">${VAR==='b'?(sl?'Zaraz po tym kroku dostaniesz SMS z potwierdzeniem terminu, imieniem opiekuna i linkiem do zmiany godziny. Plan otworzy się od razu.':'Na ten numer wyślemy linki do filmów. Plan otworzy się od razu.'):'SMS przyjdzie od nadawcy „K Jura” i zawiera sam kod, bez słowa „rozwód”.'}</p>`
+      :q.type==='phone'?`${dots}${VC&&sl?`<p class="okbox"><b>✓ Rozmowa zapisana: ${sl}.</b> Potwierdzenie z zaproszeniem do kalendarza wysłaliśmy na ${esc(A.email||'Twój e-mail')}.</p>`:''}<h2>${VC&&sl?(A.name?esc(A.name)+', g':'G')+'dzie wysłać SMS z przypomnieniem?':sl?(A.name?esc(A.name)+', n':'N')+'a jaki numer opiekun ma zadzwonić '+sl.replace(', ',' o ')+'?':(A.name?esc(A.name)+', ':'')+(VAR!=='a'?(A.name?'n':'N')+'a jaki numer wysłać linki do filmów?':(A.name?'g':'G')+'dzie wysłać kod SMS do logowania?')}</h2>
+        ${VAR!=='a'?`<p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Dzwonimy tylko o wybranej porze.</b> SMS-y przychodzą od nadawcy „K Jura” i nie zawierają słowa „rozwód”.</span></p>`:`<p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Twój plan jest prywatny.</b> Otworzy go tylko osoba, która ma Twój telefon.</span></p>`}
+        <div style="display:grid;gap:12px;margin-top:14px"><label class="f">Telefon<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label>${VAR!=='a'?'<p class="note" id="ph-prev" style="margin:0;font-weight:700;color:var(--ink)"></p>':''}</div>
+        <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:14px">${VAR!=='a'?(sl?(VC?'Zapisz numer i zobacz plan →':'Potwierdzam termin i zobacz plan →'):'Zobacz mój plan →'):'Wyślij kod →'}</button>
+        <p class="note" style="margin-top:10px">${VAR!=='a'?(sl?(VC?'Opiekun zadzwoni na ten numer '+sl.replace(', ',' o ')+'. Jeśli nie odbierzesz, spróbuje jeszcze raz po kilku minutach.</p><p style="margin:6px 0 0;text-align:center"><button class="linkbtn" id="nophone" type="button">Pomiń, połączę się przez link z e-maila</button>':'Zaraz po tym kroku dostaniesz SMS z potwierdzeniem terminu, imieniem opiekuna i linkiem do zmiany godziny. Plan otworzy się od razu.'):'Na ten numer wyślemy linki do filmów. Plan otworzy się od razu.'):'SMS przyjdzie od nadawcy „K Jura” i zawiera sam kod, bez słowa „rozwód”.'}</p>`
       :`${dots}<h2>Wpisz kod z SMS-a</h2>
         <p class="note" style="margin-top:8px;font-size:.95rem">Wysłaliśmy 4-cyfrowy kod na numer <b style="color:var(--ink);white-space:nowrap">${esc(fmtPh())}</b>.</p>
         <label class="f" style="margin-top:14px">Kod<input type="text" id="otp" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="• • • •" value="${esc(A.otp||'')}"></label>
@@ -1072,6 +1075,7 @@ function renderQuiz(){
   const city=$('#city'); if(city){ city.onchange=e=>{ const v=e.target.value; A.city=v; A.abroad=A.abroad==='one'?'one':(v?'pl':null); if(v&&!A.still) A.still='yes'; save(); renderQuiz(); };
     $$('#qcard [data-still]').forEach(b=>b.onclick=()=>{ A.still=b.dataset.still; save(); renderQuiz(); });
     const oa=$('#oneab'); if(oa) oa.onchange=()=>{ A.abroad=oa.checked?'one':'pl'; save(); }; }
+  const np=$('#nophone'); if(np) np.onclick=()=>{ A.phone=''; A.cskip=true; save(); next(); };
   const ph=$('#ph'); if(ph){ const pv=()=>{ const el=$('#ph-prev'); if(el) el.textContent=phoneOk(A.phone)?(slotLabel()?'Zadzwonimy na ':'Numer: ')+fmtPh():''; }; ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd(); pv();}; pv(); }
   const em=$('#em'); if(em){
     const fx=()=>{ const sug=fixEmail(em.value.trim()); $('#emfix').innerHTML=sug?`<button class="linkbtn" id="emfix-b" type="button">Czy chodziło Ci o <b>${esc(sug)}</b>?</button>`:''; const b=$('#emfix-b'); if(b) b.onclick=()=>{ em.value=sug; A.email=sug; save(); fx(); upd(); }; $('#csw').hidden=!emShape(em.value.trim()); };
@@ -1112,7 +1116,7 @@ let pick={day:0,slot:null,mode:'cal'}, booked=null;
 function days(){ const out=[]; const d=new Date(); d.setHours(0,0,0,0); let k=0; while(out.length<3){ const x=new Date(d.getTime()+k*864e5); if(x.getDay()!==0) out.push(x); k++; } return out; }
 const DN=['niedz.','pon.','wt.','śr.','czw.','pt.','sob.'];
 function renderResult(){
-  if(VAR==='b'&&!booked&&A.done&&slotLabel()&&!A.gused){ booked=slotLabel(); A.gused=true; save(); }
+  if(VAR!=='a'&&!booked&&A.done&&slotLabel()&&!A.gused){ booked=slotLabel(); A.gused=true; save(); }
   const demo=!A.done;
   const a=demo?{stage:'talked',partner:'unsure',kids:'yes',home:'credit',fault:'no',contact:'hard',abroad:'pl',city:'Poznań',still:'yes',when:'asap',pri:['kids','cost'],name:'Anna',phone:'600123456',ct:'eve'}:A;
   const keep=A; A=a; const p=path(), c=court()||'ustalimy w rozmowie', sc=score(); A=keep;
@@ -1144,7 +1148,7 @@ function renderResult(){
       <dl class="kv"><dt>Właściwy sąd</dt><dd>${esc(c)}</dd><dt>Termin w Twoim sądzie</dt><dd>${locked?'<span class="blur">ok. 3–4 mies.</span>':'Zależy od sądu. Opiekun sprawdzi go przed rozmową i poda Ci w jej trakcie.'}</dd></dl>
       ${A.email?'':`<div class="save"><label for="sv-em">Zapisz ten plan na później</label><div class="row2"><input type="email" id="sv-em" autocomplete="email" placeholder="twoj@email.pl"><button class="btn btn-gold" id="sv-btn" type="button" style="padding:12px 16px" disabled>Wyślij plan</button></div><p>Wyślemy go na e-mail, żeby nie zginął. Bez spamu.</p></div>`}
     </div>
-    ${A.email?`<div class="card saved"><span class="eyebrow">✓ Plan zapisany</span><p>Wysłaliśmy go na <b>${esc(A.email)}</b>. Od jutra na ten e-mail${A.smsOff?'':' oraz dyskretnym SMS-em'}, przez 7 dni o <select id="mtime2" class="inl" aria-label="Godzina wysyłki filmów">${['7:30','8:30','9:30','12:00','17:30','20:30'].map(x=>`<option ${(A.mtime||'9:30')===x?'selected':''}>${x}</option>`).join('')}</select>, dostaniesz jeden link do krótkiego filmu Kamila Jury.</p><p class="note" style="margin-top:8px">🔒 Piszemy i dzwonimy tylko w godzinach, które sam(a) wskażesz.</p></div>`:''}
+    ${A.email?`<div class="card saved"><span class="eyebrow">✓ Plan zapisany</span><p>Wysłaliśmy go na <b>${esc(A.email)}</b>. Od jutra na ten e-mail${(A.smsOff||!phoneOk(A.phone))?'':' oraz dyskretnym SMS-em'}, przez 7 dni o <select id="mtime2" class="inl" aria-label="Godzina wysyłki filmów">${['7:30','8:30','9:30','12:00','17:30','20:30'].map(x=>`<option ${(A.mtime||'9:30')===x?'selected':''}>${x}</option>`).join('')}</select>, dostaniesz jeden link do krótkiego filmu Kamila Jury.</p><p class="note" style="margin-top:8px">🔒 Piszemy i dzwonimy tylko w godzinach, które sam(a) wskażesz.</p></div>`:''}
   </div>
   <div class="a-det">
     <div class="card">${HH('plan',`Twój plan krok po kroku`)}<div class="tl">${steps.map((s,i)=>`<div class="${locked&&i>1?'bl':''}"><span class="n">${i+1}</span><span>${s[0]}<small>${esc(s[1])}</small></span></div>`).join('')}</div></div>
@@ -1165,7 +1169,7 @@ function renderResult(){
       ${booked?`<button type="button" class="bk-tg" id="bk-tg" aria-label="${pick.min?'Rozwiń':'Zwiń'} informację o rozmowie">${pick.min?'▴':'▾'}</button>`:''}
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
       <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':((A.name||a.name)?esc(A.name||a.name)+', w':'W')+' trakcie 30-minutowej rozmowy z opiekunem dowiesz się:'}</h2>
-      ${booked?`<div class="done"><b>Termin: ${booked}.</b><p class="note" style="margin-top:4px">Opiekun zadzwoni na numer ${esc((A.cc||'+48')+' '+(A.phone||''))}. Wcześniej dostaniesz SMS z numerem, z którego zadzwoni. Termin przełożysz jednym kliknięciem.</p></div>`:`
+      ${booked?`<div class="done"><b>Termin: ${booked}.</b><p class="note" style="margin-top:4px">${phoneOk(A.phone)?'Opiekun zadzwoni na numer '+esc(fmtPh())+'. Wcześniej dostaniesz SMS z numerem, z którego zadzwoni.':'Link do rozmowy wysłaliśmy na '+esc(A.email||'Twój e-mail')+'. O umówionej godzinie kliknij go, żeby połączyć się z opiekunem.'} Termin przełożysz jednym kliknięciem.</p></div>`:`
       <div class="bk-sub"><ol class="bk3"><li><span>Czy Twój rozwód zakończy się <b>bezkonfliktowo, na jednej rozprawie</b>${a.kids==='yes'?', <b>bez angażowania dzieci</b>':''}?</span></li><li><span>Co może dziś <b>niepotrzebnie pogorszyć Twoją sytuację</b>${a.together==='yes'?', kiedy mieszkacie jeszcze razem':a.together==='no'?', kiedy nie mieszkacie już razem':''}?</span></li><li><span>Jaki jest <b>największy błąd</b>, którego trzeba uniknąć <b>przed złożeniem pozwu</b>?</span></li></ol></div>
       <p class="bk-q">Kiedy chcesz bezpłatnie omówić swój Plan Rozwodu?</p>
       <div class="bk-row">
@@ -1174,7 +1178,7 @@ function renderResult(){
       </div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" ${pick.slot?'':'disabled'}>Rezerwuję rozmowę</button>
       <p class="note" id="bk-msg" style="margin-top:8px">Terminy są tylko na dziś i jutro. Jeśli żaden nie pasuje, napiszemy SMS-em z prośbą o wskazanie pory.</p>`}
-      <div class="who"><img src="${IMG_M}" alt="" width="56" height="56"><div><b>Mateusz Malczewski</b><br><span class="note">opiekun klienta, to on do Ciebie zadzwoni</span></div></div>
+      <div class="who"><img src="${IMG_M}" alt="" width="56" height="56"><div><b>Mateusz Malczewski</b><br><span class="note">opiekun klienta, to z nim porozmawiasz</span></div></div>
     </div>
     <div class="card" id="prep" ${locked?'hidden':''}>
       <h3 style="font-family:var(--f-body);font-size:1rem;font-weight:800">Zobacz krótkie wideo przed rozmową</h3>
@@ -1185,7 +1189,7 @@ function renderResult(){
       <p class="note" style="margin-top:4px;font-weight:700">Rozmowa niczego nie uruchamia.</p>
     </div>
   </div>
-  <div class="a-sales"><div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Wersja lejka: ${VAR==='b'?'B, termin przed planem'+(A.gskip?' (krok z terminem pominięty)':''):'A, plan od razu'}.<br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Segment: ${(()=>{ const dec=a.stage==='decided'||a.stage==='talked', cons=a.stage==='considering', tg=a.together==='yes', ap=a.together==='no'; if(!(dec||cons)||!(tg||ap)) return 'poza tabelą (sprawa w sądzie albo brak odpowiedzi)'; const k=(ap?'osobno':'razem')+', '+(dec?'zdecydowani':'rozważa'); const r={'osobno, zdecydowani':'6,4%','osobno, rozważa':'2,8%','razem, zdecydowani':'3,9%','razem, rozważa':'1,5%'}[k]; return k+' · umowa z '+r+' leadów z telefonem (dane historyczne)'; })()}.<br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'30 min z opiekunem, '+booked:'bez terminu, wysłać SMS z prośbą o porę')}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Mieszkają razem: ${a.together==='yes'?'tak, dzwonić tylko o wybranej porze':a.together==='no'?'nie':'brak odpowiedzi'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div></div>`;
+  <div class="a-sales"><div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Wersja lejka: ${VAR!=='a'?(VAR==='c'?'C, rezerwacja po e-mailu, telefon na przypomnienie':'B, termin przed planem')+(A.gskip?' (krok z terminem pominięty)':''):'A, plan od razu'}.<br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Segment: ${(()=>{ const dec=a.stage==='decided'||a.stage==='talked', cons=a.stage==='considering', tg=a.together==='yes', ap=a.together==='no'; if(!(dec||cons)||!(tg||ap)) return 'poza tabelą (sprawa w sądzie albo brak odpowiedzi)'; const k=(ap?'osobno':'razem')+', '+(dec?'zdecydowani':'rozważa'); const r={'osobno, zdecydowani':'6,4%','osobno, rozważa':'2,8%','razem, zdecydowani':'3,9%','razem, rozważa':'1,5%'}[k]; return k+' · umowa z '+r+' leadów z telefonem (dane historyczne)'; })()}.<br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'30 min z opiekunem, '+booked:'bez terminu, wysłać SMS z prośbą o porę')}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Mieszkają razem: ${a.together==='yes'?'tak, dzwonić tylko o wybranej porze':a.together==='no'?'nie':'brak odpowiedzi'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div></div>`;
   const bd=$('#bk-day'); if(bd) bd.onchange=()=>{ pick.day=+bd.value; pick.slot=null; renderResult(); };
   const lt=$('details.later'); if(lt) lt.addEventListener('toggle',()=>{pick.open=lt.open;});
   $$('[data-slot]').forEach(b=>b.onclick=()=>{ pick.slot=b.dataset.slot; $$('[data-slot]').forEach(x=>x.classList.toggle('on',x===b)); $('#bk').disabled=false; });
@@ -1233,7 +1237,7 @@ function route(){
 function fabClose(){ $('#fab-menu').hidden=true; $('#fab-btn').setAttribute('aria-expanded','false'); }
 $('#fab-btn').onclick=()=>{ const m=$('#fab-menu'); m.hidden=!m.hidden; $('#fab-btn').setAttribute('aria-expanded',String(!m.hidden)); };
 document.addEventListener('click',e=>{ if(!e.target.closest('#fab')) fabClose(); });
-$$('.fab-menu a[data-var]').forEach(x=>{ x.classList.toggle('on',x.dataset.var===VAR); x.onclick=()=>{ VAR=x.dataset.var; try{localStorage.setItem('ne-var',VAR)}catch(e){} A={}; idx=0; booked=null; pick={day:0,slot:null}; save(); $$('.fab-menu a[data-var]').forEach(y=>y.classList.toggle('on',y.dataset.var===VAR)); setTimeout(route,0); }; });
+$$('.fab-menu a[data-var]').forEach(x=>{ x.classList.toggle('on',x.dataset.var===VAR); x.onclick=()=>{ VAR=x.dataset.var; try{localStorage.setItem('ne-var3',VAR)}catch(e){} A={}; idx=0; booked=null; pick={day:0,slot:null}; save(); $$('.fab-menu a[data-var]').forEach(y=>y.classList.toggle('on',y.dataset.var===VAR)); setTimeout(route,0); }; });
 $('#reset').onclick=()=>{ A={}; idx=0; booked=null; pick={day:0,slot:null}; save(); setTimeout(route,0); };
 addEventListener('hashchange',route);
 route();
