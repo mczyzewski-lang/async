@@ -180,6 +180,17 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .otp{letter-spacing:.5em;font-size:1.5rem!important;font-weight:800;text-align:center}
 .cpts{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:.95rem;color:var(--on-dark-muted)}
 .cpts b{color:#fff}
+.pong2{margin-top:14px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px}
+.pong2 svg{display:block;width:100%;max-width:420px;margin:0 auto}
+.pong2 .seg{stroke-dasharray:100;stroke-dashoffset:100;animation:stdraw .55s var(--d) ease-in forwards}
+.pong2 .hd,.pong2 .pa text{opacity:0}
+.pong2 .pa text{paint-order:stroke;stroke:#10261f;stroke-width:5px;stroke-linejoin:round}
+.pong2 .pa .hd{animation:stfade .15s calc(var(--d) + .5s) forwards}
+.pong2 .pa text{animation:stfade .3s calc(var(--d) + .15s) forwards}
+.pong2 .meter{margin-top:8px;font-size:.8rem;color:var(--on-dark-muted)}
+.pong2 .meter i{display:block;margin-top:6px;height:8px;border-radius:8px;background:rgba(255,255,255,.15);overflow:hidden}
+.pong2 .meter em{display:block;height:100%;width:6%;background:#c95a4a;animation:pongm 4.4s .3s linear forwards}
+@media (prefers-reduced-motion:reduce){.pong2 .seg{animation:none;stroke-dashoffset:0}.pong2 .hd,.pong2 .pa text{animation:none;opacity:1}.pong2 .meter em{animation:none;width:100%}}
 .pong{margin-top:14px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px}
 .pong-top{display:flex;align-items:center;gap:10px;font-size:.82rem;color:#fff}
 .pong-top b{white-space:nowrap}
@@ -266,6 +277,8 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .lockline{margin:0;font-size:.9rem;font-weight:700;color:var(--ink)}
 .react.light .dlist{color:var(--ink)}
 .dlist{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
+.why.top{margin-top:10px}
+.why.top+.qopts{margin-top:14px}
 .qopts.n2{grid-template-columns:1fr 1fr}
 .qopt:not(.multi):not(.two) .k{display:none}
 .qopt:not(.multi):not(.two)::after{content:"→";margin-left:auto;color:var(--gold-2);font-weight:700}
@@ -666,8 +679,10 @@ const S=[
  {id:'home',t:'Czy macie wspólne mieszkanie lub dom?',o:[['credit','Tak, z kredytem',2],['yes','Tak, bez kredytu',2],['no','Nie',0]],why:'Podział majątku można ustalić w mediacji i nie musi on blokować rozwodu.'},
  {id:'r-home',type:'r',if:a=>a.home&&a.home!=='no',render:a=>['Mieszkanie możecie podzielić na dwa sposoby.','<p style="margin-top:0">Rozwód nie musi czekać na podział majątku. Różnica jest w tym, ile kosztuje i jak długo trwa sam podział:</p><div class="paths"><div class="ok"><h3>Polubownie, w mediacji</h3><ol><li>Ustalacie z mediatorem, kto zostaje w mieszkaniu'+(a.home==='credit'?' i kto spłaca kredyt':'')+'</li><li>Podpisujecie umowę u notariusza albo składacie wspólny wniosek do sądu</li></ol><dl><dt>Opłata sądowa</dt><dd>300 zł</dd><dt>Czas</dt><dd>zwykle tygodnie</dd></dl></div><div class="bad"><h3>W sporze, przed sądem</h3><ol><li>Osobny proces o podział majątku</li><li>Wycena przez biegłego, świadkowie, kolejne rozprawy</li></ol><dl><dt>Opłata sądowa</dt><dd>1 000 zł</dd><dt>Kancelaria</dt><dd>od 10 800 zł</dd><dt>Czas</dt><dd>często ponad rok</dd></dl></div></div><p>Honorarium kancelarii przy majątku od 200 000 zł; do tego koszt biegłego.'+(a.home==='credit'?' Przy kredycie podpowiemy też, jak rozmawiać z bankiem o przejęciu długu.':'')+'</p>']},
  {id:'fault',t:'Czy sąd ma rozstrzygać, kto jest winny rozpadu małżeństwa?',o:[['no','Nie, chcę rozwodu bez orzekania o winie',4],['yes','Tak, chcę, żeby sąd orzekł o winie małżonka',2],['them','Możliwe, że będzie tego chciała druga strona',2],['dk','Nie wiem, co to zmienia',2]],why:'Od tego zależy, ile rozpraw Cię czeka i czy 300 zł z opłaty wróci.'},
- {id:'r-fault',type:'r',render:a=>(a.fault==='yes'||a.fault==='them')
-   ?['Spór o winę to najdroższa część rozwodu.','<div class="pong" role="img" aria-label="Spór o winę: każda strona odpowiada na ruch drugiej, a koszt i czas rosną"><div class="pong-top"><b>Ty</b><span class="track"><i class="ball"></i></span><b>Druga strona</b></div><ol><li class="l">Pozew z żądaniem winy</li><li class="r">Odpowiedź na pozew</li><li class="l">Twoi świadkowie i dowody</li><li class="r">Świadkowie i dowody drugiej strony</li><li class="l">Kolejne pisma i zażalenia</li><li class="r">Kolejna rozprawa</li></ol><div class="meter"><span>Koszt i czas rosną z każdym odbiciem</span><i><em></em></i></div></div><p>Do tego dochodzą wiadomości i dokumenty jako dowody, a czasem detektyw za 15–20 tys. zł.</p><p>Dlatego najpierw sprawdzamy w mediacji, czy da się tego uniknąć. Często się da, a wtedy sprawa staje się prosta.</p>']
+ {id:'r-fault',type:'r',render:a=>a.fault==='them'
+   ?['To częsta obawa i zwykle da się ją rozwiązać.','<p style="margin-top:0">Mediator rozmawia z każdym z Was osobno. W wielu sprawach strona, która na początku mówi o winie, zgadza się na rozwód bez orzekania, gdy widzi konkretne ustalenia zamiast pozwu.</p><p>Jak to wygląda w Twojej sytuacji, sprawdzimy w planie, zanim cokolwiek trafi do sądu.</p>']
+   :a.fault==='yes'
+   ?['Spór o winę to najdroższa część rozwodu.','<div class="pong2"><svg viewBox="0 0 300 342" role="img" aria-label="Spór o winę: każdy ruch jednej strony wywołuje odpowiedź drugiej, a koszt i czas rosną"><text class="hd-t" x="8" y="18" fill="#fff" font-size="14" font-weight="800">Ty</text><text class="hd-t" x="292" y="18" fill="#fff" font-size="14" font-weight="800" text-anchor="end">Druga strona</text><path d="M14 30V336" stroke="rgba(255,255,255,.4)" stroke-width="3" stroke-linecap="round"/><path d="M286 30V336" stroke="rgba(224,138,124,.85)" stroke-width="3" stroke-linecap="round"/><g class="pa" style="--d:0.30s"><path class="seg" d="M14 52L286 98" fill="none" stroke="#f0d9a8" stroke-width="2.4" stroke-linecap="round" pathLength="100"/><path class="hd" d="M286 98l-10 -8M286 98l-12 3" fill="none" stroke="#f0d9a8" stroke-width="2.4" stroke-linecap="round"/><text x="150" y="66" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Pozew z żądaniem winy</text></g><g class="pa" style="--d:1.00s"><path class="seg" d="M286 98L14 144" fill="none" stroke="#e08a7c" stroke-width="2.4" stroke-linecap="round" pathLength="100"/><path class="hd" d="M14 144l10 -8M14 144l12 3" fill="none" stroke="#e08a7c" stroke-width="2.4" stroke-linecap="round"/><text x="150" y="112" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Odpowiedź na pozew</text></g><g class="pa" style="--d:1.70s"><path class="seg" d="M14 144L286 190" fill="none" stroke="#f0d9a8" stroke-width="2.4" stroke-linecap="round" pathLength="100"/><path class="hd" d="M286 190l-10 -8M286 190l-12 3" fill="none" stroke="#f0d9a8" stroke-width="2.4" stroke-linecap="round"/><text x="150" y="158" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Twoi świadkowie i dowody</text></g><g class="pa" style="--d:2.40s"><path class="seg" d="M286 190L14 236" fill="none" stroke="#e08a7c" stroke-width="2.4" stroke-linecap="round" pathLength="100"/><path class="hd" d="M14 236l10 -8M14 236l12 3" fill="none" stroke="#e08a7c" stroke-width="2.4" stroke-linecap="round"/><text x="150" y="204" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Świadkowie i dowody drugiej strony</text></g><g class="pa" style="--d:3.10s"><path class="seg" d="M14 236L286 282" fill="none" stroke="#f0d9a8" stroke-width="2.4" stroke-linecap="round" pathLength="100"/><path class="hd" d="M286 282l-10 -8M286 282l-12 3" fill="none" stroke="#f0d9a8" stroke-width="2.4" stroke-linecap="round"/><text x="150" y="250" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Kolejne pisma i zażalenia</text></g><g class="pa" style="--d:3.80s"><path class="seg" d="M286 282L14 328" fill="none" stroke="#e08a7c" stroke-width="2.4" stroke-linecap="round" pathLength="100"/><path class="hd" d="M14 328l10 -8M14 328l12 3" fill="none" stroke="#e08a7c" stroke-width="2.4" stroke-linecap="round"/><text x="150" y="296" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Kolejna rozprawa</text></g></svg><div class="meter"><span>Koszt i czas rosną z każdym odbiciem</span><i><em></em></i></div></div><p>Do tego dochodzą wiadomości i dokumenty jako dowody, a czasem detektyw za 15–20 tys. zł.</p><p>Dlatego najpierw sprawdzamy w mediacji, czy da się tego uniknąć. Często się da, a wtedy sprawa staje się prosta.</p>']
    :['Bez orzekania o winie: krócej i taniej.','<div class="big">300 zł</div><p style="margin-top:0">wraca z opłaty sądowej po wyroku bez orzekania o winie.</p><p>Sąd nie szuka winnego, nie trzeba świadków na tę okoliczność, a przy gotowym porozumieniu zwykle wystarcza jedna rozprawa.</p>']},
  {id:'contact',t:'Jak wygląda Twój kontakt z drugą stroną?',o:[['ok','Rozmawiamy normalnie',5],['hard','Kontakt jest trudny',3],['none','Nie mamy kontaktu',1],['unsafe','Nie czuję się bezpiecznie',0]],why:'Przy braku poczucia bezpieczeństwa nie proponujemy mediacji, tylko rozmowę z prawnikiem.'},
  {id:'r-contact',type:'r',if:a=>a.contact==='hard'||a.contact==='none',render:()=>['Trudny kontakt to częsta sytuacja.','Mediacja odbywa się online, każde z was łączy się ze swojego miejsca. Mediator może też rozmawiać z każdym z was osobno, żeby nie trzeba było siedzieć naprzeciwko siebie. Wiele par dogaduje się właśnie dlatego, że nie muszą rozmawiać bezpośrednio.']},
@@ -756,6 +771,7 @@ function renderQuiz(){
   } else if(q.type==='loc'){
     const ct=court();
     h=`<div class="qcount">Pytanie ${qn} z ${qs.length}</div><h2>${q.t}</h2>
+      <div class="why top"><b>Dlaczego pytamy</b>${q.why}</div>
       <div style="display:grid;gap:14px;margin-top:16px">
         <div class="seg" role="radiogroup" aria-label="Kraj">${[['pl','W Polsce'],['ab','Za granicą']].map(o=>`<button type="button" data-where="${o[0]}" class="${(A.abroad==='both'?'ab':'pl')===o[0]?'on':''}" role="radio" aria-checked="${(A.abroad==='both'?'ab':'pl')===o[0]}">${o[1]}</button>`).join('')}</div>
         ${A.abroad!=='both'?`<label class="f">Miasto (lub najbliższe z sądem okręgowym)<select id="city"><option value="">Wybierz miasto</option>${CITIES.map(c=>`<option ${A.city===c[0]?'selected':''}>${esc(c[0])}</option>`).join('')}</select></label>`:''}
@@ -764,7 +780,6 @@ function renderQuiz(){
         ${ct?`<p class="courtline">Właściwy sąd: <b>${esc(ct)}</b></p>`:''}
         <p class="waitline"><b>Sprawdzimy czas oczekiwania w tym sądzie.</b> Przed rozmową ustalimy, ile obecnie czeka się na rozprawę, i powiemy Ci to w trakcie rozmowy.</p>
       </div>
-      <div class="why"><b>Dlaczego pytamy</b>${q.why}</div>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Dalej →</button><button class="linkbtn" id="back" type="button">Wstecz</button><button class="linkbtn" id="skip" type="button">Pomiń</button></div>`;
   } else if(q.type==='pin'){
     if(!A.pin){ A.pin=String(Math.floor(1000+Math.random()*9000)); save(); }
@@ -841,8 +856,8 @@ function renderQuiz(){
     const opts=q.filter?q.o.filter(q.filter(A)):q.o;
     if(q.multi&&A[q.id]) A[q.id]=A[q.id].filter(x=>opts.some(o=>o[0]===x));
     h=`<div class="qcount">${qn?`Pytanie ${qn} z ${qs.length}`:'Krótkie dopytanie'}</div><h2>${q.t}</h2>${q.sub?`<p class="sub">${q.sub}</p>`:''}
+      ${q.why?`<div class="why top"><b>Dlaczego pytamy</b>${q.why}</div>`:''}
       <div class="qopts${!q.multi&&opts.length===2?' n2':''}" role="${q.multi?'group':'radiogroup'}">${opts.map(o=>{const on=q.multi?(A[q.id]||[]).includes(o[0]):A[q.id]===o[0];return `<button type="button" class="qopt${q.multi?' multi':''}${on?' sel':''}" data-v="${o[0]}" role="${q.multi?'checkbox':'radio'}" aria-checked="${on}"><span class="k"></span>${o[1]}</button>`}).join('')}</div>
-      ${q.why?`<div class="why"><b>Dlaczego pytamy</b>${q.why}</div>`:''}
       ${q.id==='contact'&&A.contact==='unsafe'?'<div class="alert"><b>Twoje bezpieczeństwo jest najważniejsze.</b> Nie zaproponujemy mediacji i nie skontaktujemy się z drugą stroną bez Twojej zgody. Niebieska Linia: <b>800 120 002</b>, w zagrożeniu życia <b>112</b>.</div>':''}
       <div class="qnav">${q.multi?'<button class="btn btn-gold" id="next" type="button">Dalej →</button>':''}<button class="linkbtn" id="back" type="button">Wstecz</button></div>`;
   }
