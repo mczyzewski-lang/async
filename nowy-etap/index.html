@@ -110,12 +110,23 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .cmp-r strong{display:block;font-family:var(--f-display);font-weight:400;font-size:1.45rem;line-height:1.15;margin-bottom:4px;color:var(--ink)}
 .cmp .b strong{color:var(--muted)}
 .cmp .sr{visibility:hidden}
+.cmp-r>div.cbar{display:flex;flex-direction:column;padding-bottom:0}
+.cmp .cb{display:block;width:64px;border-radius:5px 5px 0 0;margin:auto auto 0;flex:none}
+.cmp-r>div.cbar::after{content:"";order:1;flex:1;min-height:14px}
+.cmp .cb{order:2}
+.cmp .cb.them{height:170px;background:#c8574c;animation:cbr 1.1s ease-out both}
+.cmp .cb.us{height:22px;background:var(--gold-2)}
+.cmp .b.cbar{background:linear-gradient(var(--sunk),var(--warn-soft))}
+.cmp .a.cbar{background:linear-gradient(var(--teal-100),var(--ok-soft))}
+@keyframes cbr{from{height:22px}}
+@media (prefers-reduced-motion:reduce){.cmp .cb.them{animation:none}}
 @media (max-width:700px){
   .cmp-h,.cmp-r{grid-template-columns:1fr 1fr}
   .cmp-h .sr{display:none}
   .cmp-r>span{grid-column:1/-1;padding:10px 14px 0;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   .cmp-r>div{padding:8px 14px 14px;font-size:.9rem}
   .cmp-r>span+div{border-radius:0}
+  .cmp .cb{width:48px}.cmp .cb.them{height:130px}
   .cmp-h b{padding:12px 14px;font-size:1rem}
   .cmp-r{background:linear-gradient(90deg,var(--teal-100) 50%,var(--sunk) 50%)}
   .cmp-r strong{font-size:1.2rem}
@@ -509,7 +520,6 @@ details.later[open] summary::after{content:"▴"}
 .saved .eyebrow{color:var(--ok)}.saved p{margin-top:8px;line-height:1.7}
 select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;border-color:var(--gold);vertical-align:baseline}
 .a-sales{grid-area:sales}
-.lbars.lp{max-width:560px;margin-inline:auto;margin-top:20px;margin-bottom:22px}
 .cta-c{text-align:center;margin-top:26px}.cta-c small{display:block;margin-top:8px;font-size:.82rem;color:var(--muted)}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
 .g3>div{border:1.5px solid var(--gold);background:var(--gold-soft);border-radius:14px;padding:16px}
@@ -519,9 +529,13 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 .err3 span{width:28px;height:28px;border-radius:50%;background:var(--warn);color:#fff;font-weight:800;font-size:.85rem;display:grid;place-items:center}
 .err3 p{margin:0;font-size:.95rem}
 .vrev{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-.vrev button{display:grid;grid-template-columns:44px 1fr;column-gap:12px;align-items:center;text-align:left;background:var(--teal-900);color:#fff;border:0;border-radius:14px;padding:14px}
-.vrev i{grid-row:1/3;width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:grid;place-items:center;font-style:normal}
-.vrev small{color:var(--on-dark-muted);font-size:.8rem}
+.vrev button{display:block;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 0 12px;overflow:hidden;color:var(--ink)}
+.vrev .th{position:relative;display:grid;place-items:center;aspect-ratio:16/9;background:linear-gradient(135deg,var(--teal-700),var(--teal-900));margin-bottom:10px}
+.vrev .ph{position:absolute;left:10px;top:8px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.vrev i{width:54px;height:54px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:grid;place-items:center;font-style:normal;font-size:1.1rem;box-shadow:0 8px 20px -6px rgba(0,0,0,.5)}
+.vrev em{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.65);color:#fff;font-style:normal;font-size:.74rem;font-weight:700;border-radius:4px;padding:2px 6px}
+.vrev b,.vrev small{display:block;padding:0 14px}
+.vrev small{color:var(--muted);font-size:.84rem}
 .stack{list-style:none;margin:16px 0 0;padding:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
 .stack li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 16px;border-top:1px solid var(--line)}.stack li:first-child{border-top:0}
 .stack span{font-size:.9rem;color:var(--muted)}.stack span b{display:block;color:var(--ink);font-size:1rem}
@@ -630,10 +644,9 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
       <div><h3>Pozew</h3><p>Pozew tylko potwierdza ustalenia, więc zwykle wystarcza jedna rozprawa, do 60 minut. Jeśli mediacja się nie uda, reprezentujemy Cię w sądzie bez dopłaty.</p></div>
     </div>
     <h2 style="margin-top:48px">Ile kosztuje rozwód? Para płaci u nas zwykle kilkukrotnie mniej.</h2>
-    <div class="lbars lp" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60&nbsp;000&nbsp;zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div>
     <div class="cmp" role="table" aria-label="Porównanie kosztu rozwodu dla pary">
       <div class="cmp-h" role="row"><span role="columnheader" class="sr">Co porównujemy</span><b role="columnheader" class="a">Z Nowym Etapem</b><b role="columnheader" class="b">Tradycyjnie, dwie kancelarie</b></div>
-      <div class="cmp-r" role="row"><span role="rowheader">Koszt dla pary</span><div role="cell" class="a"><strong>kilka tysięcy zł</strong>jedna kwota dla Was obojga</div><div role="cell" class="b"><strong>średnio ok. 60 000 zł</strong>2 × ok. 30 000 zł, każde płaci swojemu prawnikowi</div></div>
+      <div class="cmp-r" role="row"><span role="rowheader">Koszt dla pary</span><div role="cell" class="a cbar"><strong>kilka tysięcy zł</strong>jedna kwota dla Was obojga<i class="cb us" aria-hidden="true"></i></div><div role="cell" class="b cbar"><strong>średnio ok. 60&nbsp;000&nbsp;zł</strong>2 × ok. 30 000 zł, każde płaci swojemu prawnikowi<i class="cb them" aria-hidden="true"></i></div></div>
       <div class="cmp-r" role="row"><span role="rowheader">Kiedy poznajesz cenę</span><div role="cell" class="a">w planie, przed decyzją</div><div role="cell" class="b">po konsultacji za 300–750 zł</div></div>
       <div class="cmp-r" role="row"><span role="rowheader">Za co płacisz</span><div role="cell" class="a">za cały proces, niezależnie od liczby rozpraw</div><div role="cell" class="b">honorarium 7 500–15 000 zł na start, potem od 1 000 zł za każdą rozprawę, pisma i apelację</div></div>
       <div class="cmp-r" role="row"><span role="rowheader">Gdy nie ma porozumienia</span><div role="cell" class="a">reprezentacja w sądzie bez dopłaty</div><div role="cell" class="b">kolejne rozprawy i kolejne opłaty</div></div>
@@ -662,7 +675,7 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
     <h2>Co mówią klienci</h2>
     <p class="note" style="margin-top:6px"><b style="color:var(--ink)">4,8/5 w Google</b> · ponad 1000 opinii</p>
     <div class="revs"><figure class="rev"><q>Znałam ceny w Warszawie i byłam przerażona. Od Was usłyszałam kwotę dużo, dużo mniejszą. Była podana od razu na początku i się nie zmieniła.</q><small>Wioletta, Warszawa · z wywiadu w podcaście „Sekrety rozwodu”</small></figure><figure class="rev"><q>Rozprawa trwała dokładnie 15 minut. Wszystko zostało omówione i nic nowego nie mogło mnie już zaskoczyć.</q><small>Elżbieta, Białystok · z wywiadu w podcaście „Sekrety rozwodu”</small></figure><figure class="rev"><q>Najmniejszy koszt dla dzieci jest wtedy, kiedy my się dogadamy.</q><small>Krzysztof, Kraków, ojciec trzech synów · z wywiadu w podcaście „Sekrety rozwodu”</small></figure></div>
-    <div class="vrev"><button type="button"><i>▶</i><b>Wioletta, Warszawa</b><small>o cenie · 0:40</small></button><button type="button"><i>▶</i><b>Elżbieta, Białystok</b><small>o rozprawie · 0:35</small></button><button type="button"><i>▶</i><b>Krzysztof, Kraków</b><small>o dzieciach · 0:45</small></button></div>
+    <div class="vrev"><button type="button" aria-label="Odtwórz wideo: Wioletta, Warszawa, o cenie"><span class="th"><span class="ph">miniatura wideo</span><i>▶</i><em>0:40</em></span><b>Wioletta, Warszawa</b><small>o cenie</small></button><button type="button" aria-label="Odtwórz wideo: Elżbieta, Białystok, o rozprawie"><span class="th"><span class="ph">miniatura wideo</span><i>▶</i><em>0:35</em></span><b>Elżbieta, Białystok</b><small>o rozprawie</small></button><button type="button" aria-label="Odtwórz wideo: Krzysztof, Kraków, o dzieciach"><span class="th"><span class="ph">miniatura wideo</span><i>▶</i><em>0:45</em></span><b>Krzysztof, Kraków</b><small>o dzieciach</small></button></div>
     <p class="note" id="vrev-msg" style="margin-top:8px">Krótkie wycinki wywiadów wideo, z napisami.</p>
   </div>
 
