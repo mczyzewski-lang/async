@@ -179,6 +179,14 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .otp{letter-spacing:.5em;font-size:1.5rem!important;font-weight:800;text-align:center}
 .cpts{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:.95rem;color:var(--on-dark-muted)}
 .cpts b{color:#fff}
+.mini2{margin-top:12px;border:1px solid rgba(255,255,255,.18);border-radius:12px;overflow:hidden}
+.mini2>div{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;background:rgba(214,165,76,.16)}
+.mini2>div+div{border-top:1px solid rgba(255,255,255,.18)}
+.mini2>div.lo{background:rgba(0,0,0,.2)}
+.mini2 span{font-size:.92rem;color:#fff}
+.mini2 b{font-family:var(--f-display);font-weight:400;font-size:1.6rem;color:#fff;white-space:nowrap}
+.mini2 .lo b,.mini2 .lo span{color:var(--on-dark-muted)}
+.react p.src,p.src{margin-top:8px;font-size:.72rem!important;line-height:1.4}
 .src{display:block;margin-top:6px;font-size:.74rem;opacity:.8}
 .quiet{margin-top:12px;font-size:.9rem;color:var(--on-dark-muted)}
 .stairs{display:block;width:100%;max-width:420px;margin:14px auto 0}
@@ -571,7 +579,7 @@ const IMG_K='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYF
 const S=[
  {id:'kids',t:'Czy masz z małżonkiem wspólne małoletnie dzieci?',o:[['yes','Tak',5],['no','Nie',0]],why:'Sąd zawsze rozstrzyga o władzy rodzicielskiej, kontaktach i alimentach.'},
  {id:'r-kids',type:'r',render:a=>a.kids==='yes'
-   ?['Nie jesteś sam(a).','<div class="big">62%</div><p style="margin-top:0">osób, które wypełniają ten quiz, ma małoletnie dzieci.</p><p>W porozumieniu rodzicielskim sami ustalacie opiekę, także <b style="color:#fff">opiekę naprzemienną</b>, kontakty i alimenty. Sąd je uwzględnia, jeśli jest zgodne z dobrem dziecka (art. 58 KRO).</p><p>To ma znaczenie na lata. W 12-letnim badaniu rodzice, którzy ustalili opiekę w porozumieniu zamiast w procesie, dużo częściej utrzymywali stały kontakt z dziećmi: co tydzień widywało je ok. 30% rodziców mieszkających osobno, wobec 9% po sporze sądowym.</p><p class="note" style="color:var(--on-dark-muted)">Źródło: R. Emery i in., University of Virginia, Journal of Consulting and Clinical Psychology, 2001.</p>']
+   ?['Nie jesteś sam(a).','<div class="big">62%</div><p style="margin-top:0">osób, które wypełniają ten quiz, ma małoletnie dzieci.</p><p>W porozumieniu rodzicielskim sami ustalacie opiekę, także <b style="color:#fff">opiekę naprzemienną</b>, kontakty i alimenty. Sąd je uwzględnia, jeśli jest zgodne z dobrem dziecka (art. 58 KRO).</p><p>To ma znaczenie na lata. W 12-letnim badaniu sprawdzono, ilu rodziców mieszkających osobno widuje dzieci co tydzień:</p><div class="mini2" role="table" aria-label="Rodzice widujący dzieci co tydzień, 12 lat po rozstaniu"><div role="row"><span role="rowheader">Opieka ustalona w porozumieniu</span><b role="cell">ok. 30%</b></div><div role="row" class="lo"><span role="rowheader">Opieka ustalona w sporze sądowym</span><b role="cell">9%</b></div></div><p class="src" style="color:var(--on-dark-muted)">Źródło: R. Emery i in., University of Virginia, Journal of Consulting and Clinical Psychology, 2001.</p>']
    :['Bez spraw dzieci jest prościej.','Sąd ma wtedy mniej do rozstrzygnięcia, a rozprawa w sprawie bez orzekania o winie trwa zwykle krótko. Kilka pytań i pokażemy Twój plan.']},
  {id:'stage',t:'Na jakim etapie jesteś?',o:[['decided','Jestem zdecydowany/a',6],['talked','Rozmawialiśmy już o rozwodzie',7],['considering','Rozważam, nadal się zastanawiam',1],['court','Sprawa jest już w sądzie',4]],why:'Od tego zależy, czy zaczniemy od mediacji, czy od spokojnego sprawdzenia możliwości.'},
  {id:'r-stage',type:'r',light:true,render:a=>({
