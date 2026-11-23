@@ -191,6 +191,8 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .info2 b{color:#fff;font-size:.92rem;line-height:1.3}
 .ring{stroke-dasharray:170;stroke-dashoffset:170;animation:stdraw 1.2s 1.6s ease-out forwards}.ring.r2{animation-delay:2s}
 @media (prefers-reduced-motion:reduce){.st-line,.ring{animation:none;stroke-dashoffset:0}.st-t{animation:none;opacity:1}}
+.lockline{margin:0;font-size:.9rem;font-weight:700;color:var(--ink)}
+.react.light .dlist{color:var(--ink)}
 .dlist{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
 .qopt.two b{display:block}
 .qopt.two small{display:block;margin-top:3px;font-weight:400;font-size:.86rem;color:var(--muted)}
@@ -482,7 +484,7 @@ details.later[open] summary::after{content:"▴"}
   <div class="wrap sec faq" style="padding-top:0;max-width:820px">
     <h2>Najczęstsze pytania</h2>
     <details open><summary>Ile to kosztuje?</summary><p>Pakiet mediacja + dokumenty, z ryczałtową reprezentacją na wypadek, gdyby mediacja się nie udała, to prawie zawsze kilka tysięcy złotych, a nie kilkadziesiąt. Płacisz za cały proces, a nie za każdą rozprawę. Dokładną kwotę poznajesz w swoim planie, przed decyzją, i nie zmienia się ona do końca sprawy. To jedna kwota dla Was obojga, którą można rozłożyć na 10 rat 0%. Do tego opłata sądowa 600 zł, z której 300 zł wraca przy rozwodzie bez orzekania o winie.</p></details>
-    <details><summary>Czy mój małżonek dowie się, że tu jestem?</summary><p>Nie. Kontaktujemy się wyłącznie z Tobą, o porze, którą wskażesz, a SMS-y nie zawierają słowa „rozwód”. Jeśli mieszkacie razem i poprosisz o dyskrecję, plan i wideo otwiera dopiero Twój PIN. Druga strona dowiaduje się dopiero wtedy, gdy o tym zdecydujesz: powiesz jej sam(a) albo poprosisz o to mediatora. Mediator jest bezstronny i zaprasza do wspólnych ustaleń, a w rozwodzie bez orzekania o winie sąd nie pyta, kto zrobił pierwszy krok.</p></details>
+    <details><summary>Czy mój małżonek dowie się, że tu jestem?</summary><p>Nie. Kontaktujemy się wyłącznie z Tobą, o porze, którą wskażesz, a SMS-y nie zawierają słowa „rozwód”. Godziny rozmowy i wiadomości wybierasz sam(a). Druga strona dowiaduje się dopiero wtedy, gdy o tym zdecydujesz: powiesz jej sam(a) albo poprosisz o to mediatora. Mediator jest bezstronny i zaprasza do wspólnych ustaleń, a w rozwodzie bez orzekania o winie sąd nie pyta, kto zrobił pierwszy krok.</p></details>
     <details><summary>Co, jeśli druga strona nie chce mediacji?</summary><p>Nie musisz jej przekonywać sam(a). Mediator kontaktuje się z drugą stroną wtedy, kiedy zdecydujesz. Mediacja jest dobrowolna, więc jeśli się nie uda, pakiet obejmuje reprezentację w rozwodzie bez orzekania o winie w cenie ryczałtu.</p></details>
     <details><summary>Ile to trwa?</summary><p>Ustalenia w mediacji zajmują zwykle kilka tygodni. Na termin rozprawy czeka się zwykle kilka miesięcy, zależnie od sądu. Sama rozprawa zazwyczaj jest jedna i trwa do 60 minut. Nasz rekord to 8 dni od złożenia dokumentów do wyroku (Sąd Okręgowy w Suwałkach), ale to rekord, a nie norma. W planie powiemy, czego realnie spodziewać się w Twoim sądzie.</p></details>
     <details><summary>Czy muszę z kimś rozmawiać przez telefon?</summary><p>Krótki telefon, około 3 minut, pozwala sprawdzić, czy dobrze rozumiemy Twoją sytuację. W dni robocze dzwonimy w ciągu 15 minut, a jeśli pora nie pasuje, wybierzesz inną. Rozmowa niczego nie uruchamia. Jeśli nie chcesz podawać numeru, wyślemy skrócony plan na e-mail.</p></details>
@@ -588,8 +590,7 @@ const S=[
  {id:'contact',t:'Jak wygląda Twój kontakt z drugą stroną?',o:[['ok','Rozmawiamy normalnie',5],['hard','Kontakt jest trudny',3],['none','Nie mamy kontaktu',1],['unsafe','Nie czuję się bezpiecznie',0]],why:'Przy braku poczucia bezpieczeństwa nie proponujemy mediacji, tylko rozmowę z prawnikiem.'},
  {id:'r-contact',type:'r',light:true,if:a=>a.contact==='hard'||a.contact==='none',render:()=>['Trudny kontakt to częsta sytuacja.','Mediacja odbywa się online, każde z was łączy się ze swojego miejsca. Mediator może też rozmawiać z każdym z was osobno, żeby nie trzeba było siedzieć naprzeciwko siebie. Wiele par dogaduje się właśnie dlatego, że nie muszą rozmawiać bezpośrednio.']},
  {id:'together',t:'Czy mieszkacie obecnie razem?',o:[['yes','Tak',2],['no','Nie',0]],why:'Od tego zależy, jak i kiedy będziemy się z Tobą kontaktować.'},
- {id:'discreet',nc:true,if:a=>a.together==='yes',t:'Czy mamy kontaktować się z Tobą dyskretnie?',sub:'Rozumiemy, że mieszkacie jeszcze razem.',o:[['yes','Tak, zależy mi na dyskrecji',0],['no','Nie ma takiej potrzeby',0]],why:'Przy dyskretnym kontakcie dzwonimy tylko o porze, którą wskażesz, a SMS-y nie zdradzają, czego dotyczą.'},
- {id:'pin',type:'pin',if:a=>a.together==='yes'&&a.discreet==='yes'},
+ {id:'r-together',type:'r',light:true,if:a=>a.together==='yes',render:()=>['Rozumiemy, że ważna jest dla Ciebie dyskrecja.','<p style="margin-top:0">Dlatego kontaktujemy się z Tobą <b>tylko w godzinach, które wskażesz</b>: telefonicznie, SMS-em i e-mailem.</p><ul class="dlist"><li>Porę rozmowy i godzinę wiadomości wybierasz na końcu, zanim cokolwiek wyślemy.</li><li>SMS-y nie zawierają słowa „rozwód”.</li><li>Do drugiej strony nie odzywamy się, dopóki o tym nie zdecydujesz.</li></ul>']},
  {id:'where',t:'W jakim mieście mieszkaliście razem?',type:'loc',why:'Na tej podstawie wskażemy właściwy sąd okręgowy (art. 41 KPC). Przed rozmową sprawdzimy też, ile obecnie czeka się na rozprawę w tym sądzie, i powiemy Ci to w trakcie rozmowy.'},
  {id:'pri',t:'Co jest dla Ciebie najważniejsze?',multi:true,sub:'Zaznacz wszystko, co pasuje.',o:PRI.map(p=>[p[0],p[1],0]),filter:a=>p=>!(p[0]==='kids'&&a.kids!=='yes')&&!(p[0]==='property'&&a.home==='no')},
  {id:'e-cost',type:'r',render:()=>['Ile kosztuje rozwód?','<p style="margin-top:0">Z nami para płaci zwykle <b style="color:#fff">kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.</p><div class="bars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Dwie kancelarie (para)<b>średnio ok. 60 000 zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div><ul class="cpts"><li><b>Zwykle kilka tysięcy złotych</b> za cały proces. Możliwe <b>10 rat 0%</b>.</li><li><b>Porównujemy koszt dla pary.</b> Tradycyjnie każde z Was płaci swojemu prawnikowi średnio ok. 30 000 zł, razem ok. 60 000 zł. U nas jest jedna kwota dla Was obojga, a jej podział często ustalacie w trakcie mediacji.</li><li><b>Cena z góry, która się nie zmienia.</b> Podajemy całkowity koszt rozwodu, dlatego potrzebna jest krótka rozmowa: zbieramy dane, dzięki którym dostajesz konkretną kwotę, niezależną od liczby rozpraw.</li></ul><p class="note" style="color:var(--on-dark-muted);margin-top:10px">Średnia z wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium, 3 rozprawy, pisma, II instancja, koszty dodatkowe. Rozpiętość 15–50 tys. zł na osobę.<span class="src">źródło: youtube.com/[adres odcinka o cenach]</span></p>']},
@@ -700,21 +701,22 @@ function renderQuiz(){
         <div><span>Plan krok po kroku</span><b class="blur">5 etapów</b></div>
       </div><div class="veil">🔒 ${st===1?'Jeszcze dwa krótkie kroki':'Ostatni krok'}</div></div>`;
     const steps=gsteps(st);
-    if(st===1) h=`${steps}<h2>Twój plan jest gotowy. Gdzie go wysłać?</h2><p class="sub">Wyślemy Ci plan i 7 krótkich filmów Kamila Jury o tym, jak przejść przez rozwód bez walki.</p>${prev}
+    if(st===1) h=`${steps}<h2>Twój plan jest gotowy. Gdzie go wysłać?</h2><p class="sub">${A.stage==='considering'?'Nie musisz dziś niczego decydować. Wyślemy Ci plan i 7 krótkich filmów Kamila Jury, żeby czekały, kiedy zechcesz do nich wrócić.':'Wyślemy Ci plan i 7 krótkich filmów Kamila Jury o tym, jak przejść przez rozwód bez walki.'}</p>${prev}
       <div style="display:grid;gap:12px;margin-top:16px">
         <label class="f">Imię<input type="text" id="nm" name="given-name" autocomplete="given-name" autocapitalize="words" placeholder="Jak mamy się zwracać?" value="${esc(A.name||'')}"></label>
         <label class="f">E-mail<input type="email" id="em" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="twoj@email.pl" value="${esc(A.email||'')}"></label>
         <div id="emfix"></div>
+        <p class="lockline">🔒 Piszemy i dzwonimy tylko w godzinach, które wskażesz.</p>
         <label class="consent" id="csw" ${emShape(A.email)?'':'hidden'}><input type="checkbox" id="cs" ${A.consent?'checked':''}><span>Zgadzam się na kontakt e-mailowy, SMS i telefoniczny w sprawie mojego planu oraz na otrzymanie serii filmów. Administratorem danych jest Nowy Etap sp. z o.o. <a href="#lp">Klauzula informacyjna</a>.</span></label>
       </div>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Dalej →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
       <figure class="rev sm"><q>Zawsze są wątpliwości, kiedy bierze się kontakt do firmy z internetu. Pierwsza rozmowa je rozwiała.</q><small>Sebastian, Warszawa · z wywiadu w podcaście „Sekrety rozwodu”</small></figure>
       <div class="trustrow"><span>Bez spamu, wypiszesz się jednym kliknięciem</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
-    else h=`${steps}<h2>${A.name?esc(A.name)+', g':'G'}dzie wysłać SMS z linkiem do Twojego planu?</h2><p class="sub">${A.discreet==='yes'&&A.pin?'Link otworzy plan i wideo dopiero po wpisaniu Twojego PIN-u. SMS nie zawiera słowa „rozwód”.':'Zależy nam na dyskrecji: SMS zawiera sam link, bez słowa „rozwód”.'}</p>
+    else h=`${steps}<h2>${A.name?esc(A.name)+', g':'G'}dzie wysłać SMS z linkiem do Twojego planu?</h2><p class="sub">${false?'Link otworzy plan i wideo dopiero po wpisaniu Twojego PIN-u. SMS nie zawiera słowa „rozwód”.':'Zależy nam na dyskrecji: SMS zawiera sam link, bez słowa „rozwód”.'}</p>
       <p class="sentto">✓ Plan wyślemy na <b>${esc(A.email||'')}</b></p>
       <div style="display:grid;gap:12px;margin-top:16px"><label class="f">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Dalej →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
-      <p class="note" style="margin-top:8px">Porę rozmowy i godzinę wiadomości wybierzesz w następnym kroku.</p>
+      <p class="lockline" style="margin-top:10px">🔒 Dzwonimy i piszemy tylko w godzinach, które wskażesz w następnym kroku.</p>
       <figure class="rev sm"><q>Telefon do firmy, rozmowa z panią, która opowiedziała mi w szczegółach, jak to będzie wyglądało.</q><small>Piotr, Warszawa · z wywiadu w podcaście „Sekrety rozwodu”</small></figure>
       ${prev}
       <div class="trustrow"><span>Pierwsza rozmowa bezpłatna i niezobowiązująca</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
@@ -725,14 +727,14 @@ function renderQuiz(){
       <p class="note" style="margin-top:8px">Kod nie doszedł? <button class="linkbtn" id="resend" type="button" style="padding:0">Wyślij ponownie</button><span id="resend-msg"></span></p>
       <p class="note" style="margin-top:4px">W prototypie zadziała dowolne 4 cyfry.</p>`;
   } else if(q.type==='call'){
-    const disc=A.discreet==='yes';
+    const disc=A.together==='yes';
     if(A.cday==null) A.cday=0;
     if(A.ctime==null) A.ctime=disc?'':'15';
     if(A.cday===1&&A.ctime==='15') A.ctime='';
     if(!A.mtime) A.mtime='9:30';
     const lead={decided:'Twoja decyzja jest podjęta',talked:'Rozmawialiście już o rozwodzie',considering:'Chcesz spokojnie sprawdzić swoje możliwości',court:'Twoja sprawa jest już w sądzie'}[A.stage]||'Masz już swój plan';
     const slots=A.cday===0?['17:00','17:30','18:30','19:00']:['9:00','11:30','14:00','18:00'];
-    h=`${gsteps(3)}<h2>Jak mamy się z Tobą kontaktować?</h2><p class="sub">${lead}, więc przekażemy Ci plan i kolejne kroki. Zależy nam na dyskrecji, dlatego porę wybierasz Ty.</p>
+    h=`${gsteps(3)}<h2>Jak mamy się z Tobą kontaktować?</h2><p class="sub">${lead}, więc przekażemy Ci plan i kolejne kroki. Zależy nam na dyskrecji, dlatego godziny wybierasz Ty.</p>
       <div class="cbox"><h3>Rozmowa telefoniczna, 3 minuty</h3>
         <div class="seg" role="radiogroup" style="margin-top:10px">${['Dzisiaj','Jutro'].map((t,i)=>`<button type="button" data-cd="${i}" class="${A.cday===i?'on':''}" role="radio" aria-checked="${A.cday===i}">${t}</button>`).join('')}</div>
         <label class="f" style="margin-top:10px">Godzina<select id="ctime">${A.ctime===''?'<option value="">Wybierz godzinę</option>':''}${A.cday===0?`<option value="15" ${A.ctime==='15'?'selected':''}>W ciągu 15 minut</option>`:''}${slots.map(x=>`<option ${A.ctime===x?'selected':''}>${x}</option>`).join('')}</select></label>
@@ -740,7 +742,7 @@ function renderQuiz(){
       <div class="cbox"><h3>E-mail i SMS z krótkimi filmami, przez 8 dni</h3>
         <label class="f" style="margin-top:10px">Godzina wysyłki<select id="mtime">${['7:30','8:30','9:30','12:00','17:30','20:30'].map(x=>`<option ${A.mtime===x?'selected':''}>${x}</option>`).join('')}</select></label>
         <label class="consent" style="margin-top:10px"><input type="checkbox" id="smsoff" ${A.smsOff?'checked':''}><span>Filmy tylko e-mailem, bez SMS-ów</span></label>
-        <p class="note" style="margin-top:8px">SMS-y nie zawierają słowa „rozwód”.${disc?' Prosisz o dyskrecję, więc dzwonimy tylko o wybranej porze, a linki otwiera Twój PIN.':''}</p></div>
+        <p class="note" style="margin-top:8px">SMS-y nie zawierają słowa „rozwód”.${disc?' Kontaktujemy się tylko w godzinach, które tu wskażesz.':''}</p></div>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Pokaż mój plan →</button><button class="linkbtn" id="back" type="button">Wstecz</button></div>
       <div class="trustrow"><span>Pierwsza rozmowa bezpłatna i niezobowiązująca</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
   } else {
@@ -762,7 +764,7 @@ function renderQuiz(){
     $$('#qcard .qopt').forEach(x=>x.classList.toggle('sel',x===b));
     setTimeout(next,260);
   });
-  $$('#qcard [data-cd]').forEach(b=>b.onclick=()=>{ A.cday=+b.dataset.cd; A.ctime=(A.cday===0&&A.discreet!=='yes')?'15':''; save(); renderQuiz(); });
+  $$('#qcard [data-cd]').forEach(b=>b.onclick=()=>{ A.cday=+b.dataset.cd; A.ctime=(A.cday===0&&A.together!=='yes')?'15':''; save(); renderQuiz(); });
   if($('#ctime')){ $('#ctime').onchange=e=>{ A.ctime=e.target.value; save(); upd(); }; $('#mtime').onchange=e=>{ A.mtime=e.target.value; save(); }; $('#smsoff').onchange=e=>{ A.smsOff=e.target.checked; save(); }; }
   const pin=$('#pin'); if(pin){ pin.oninput=e=>{ A.pin=e.target.value.replace(/\D/g,'').slice(0,4); e.target.value=A.pin; save(); upd(); }; }
   const otp=$('#otp'); if(otp){ otp.oninput=e=>{ A.otp=e.target.value.replace(/\D/g,'').slice(0,4); e.target.value=A.otp; save(); upd(); }; $('#resend').onclick=()=>{ $('#resend-msg').textContent=' Wysłaliśmy kod jeszcze raz.'; }; }
@@ -816,7 +818,7 @@ function renderResult(){
       <h1 style="margin-top:10px">${nm}wój plan jest gotowy.</h1>
       <p style="margin-top:8px;color:var(--on-dark-muted)">${esc(p.name)}</p>
       <ul>${reasons.map(r=>`<li>${r}</li>`).join('')}</ul>
-      <p class="quiet">Do drugiej strony nie odezwiemy się, dopóki o tym nie zdecydujesz. Do tego czasu kontaktujemy się tylko z Tobą.${a.discreet==='yes'&&a.pin?' Twój PIN do planu i wideo: <b style="color:#fff;letter-spacing:.15em">'+esc(a.pin)+'</b>.':''}</p>
+      <p class="quiet">Do drugiej strony nie odezwiemy się, dopóki o tym nie zdecydujesz. Do tego czasu kontaktujemy się tylko z Tobą.</p>
       <dl class="kv"><dt>Właściwy sąd</dt><dd>${esc(c)}</dd><dt>Termin w Twoim sądzie</dt><dd>${locked?'<span class="blur">ok. 3–4 mies.</span>':P.time+(p.key==='std'?' <span class="demo">dane demo</span>':'')}</dd></dl>
       <div class="save">${A.email?`<label>Plan zapisany</label><p>Wysłaliśmy go na ${esc(A.email)}. Od jutra, codziennie o ${esc(A.mtime||'9:30')}, dostaniesz jeden krótki film Kamila Jury${A.smsOff?' (tylko e-mailem)':''}: 7 dni, 7 filmów.</p>`:`<label for="sv-em">Zapisz ten plan na później</label><div class="row2"><input type="email" id="sv-em" autocomplete="email" placeholder="twoj@email.pl"><button class="btn btn-gold" id="sv-btn" type="button" style="padding:12px 16px" disabled>Wyślij plan</button></div><p>Wyślemy go na e-mail, żeby nie zginął. Bez spamu.</p>`}</div>
     </div>
@@ -857,7 +859,7 @@ function renderResult(){
       <p class="note" id="alt-msg" style="margin-top:8px"></p>
       <p class="note" style="margin-top:4px;font-weight:700" ${cm==='none'?'hidden':''}>Odebranie telefonu niczego nie uruchamia.</p>
     </div>
-    <div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'termin '+booked:({now:'teraz, do presales',later:'wybiera termin'})[cm])}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Dyskrecja: ${a.discreet==='yes'?'tak, PIN ustawiony':'nie zaznaczono'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div>
+    <div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'termin '+booked:({now:'teraz, do presales',later:'wybiera termin'})[cm])}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Mieszkają razem: ${a.together==='yes'?'tak, dzwonić tylko o wybranej porze':a.together==='no'?'nie':'brak odpowiedzi'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div>
   </div>`;
   $$('[data-day]').forEach(b=>b.onclick=()=>{pick.day=+b.dataset.day;pick.slot=null;pick.open=true;renderResult();});
   const lt=$('details.later'); if(lt) lt.addEventListener('toggle',()=>{pick.open=lt.open;});
