@@ -197,6 +197,19 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .pong .meter em{display:block;height:100%;width:8%;background:#c95a4a;animation:pongm 4.3s .4s linear forwards}
 @keyframes pongm{to{width:100%}}
 @media (prefers-reduced-motion:reduce){.pong .ball{animation:none;left:calc(50% - 6px)}.pong li{animation:none;opacity:1;transform:none}.pong .meter em{animation:none;width:100%}}
+.x33{display:flex;align-items:center;gap:14px;margin-top:14px}
+.x33 b{font-family:var(--f-display);font-weight:400;font-size:3rem;line-height:1;color:var(--gold);white-space:nowrap}
+.x33 span{font-size:.95rem;line-height:1.4;color:#fff}
+.hbars{margin-top:14px;display:grid;gap:12px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px}
+.hb{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
+.hb span{grid-column:1/-1;font-size:.86rem;color:#fff}
+.hb .tr{height:16px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden}
+.hb i{display:block;height:100%;width:var(--w);border-radius:8px;animation:hbgrow 1.1s .3s cubic-bezier(.3,.7,.2,1) both}
+.hb i.g{background:var(--gold)}.hb i.r{background:#c95a4a;animation-delay:.6s}
+.hb b{font-family:var(--f-display);font-weight:400;font-size:1.3rem;color:#fff;min-width:74px;text-align:right}
+.hb.lo span,.hb.lo b{color:var(--on-dark-muted)}
+@keyframes hbgrow{from{width:0}}
+@media (prefers-reduced-motion:reduce){.hb i{animation:none}}
 .mini2{margin-top:12px;border:1px solid rgba(255,255,255,.18);border-radius:12px;overflow:hidden}
 .mini2>div{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;background:rgba(214,165,76,.16)}
 .mini2>div+div{border-top:1px solid rgba(255,255,255,.18)}
@@ -347,6 +360,9 @@ label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.88
 .plan li.lock span{color:var(--muted);filter:blur(0)}
 .plan li.lock .d{border-style:dashed}
 .blur{filter:blur(5px);user-select:none}
+.hplan{display:none;align-items:center;gap:8px;margin-left:auto;font-size:.76rem;font-weight:700;color:var(--on-dark-muted);white-space:nowrap}
+.hplan i{display:block;width:48px;height:5px;border-radius:5px;background:rgba(255,255,255,.16);overflow:hidden}
+.hplan em{display:block;height:100%;background:rgba(255,255,255,.6)}
 .mplan{display:none;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.82rem;font-weight:700;margin:0 0 14px;width:max-content;max-width:100%}
 .mplan i{display:block;width:60px;height:6px;border-radius:6px;background:var(--sunk);overflow:hidden}
 .mplan i em{display:block;height:100%;background:var(--ok)}
@@ -472,7 +488,7 @@ details.later[open] summary::after{content:"▴"}
   .res-grid{grid-template-areas:"rec" "call" "det"}
   .qz-main{grid-template-columns:minmax(0,1fr)}
   .plan{display:none}
-  .mplan{display:flex}
+  .hplan{display:flex}
   .sticky{display:block}
   .sticky.show{transform:none}
   body.stk .fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
@@ -565,7 +581,7 @@ details.later[open] summary::after{content:"▴"}
 <!-- ============ QUIZ ============ -->
 <section id="v-quiz" class="qz" hidden>
   <div class="qz-top">
-    <div class="wrap"><a class="logo" href="#lp" aria-label="Nowy Etap"><svg class="logo-svg" viewBox="0 0 750 160" aria-hidden="true"><use href="#ne-logo"/></svg></a><span class="help">🔒 Odpowiedzi są poufne</span></div>
+    <div class="wrap"><a class="logo" href="#lp" aria-label="Nowy Etap"><svg class="logo-svg" viewBox="0 0 750 160" aria-hidden="true"><use href="#ne-logo"/></svg></a><span class="hplan" id="hplan"></span><span class="help">🔒 Odpowiedzi są poufne</span></div>
     <div class="bar"><i id="bar" style="width:0"></i></div>
   </div>
   <div class="wrap qz-main">
@@ -634,7 +650,7 @@ const IMG_K='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYF
 const S=[
  {id:'kids',t:'Czy masz z małżonkiem wspólne małoletnie dzieci?',o:[['yes','Tak',5],['no','Nie',0]],why:'Sąd zawsze rozstrzyga o władzy rodzicielskiej, kontaktach i alimentach.'},
  {id:'r-kids',type:'r',render:a=>a.kids==='yes'
-   ?['Nie jesteś sam(a).','<div class="big">62%</div><p style="margin-top:0">osób, które wypełniają ten quiz, ma małoletnie dzieci.</p><p>W porozumieniu rodzicielskim sami ustalacie opiekę, także <b style="color:#fff">opiekę naprzemienną</b>, kontakty i alimenty. Sąd je uwzględnia, jeśli jest zgodne z dobrem dziecka (art. 58 KRO).</p><p>To ma znaczenie na lata. W 12-letnim badaniu sprawdzono, ilu rodziców mieszkających osobno widuje dzieci co tydzień:</p><div class="mini2" role="table" aria-label="Rodzice widujący dzieci co tydzień, 12 lat po rozstaniu"><div role="row"><span role="rowheader">Opieka ustalona w porozumieniu</span><b role="cell">ok. 30%</b></div><div role="row" class="lo"><span role="rowheader">Opieka ustalona w sporze sądowym</span><b role="cell">9%</b></div></div><p class="src" style="color:var(--on-dark-muted)">Źródło: R. Emery i in., University of Virginia, Journal of Consulting and Clinical Psychology, 2001.</p>']
+   ?['Nie jesteś sam(a).','<div class="big">62%</div><p style="margin-top:0">osób, które wypełniają ten quiz, ma małoletnie dzieci.</p><p>W porozumieniu rodzicielskim sami ustalacie opiekę, także <b style="color:#fff">opiekę naprzemienną</b>, kontakty i alimenty. Sąd je uwzględnia, jeśli jest zgodne z dobrem dziecka (art. 58 KRO).</p><div class="x33"><b>3,3×</b><span>częściej rodzice widują dzieci co tydzień, gdy opiekę ustalili w mediacji, a nie w sporze sądowym. Mediacja jest podstawą Metody Odwróconych Etapów.</span></div><div class="hbars" role="img" aria-label="Rodzice widujący dzieci co tydzień 12 lat po rozstaniu: około 30 procent po mediacji, 9 procent po sporze sądowym"><div class="hb"><span>Opieka ustalona w mediacji</span><div class="tr"><i class="g" style="--w:100%"></i></div><b>ok. 30%</b></div><div class="hb lo"><span>Opieka ustalona w sporze sądowym</span><div class="tr"><i class="r" style="--w:30%"></i></div><b>9%</b></div></div><p class="src" style="color:var(--on-dark-muted)">Odsetek rodziców mieszkających osobno, którzy widują dzieci co tydzień, 12 lat po rozstaniu. Źródło: R. Emery i in., University of Virginia, Journal of Consulting and Clinical Psychology, 2001.</p>']
    :['Bez spraw dzieci jest prościej.','Sąd ma wtedy mniej do rozstrzygnięcia, a rozprawa w sprawie bez orzekania o winie trwa zwykle krótko. Kilka pytań i pokażemy Twój plan.']},
  {id:'stage',t:'Na jakim etapie jesteś?',o:[['decided','Jestem zdecydowany/a',6],['talked','Rozmawialiśmy już o rozwodzie',7],['considering','Rozważam, nadal się zastanawiam',1],['court','Sprawa jest już w sądzie',4]],why:'Od tego zależy, czy zaczniemy od mediacji, czy od spokojnego sprawdzenia możliwości.'},
  {id:'r-stage',type:'r',light:true,if:a=>a.stage==='considering'||a.stage==='court',render:a=>({
@@ -827,7 +843,8 @@ function renderQuiz(){
       ${q.id==='contact'&&A.contact==='unsafe'?'<div class="alert"><b>Twoje bezpieczeństwo jest najważniejsze.</b> Nie zaproponujemy mediacji i nie skontaktujemy się z drugą stroną bez Twojej zgody. Niebieska Linia: <b>800 120 002</b>, w zagrożeniu życia <b>112</b>.</div>':''}
       <div class="qnav">${q.multi?'<button class="btn btn-gold" id="next" type="button">Dalej →</button>':''}<button class="linkbtn" id="back" type="button">Wstecz</button></div>`;
   }
-  card.innerHTML=(['email','phone','code','call'].includes(q.type)?'':mplan)+h;
+  card.innerHTML=h;
+  $('#hplan').innerHTML=['email','phone','code','call'].includes(q.type)?'':`Twój plan ${done}/5<i><em style="width:${done*20}%"></em></i>`;
   // zdarzenia
   $$('#qcard .qopt[data-v]').forEach(b=>b.onclick=()=>{
     const val=b.dataset.v;
