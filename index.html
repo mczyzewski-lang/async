@@ -193,7 +193,11 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
 .seg button{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:12px;font-weight:700;font-size:1rem;color:var(--ink)}
 .seg button.on{border-color:var(--gold);background:var(--gold-soft);color:var(--gold-ink)}
-.waitline{margin:0;padding:12px 14px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-soft);color:var(--gold-ink);font-size:.95rem}
+.waitline{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;margin:0;padding:12px 14px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-soft);color:var(--gold-ink);font-size:.95rem}
+.waitline i{width:24px;height:24px;border-radius:50%;background:var(--gold-2);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.pop{animation:pop .5s .15s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.94) translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
 .courtline{margin:0;padding:12px 14px;border-radius:10px;background:var(--ok-soft);font-size:.95rem}
 .cbox{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:16px;margin-top:14px}
 .cbox h3{font-family:var(--f-body);font-size:1rem;font-weight:800}
@@ -260,6 +264,10 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .info2 svg{width:72px;height:72px}
 .info2 b{color:#fff;font-size:.92rem;line-height:1.3}
 .ring{stroke-dasharray:169.6;stroke-dashoffset:169.6;animation:r18 .9s 7s ease-out forwards}.ring.r2{animation-name:r124;animation-delay:7.4s}
+.mth-w{position:relative}
+.replay{position:absolute;left:0;top:0;z-index:2;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:5px 12px;font-size:.78rem;font-weight:700;opacity:0;visibility:hidden;animation:rpl .4s 8.6s forwards}
+@keyframes rpl{to{opacity:1;visibility:visible}}
+@media (prefers-reduced-motion:reduce){.replay{display:none}}
 .m-after{opacity:0;animation:stfade .5s 6.6s forwards}
 @keyframes r18{to{stroke-dashoffset:148.4}}@keyframes r124{to{stroke-dashoffset:162.5}}
 .info2 .ic{width:26px;height:26px}
@@ -289,10 +297,15 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .gdots i.on{background:var(--gold)}
 .gdots span{margin-left:6px}
 .gate{position:relative}
-.gate-bg{pointer-events:none;padding-bottom:10px}
-.gate-bg .veil{display:none}
+.gate-bg{pointer-events:none}
+.gate-bg .preview .veil{display:none}
+.gdots .gbk{margin-left:auto;font-size:.8rem}
+.pill{border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--surface);color:var(--ink);font-weight:700}
+.qz-main:has(.gate){padding-bottom:0}
+.gate-card.nudge{animation:nudge .5s ease}
+@keyframes nudge{30%{transform:translateY(-6px);box-shadow:0 -18px 44px -10px rgba(214,165,76,.75)}}
 .gate-bg .preview.cut .inner{max-height:none;-webkit-mask-image:none;mask-image:none}
-.gate-card{position:sticky;bottom:0;z-index:5;margin:0;background:var(--surface);border:1.5px solid var(--gold);border-bottom:0;border-radius:18px 18px 0 0;padding:18px 20px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 44px -14px rgba(0,0,0,.4)}
+.gate-card{position:sticky;bottom:0;z-index:5;margin:-74px 0 0;background:var(--surface);border:1.5px solid var(--gold);border-bottom:0;border-radius:18px 18px 0 0;padding:18px 20px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 44px -14px rgba(0,0,0,.4)}
 .gate-card .gback{margin-top:6px;text-align:center}
 .gate-card .trustrow{margin-top:10px;gap:2px 14px;font-size:.76rem}
 @media (max-width:700px){.gate-card{padding-top:14px}.gate-card h2{font-size:1.25rem}.gate-card .gdots{margin-bottom:6px}.gate-card input{padding-block:11px}.gate-card .gback{margin-top:2px}}
@@ -557,6 +570,8 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 .bk3 li{counter-increment:b;display:grid;grid-template-columns:22px 1fr;gap:8px;line-height:1.4}
 .bk3 li::before{content:counter(b);width:22px;height:22px;border-radius:50%;background:var(--gold-soft);color:var(--gold-2);font-weight:800;font-size:.76rem;display:grid;place-items:center}
 .bk-tg{display:none}
+.bk-q{margin:14px 0 0;font-size:.88rem;font-weight:700;color:var(--muted)}
+.bk-row .days{margin-top:8px}
 .book .slots{display:flex;overflow-x:auto;gap:8px;margin:10px -22px 0;padding:0 22px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .book .slots::-webkit-scrollbar{display:none}
 .book .slots button{flex:none;min-width:76px}
@@ -595,6 +610,19 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
   .book .done{margin-top:8px;padding:10px 12px}
   .book.min .bk-sub,.book.min .days,.book.min .slots,.book.min #bk,.book.min #bk-msg,.book.min .who,.book.min .done p{display:none}
   .book.min{cursor:pointer}
+  .book{max-height:50dvh}
+  .book>.eyebrow{display:none}
+  .book h2{font-size:1rem;font-family:var(--f-body);font-weight:800;line-height:1.3;padding-right:0}
+  .book:has(.bk-tg) h2{padding-right:40px}
+  .book .bk-sub{font-size:.78rem}
+  .bk-q{margin-top:8px;font-size:.76rem}
+  .bk-row{display:flex;gap:8px;align-items:stretch;margin-top:5px}
+  .bk-row .days{display:flex;gap:6px;margin:0;flex:none}
+  .book .bk-row .days button{padding:3px 10px;line-height:1.15}
+  .book .days br{display:inline}.book .days .note{margin-left:0;font-size:.66rem}
+  .book .bk-row .slots{flex:1;min-width:0;margin:0 -16px 0 0;padding:0 16px 0 0}
+  .book .bk-row .slots button{min-width:66px}
+  .res{padding-bottom:52dvh}
   .qz-main{grid-template-columns:minmax(0,1fr)}
   .plan{display:none}
   .hplan{display:flex}
@@ -814,8 +842,8 @@ const S=[
  {id:'r-together',type:'r',if:a=>a.together==='yes',render:()=>['Rozumiemy, że ważna jest dla Ciebie dyskrecja.','<p style="margin-top:0"><b style="color:#fff">Sam(a) wybierzesz, kiedy mamy się z Tobą skontaktować.</b></p><ul class="dlist"><li>Porę rozmowy i godzinę wiadomości wybierasz na końcu, zanim cokolwiek wyślemy.</li><li>SMS-y przychodzą od nadawcy „K Jura” i nie zawierają słowa „rozwód”.</li><li>Do drugiej strony nie odzywamy się, dopóki o tym nie zdecydujesz.</li></ul>']},
  {id:'where',t:'Gdzie mieszkaliście razem?',type:'loc',why:'Na tej podstawie wskażemy właściwy sąd okręgowy (art. 41 KPC).'},
  {id:'pri',t:'Co jest dla Ciebie najważniejsze?',multi:true,sub:'Zaznacz wszystko, co pasuje.',o:PRI.map(p=>[p[0],p[1],0]),filter:a=>p=>!(p[0]==='kids'&&a.kids!=='yes')&&!(p[0]==='property'&&a.home==='no')},
- {id:'e-cost',type:'r',render:()=>['Ile kosztuje rozwód?','<p style="margin-top:0">Z nami para płaci zwykle <b style="color:#fff">kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.</p><div class="bars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60&nbsp;000&nbsp;zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div><ul class="cpts"><li><b>Zwykle kilka tysięcy złotych</b> za cały proces. Możliwe <b>10 rat 0%</b>.</li><li><b>Porównujemy koszt dla pary.</b> Tradycyjnie każde z Was płaci swojemu prawnikowi średnio ok. 30 000 zł, razem ok. 60 000 zł. U nas jest jedna kwota dla Was obojga, a jej podział często ustalacie w trakcie mediacji.</li><li><b>Cena z góry, która się nie zmienia.</b> Podajemy całkowity koszt rozwodu, dlatego potrzebna jest krótka rozmowa: zbieramy dane, dzięki którym dostajesz konkretną kwotę, niezależną od liczby rozpraw.</li></ul><p class="note" style="color:var(--on-dark-muted);margin-top:10px">Średnia z wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium, 3 rozprawy, pisma, II instancja, koszty dodatkowe. Rozpiętość 15–50 tys. zł na osobę.<span class="src">źródło: youtube.com/[adres odcinka o cenach]</span></p>']},
- {id:'e-method',type:'r',render:a=>['Dlatego odwracamy kolejność.','<p style="margin-top:0">Pozew nie zaczyna rozwodu. Pozew go kończy. To Metoda Odwróconych Etapów:</p><svg class="mth" viewBox="0 -10 340 247" role="img" aria-label="Tradycyjnie: pozew, sąd, ustalenia, rozprawy. U nas: plan, ustalenia, pozew i jedna rozprawa."><path class="m-line" d="M8 40H332" fill="none" stroke="#d6a54c" stroke-width="3"/><g class="m-arrows" fill="#d6a54c" font-size="13" font-weight="800" text-anchor="middle"><text x="76" y="31">→</text><text x="138" y="31">→</text><text x="238" y="31">→</text></g><path class="m-stairs" transform="translate(0 32)" d="M8 195H112V158H218V121H332" fill="none" stroke="#d6a54c" stroke-width="5"/><g class="m-swap" fill="none" stroke="#f0d9a8" stroke-width="2" stroke-linecap="round"><path d="M186 14C150 -6 82 -6 46 14"/><path d="M46 14l10 -1M46 14l2 -10"/></g><g fill="#fff" font-weight="800" font-size="12.5" letter-spacing="1" text-anchor="middle"><text class="m-t m-pozew" x="40" y="30">POZEW</text><text class="m-t m-sad" x="108" y="30">SĄD</text><text class="m-t m-ust" x="186" y="30">USTALENIA</text><text class="m-plan" x="60" y="215">PLAN</text></g><text class="m-t m-roz" x="254" y="30" textLength="72" fill="#fff" font-weight="800" font-size="12.5">ROZPRAWY</text><path class="m-strike" d="M313 36L329 17" fill="none" stroke="#f0d9a8" stroke-width="2.6" stroke-linecap="round"/><g class="m-hand" transform="rotate(-5 333 80)" fill="#f0d9a8" font-size="32" text-anchor="end"><text x="333" y="64">jedna</text><text x="333" y="92">rozprawa</text></g><g transform="rotate(-5 333 80)"><path class="m-u1" d="M318 99H335" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/><path class="m-u2" d="M319 104.5H334" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/></g><g class="m-nums" transform="translate(0 32)" fill="#d6a54c" font-weight="800" font-size="11" text-anchor="middle"><text x="60" y="167">1</text><text x="165" y="130">2</text><text x="275" y="93">3</text></g></svg><p class="m-after" style="margin-top:14px;text-align:center"><b style="color:#fff">Dzięki temu rozwód najczęściej:</b></p><div class="info2 m-after"><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="41" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">1</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9.5" y="4.5" width="9" height="5" rx="1" transform="rotate(45 14 7)"/><path d="M11.6 9.4L4 17M12.5 20.5H21M14.5 17.5h4.5"/></svg><b>Rozwód na pierwszej rozprawie</b></div><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring r2" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="37" text-anchor="middle" fill="#fff" font-size="17" font-weight="800">60</text><text x="32" y="48" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">MIN</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9.5 2.5h5M12 2.5V5"/></svg><b>Sprawa trwa maksymalnie 60 minut</b></div></div>']},
+ {id:'e-cost',type:'r',render:()=>['Ile kosztuje rozwód?','<p style="margin-top:0">Z nami para płaci zwykle <b style="color:#fff">kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.</p><div class="bars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60&nbsp;000&nbsp;zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div><ul class="cpts"><li><b>Zwykle kilka tysięcy złotych</b> za cały proces. Możliwe <b>10 rat 0%</b>.</li><li><b>Porównujemy koszt dla pary.</b> Tradycyjnie każde z Was płaci swojemu prawnikowi średnio ok. 30 000 zł, razem ok. 60 000 zł. U nas jest jedna kwota dla Was obojga. <b>W trakcie mediacji staramy się rozłożyć ją na Ciebie i małżonka.</b></li><li><b>Cena z góry, która się nie zmienia.</b> Podajemy całkowity koszt rozwodu, dlatego potrzebna jest krótka rozmowa: zbieramy dane, dzięki którym dostajesz konkretną kwotę, niezależną od liczby rozpraw.</li></ul><p class="note" style="color:var(--on-dark-muted);margin-top:10px">Średnia z wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium, 3 rozprawy, pisma, II instancja, koszty dodatkowe. Rozpiętość 15–50 tys. zł na osobę.<span class="src">źródło: youtube.com/[adres odcinka o cenach]</span></p>']},
+ {id:'e-method',type:'r',render:a=>['Dlatego odwracamy kolejność.','<p style="margin-top:0">Pozew nie zaczyna rozwodu. Pozew go kończy. To Metoda Odwróconych Etapów:</p><div class="mth-w"><button type="button" class="replay" id="replay">↻ Odtwórz ponownie</button><svg class="mth" viewBox="0 -10 340 247" role="img" aria-label="Tradycyjnie: pozew, sąd, ustalenia, rozprawy. U nas: plan, ustalenia, pozew i jedna rozprawa."><path class="m-line" d="M8 40H332" fill="none" stroke="#d6a54c" stroke-width="3"/><g class="m-arrows" fill="#d6a54c" font-size="13" font-weight="800" text-anchor="middle"><text x="76" y="31">→</text><text x="138" y="31">→</text><text x="238" y="31">→</text></g><path class="m-stairs" transform="translate(0 32)" d="M8 195H112V158H218V121H332" fill="none" stroke="#d6a54c" stroke-width="5"/><g class="m-swap" fill="none" stroke="#f0d9a8" stroke-width="2" stroke-linecap="round"><path d="M186 14C150 -6 82 -6 46 14"/><path d="M46 14l10 -1M46 14l2 -10"/></g><g fill="#fff" font-weight="800" font-size="12.5" letter-spacing="1" text-anchor="middle"><text class="m-t m-pozew" x="40" y="30">POZEW</text><text class="m-t m-sad" x="108" y="30">SĄD</text><text class="m-t m-ust" x="186" y="30">USTALENIA</text><text class="m-plan" x="60" y="215">PLAN</text></g><text class="m-t m-roz" x="254" y="30" textLength="72" fill="#fff" font-weight="800" font-size="12.5">ROZPRAWY</text><path class="m-strike" d="M313 36L329 17" fill="none" stroke="#f0d9a8" stroke-width="2.6" stroke-linecap="round"/><g class="m-hand" transform="rotate(-5 333 80)" fill="#f0d9a8" font-size="32" text-anchor="end"><text x="333" y="64">jedna</text><text x="333" y="92">rozprawa</text></g><g transform="rotate(-5 333 80)"><path class="m-u1" d="M318 99H335" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/><path class="m-u2" d="M319 104.5H334" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/></g><g class="m-nums" transform="translate(0 32)" fill="#d6a54c" font-weight="800" font-size="11" text-anchor="middle"><text x="60" y="167">1</text><text x="165" y="130">2</text><text x="275" y="93">3</text></g></svg></div><p class="m-after" style="margin-top:14px;text-align:center"><b style="color:#fff">Dzięki temu rozwód najczęściej:</b></p><div class="info2 m-after"><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="41" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">1</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9.5" y="4.5" width="9" height="5" rx="1" transform="rotate(45 14 7)"/><path d="M11.6 9.4L4 17M12.5 20.5H21M14.5 17.5h4.5"/></svg><b>Rozwód na pierwszej rozprawie</b></div><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring r2" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="37" text-anchor="middle" fill="#fff" font-size="17" font-weight="800">60</text><text x="32" y="48" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">MIN</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9.5 2.5h5M12 2.5V5"/></svg><b>Sprawa trwa maksymalnie 60 minut</b></div></div>']},
  {id:'lead',type:'email'},
  {id:'phone',type:'phone'},
  {id:'code',type:'code'}
@@ -902,8 +930,7 @@ function renderQuiz(){
         <div class="seg" role="radiogroup" aria-label="Kraj">${[['pl','W Polsce'],['ab','Za granicą']].map(o=>`<button type="button" data-where="${o[0]}" class="${(A.abroad==='both'?'ab':'pl')===o[0]?'on':''}" role="radio" aria-checked="${(A.abroad==='both'?'ab':'pl')===o[0]}">${o[1]}</button>`).join('')}</div>
         ${A.abroad!=='both'?`<label class="f">Miasto (lub najbliższe z sądem okręgowym)<select id="city"><option value="">Wybierz miasto</option>${CITIES.map(c=>`<option ${A.city===c[0]?'selected':''}>${esc(c[0])}</option>`).join('')}</select></label>`:''}
         ${A.city&&A.abroad!=='both'?`<div class="f">Czy któreś z Was nadal tam mieszka?<div class="seg" role="radiogroup">${[['yes','Tak'],['no','Nie']].map(o=>`<button type="button" data-still="${o[0]}" class="${(A.still||'yes')===o[0]?'on':''}" role="radio" aria-checked="${(A.still||'yes')===o[0]}">${o[1]}</button>`).join('')}</div></div>`:''}
-        ${ct?`<p class="courtline">Właściwy sąd: <b>${esc(ct)}</b></p>`:''}
-        <p class="waitline"><b>Sprawdzimy czas oczekiwania w tym sądzie.</b> Przed rozmową ustalimy, ile obecnie czeka się na rozprawę, i powiemy Ci to w trakcie rozmowy.</p>
+        ${ct?`<p class="courtline">Właściwy sąd: <b>${esc(ct)}</b></p><p class="waitline pop"><i aria-hidden="true">i</i><span><b>Sprawdzimy czas oczekiwania w tym sądzie.</b> Przed rozmową ustalimy, ile obecnie czeka się na rozprawę, i powiemy Ci to w trakcie rozmowy.</span></p>`:''}
       </div>
       <div class="qnav"><button class="btn btn-gold" id="next" type="button">Dalej →</button><button class="linkbtn" id="back" type="button">Wstecz</button><button class="linkbtn" id="skip" type="button">Pomiń</button></div>`;
   } else if(q.type==='pin'){
@@ -926,7 +953,7 @@ function renderQuiz(){
       </div><div class="veil">🔒 ${st===1?'Jeszcze dwa krótkie kroki':'Ostatni krok'}</div></div>`;
     const steps=gsteps(st);
     const stepno=q.type==='email'?1:q.type==='phone'?2:3;
-    const dots=`<div class="gdots" aria-label="Krok ${stepno} z 3">${[1,2,3].map(i=>`<i class="${i<=stepno?'on':''}"></i>`).join('')}<span>Krok ${stepno} z 3</span></div>`;
+    const dots=`<div class="gdots" aria-label="Krok ${stepno} z 3">${[1,2,3].map(i=>`<i class="${i<=stepno?'on':''}"></i>`).join('')}<span>Krok ${stepno} z 3</span><button class="${q.type==='code'?'gbk pill':'gbk linkbtn'}" id="back" type="button">${q.type==='code'?'Zmień numer':'← Wstecz'}</button></div>`;
     const inner=q.type==='email'?`${dots}<h2>Zarejestruj się i zobacz swój plan</h2>
         <div style="display:grid;gap:12px;margin-top:14px">
           <label class="f">Imię<input type="text" id="nm" name="given-name" autocomplete="given-name" autocapitalize="words" placeholder="Jak mamy się zwracać?" value="${esc(A.name||'')}"></label>
@@ -948,7 +975,7 @@ function renderQuiz(){
         <p class="note" style="margin-top:10px">Kod nie doszedł? <button class="linkbtn" id="resend" type="button" style="padding:0">Wyślij ponownie</button><span id="resend-msg"></span></p>
         <p class="note" style="margin-top:4px">W prototypie zadziała dowolne 4 cyfry.</p>`;
     h=`<div class="gate"><div class="gate-bg" aria-hidden="true"><span class="eyebrow" style="color:var(--gold-2)">Twój plan jest gotowy</span><h2 style="margin-top:6px">${esc(p.name)}</h2>${prev}</div>
-      <div class="gate-card${ganim}">${inner}<div class="gback"><button class="linkbtn" id="back" type="button">${q.type==='code'?'Zmień numer':'← Wstecz'}</button></div></div></div>`;
+      <div class="gate-card${ganim}">${inner}</div></div>`;
   } else if(q.type==='code'){
     h=`${gsteps(2)}<h2>Wpisz kod z SMS-a</h2><p class="sub">Wysłaliśmy 4-cyfrowy kod na numer <b>${esc((A.cc||'+48')+' '+(A.phone||''))}</b>.</p>
       <label class="f" style="margin-top:16px">Kod<input type="text" id="otp" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="• • • •" value="${esc(A.otp||'')}"></label>
@@ -1009,13 +1036,17 @@ function renderQuiz(){
     em.oninput=e=>{A.email=e.target.value.trim();save();fx();upd();}; $('#nm').oninput=e=>{A.name=e.target.value.trim();save();upd();}; $('#cs').onchange=e=>{A.consent=e.target.checked;save();upd();}; $('#cs-more').onclick=e=>{ e.preventDefault(); $('#cs-rest').hidden=false; $('#cs-dots').hidden=true; }; fx(); }
   if($('#back')) $('#back').onclick=()=>{ if(idx>0){ animOut('b',()=>{idx--;dir='b';save();renderQuiz();}); } else location.hash='lp'; };
   if($('#skip')) $('#skip').onclick=()=>{ A.abroad=A.abroad||'skip'; next(); };
+  const rp=$('#replay'); if(rp) rp.onclick=()=>renderQuiz();
   const nx=$('#next'); if(nx) nx.onclick=next;
   if(nx&&q.type==='call') nx.onclick=()=>{ booked=A.ctime==='15'?null:`${A.cday===0?'dziś':'jutro'}, ${A.ctime}`; A.call=A.ctime==='15'?'now':'later'; A.done=true; save(); location.hash='wynik'; };
   function upd(){ if(!nx) return; if(q.type==='phone') nx.disabled=!phoneOk(A.phone); else if(q.type==='code') nx.disabled=!/^\d{4}$/.test(A.otp||''); else if(q.type==='pin') nx.disabled=!/^\d{4}$/.test(A.pin||''); else if(q.type==='call') nx.disabled=!A.ctime; else if(q.type==='email') nx.disabled=!(okEmail(A.email)&&A.consent&&(A.name||'').trim().length>=2); else if(q.type==='loc') nx.disabled=!(A.abroad==='both'||(A.abroad&&A.city&&A.still)); else if(q.multi) nx.disabled=!(A[q.id]||[]).length; }
   upd();
   if(q.id==='contact'&&A.contact==='unsafe'){ const n=document.createElement('button'); n.className='btn btn-gold'; n.type='button'; n.textContent='Dalej →'; n.onclick=next; $('#qcard .qnav').prepend(n); }
 }
-let dir='', busy=false;
+let dir='', busy=false, nudgeT=0;
+function nudge(){ const g=$('#qcard .gate-card'); if(!g||location.hash!=='#quiz') return;
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4&&Date.now()-nudgeT>900){ nudgeT=Date.now(); g.classList.remove('in-r','in-l','nudge'); void g.offsetWidth; g.classList.add('nudge'); } }
+addEventListener('wheel',e=>{ if(e.deltaY>0) nudge(); },{passive:true}); addEventListener('touchmove',nudge,{passive:true});
 function animOut(d,fn){ const el=$('#qcard .gate-card')||$('#qcard'); if(!el||matchMedia('(prefers-reduced-motion:reduce)').matches){ fn(); return; }
   el.classList.remove('in-r','in-l','fade'); el.classList.add(d==='b'?'out-r':'out-l'); setTimeout(fn,130); }
 function next(){ if(busy) return; const v=vis();
@@ -1081,14 +1112,17 @@ function renderResult(){
   </div>
   <div class="a-call">
     ${locked?`<div class="card" id="unlock"><span class="eyebrow" style="color:var(--gold-2)">Skrócony plan wysłaliśmy na e-mail</span><h2 style="margin-top:6px;font-size:1.5rem">Odblokuj pełny plan</h2><p class="note" style="margin-top:6px">Dokładny koszt, termin w Twoim sądzie, wszystkie kwestie do ustalenia i lista dokumentów. Wyślemy go też SMS-em.</p><label class="f" style="margin-top:14px">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="ul-tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><button class="btn btn-gold" id="ul-btn" type="button" style="width:100%;margin-top:12px" disabled>Odblokuj pełny plan</button><p class="note" style="margin-top:8px">Zadzwonimy tylko, jeśli umówisz rozmowę.</p><div class="alt"><button type="button" id="nocall2">Wolę bez rozmowy<small>pakiet online albo pytanie na czacie</small></button></div><p class="note" id="alt-msg2" style="margin-top:8px"></p></div>`:''}
-    <div class="card book${pick.min?' min':''}" id="book" ${locked?'hidden':''}>
-      <button type="button" class="bk-tg" id="bk-tg" aria-label="${pick.min?'Rozwiń':'Zwiń'} rezerwację rozmowy">${pick.min?'▴':'▾'}</button>
+    <div class="card book${booked&&pick.min?' min':''}" id="book" ${locked?'hidden':''}>
+      ${booked?`<button type="button" class="bk-tg" id="bk-tg" aria-label="${pick.min?'Rozwiń':'Zwiń'} informację o rozmowie">${pick.min?'▴':'▾'}</button>`:''}
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
-      <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':((A.name||a.name)?esc(A.name||a.name)+', k':'K')+'iedy chcesz bezpłatnie omówić swój Plan Rozwodu?'}</h2>
+      <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':((A.name||a.name)?esc(A.name||a.name)+', w':'W')+' trakcie 30-minutowej rozmowy z opiekunem dowiesz się:'}</h2>
       ${booked?`<div class="done"><b>Termin: ${booked}.</b><p class="note" style="margin-top:4px">Opiekun zadzwoni na numer ${esc((A.cc||'+48')+' '+(A.phone||''))}. Wcześniej dostaniesz SMS z numerem, z którego zadzwoni. Termin przełożysz jednym kliknięciem.</p></div>`:`
-      <div class="bk-sub"><b>W trakcie 30-minutowej rozmowy z opiekunem dowiesz się:</b><ol class="bk3"><li>Czy Twój rozwód zakończy się bezkonfliktowo, na jednej rozprawie${a.kids==='yes'?', bez angażowania dzieci':''}?</li><li>Co może dziś niepotrzebnie pogorszyć Twoją sytuację${a.together==='yes'?', kiedy mieszkacie jeszcze razem':a.together==='no'?', kiedy nie mieszkacie już razem':''}?</li><li>Jaki jest największy błąd, którego trzeba uniknąć przed złożeniem pozwu?</li></ol></div>
+      <div class="bk-sub"><ol class="bk3"><li>Czy Twój rozwód zakończy się bezkonfliktowo, na jednej rozprawie${a.kids==='yes'?', bez angażowania dzieci':''}?</li><li>Co może dziś niepotrzebnie pogorszyć Twoją sytuację${a.together==='yes'?', kiedy mieszkacie jeszcze razem':a.together==='no'?', kiedy nie mieszkacie już razem':''}?</li><li>Jaki jest największy błąd, którego trzeba uniknąć przed złożeniem pozwu?</li></ol></div>
+      <p class="bk-q">Kiedy chcesz bezpłatnie omówić swój Plan Rozwodu?</p>
+      <div class="bk-row">
       <div class="days d2">${dd.slice(0,2).map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
       <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']).map(x=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}">${x}</button>`).join('')}</div>
+      </div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" ${pick.slot?'':'disabled'}>Rezerwuję rozmowę</button>
       <p class="note" id="bk-msg" style="margin-top:8px">Terminy są tylko na dziś i jutro. Jeśli żaden nie pasuje, napiszemy SMS-em z prośbą o wskazanie pory.</p>`}
       <div class="who"><img src="${IMG_M}" alt="" width="56" height="56"><div><b>Mateusz Malczewski</b><br><span class="note">opiekun klienta, to on do Ciebie zadzwoni</span></div></div>
