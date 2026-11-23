@@ -563,7 +563,9 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 @media (max-width:760px){.g3,.err3,.vrev{grid-template-columns:1fr}}
 @media (max-width:520px){.guar{gap:12px;padding:14px;align-items:start}.guar .seal{width:56px;height:56px;font-size:.62rem}}
 .book{position:relative}
-.book .bk-sub{margin-top:10px;font-size:.95rem}
+.book .bk-sub{margin-top:12px;font-size:1.02rem}
+.bk3 b{font-weight:800}
+.bk-day{font-weight:700;margin-top:8px}
 .bk3{margin:8px 0 0;padding:0;list-style:none;counter-reset:b;display:grid;gap:6px;color:var(--ink)}
 .bk3 li{counter-increment:b;display:grid;grid-template-columns:22px 1fr;gap:8px;line-height:1.4}
 .bk3 li::before{content:counter(b);width:22px;height:22px;border-radius:50%;background:var(--gold-soft);color:var(--gold-2);font-weight:800;font-size:.76rem;display:grid;place-items:center}
@@ -612,7 +614,8 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
   .book>.eyebrow{display:none}
   .book h2{font-size:1rem;font-family:var(--f-body);font-weight:800;line-height:1.3;padding-right:0}
   .book:has(.bk-tg) h2{padding-right:40px}
-  .book .bk-sub{font-size:.78rem}
+  .book .bk-sub{font-size:.9rem}
+  .bk-row .bk-day{flex:none;width:auto;margin:0;padding:6px 8px;font-size:max(16px,.9rem)}
   .bk-q{margin-top:8px;font-size:.76rem}
   .bk-row{display:flex;gap:8px;align-items:stretch;margin-top:5px}
   .bk-row .days{display:flex;gap:6px;margin:0;flex:none}
@@ -1119,10 +1122,10 @@ function renderResult(){
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
       <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':((A.name||a.name)?esc(A.name||a.name)+', w':'W')+' trakcie 30-minutowej rozmowy z opiekunem dowiesz się:'}</h2>
       ${booked?`<div class="done"><b>Termin: ${booked}.</b><p class="note" style="margin-top:4px">Opiekun zadzwoni na numer ${esc((A.cc||'+48')+' '+(A.phone||''))}. Wcześniej dostaniesz SMS z numerem, z którego zadzwoni. Termin przełożysz jednym kliknięciem.</p></div>`:`
-      <div class="bk-sub"><ol class="bk3"><li>Czy Twój rozwód zakończy się bezkonfliktowo, na jednej rozprawie${a.kids==='yes'?', bez angażowania dzieci':''}?</li><li>Co może dziś niepotrzebnie pogorszyć Twoją sytuację${a.together==='yes'?', kiedy mieszkacie jeszcze razem':a.together==='no'?', kiedy nie mieszkacie już razem':''}?</li><li>Jaki jest największy błąd, którego trzeba uniknąć przed złożeniem pozwu?</li></ol></div>
+      <div class="bk-sub"><ol class="bk3"><li><span>Czy Twój rozwód zakończy się <b>bezkonfliktowo, na jednej rozprawie</b>${a.kids==='yes'?', <b>bez angażowania dzieci</b>':''}?</span></li><li><span>Co może dziś <b>niepotrzebnie pogorszyć Twoją sytuację</b>${a.together==='yes'?', kiedy mieszkacie jeszcze razem':a.together==='no'?', kiedy nie mieszkacie już razem':''}?</span></li><li><span>Jaki jest <b>największy błąd</b>, którego trzeba uniknąć <b>przed złożeniem pozwu</b>?</span></li></ol></div>
       <p class="bk-q">Kiedy chcesz bezpłatnie omówić swój Plan Rozwodu?</p>
       <div class="bk-row">
-      <div class="days d2">${dd.slice(0,2).map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
+      <select id="bk-day" class="bk-day" aria-label="Dzień rozmowy">${dd.slice(0,2).map((d,i)=>`<option value="${i}" ${pick.day===i?'selected':''}>${i===0?'Dziś':(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}, ${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</option>`).join('')}</select>
       <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']).map(x=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}">${x}</button>`).join('')}</div>
       </div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" ${pick.slot?'':'disabled'}>Rezerwuję rozmowę</button>
@@ -1139,7 +1142,7 @@ function renderResult(){
     </div>
   </div>
   <div class="a-sales"><div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Segment: ${(()=>{ const dec=a.stage==='decided'||a.stage==='talked', cons=a.stage==='considering', tg=a.together==='yes', ap=a.together==='no'; if(!(dec||cons)||!(tg||ap)) return 'poza tabelą (sprawa w sądzie albo brak odpowiedzi)'; const k=(ap?'osobno':'razem')+', '+(dec?'zdecydowani':'rozważa'); const r={'osobno, zdecydowani':'6,4%','osobno, rozważa':'2,8%','razem, zdecydowani':'3,9%','razem, rozważa':'1,5%'}[k]; return k+' · umowa z '+r+' leadów z telefonem (dane historyczne)'; })()}.<br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'30 min z opiekunem, '+booked:'bez terminu, wysłać SMS z prośbą o porę')}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Mieszkają razem: ${a.together==='yes'?'tak, dzwonić tylko o wybranej porze':a.together==='no'?'nie':'brak odpowiedzi'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div></div>`;
-  $$('[data-day]').forEach(b=>b.onclick=()=>{pick.day=+b.dataset.day;pick.slot=null;pick.open=true;renderResult();});
+  const bd=$('#bk-day'); if(bd) bd.onchange=()=>{ pick.day=+bd.value; pick.slot=null; renderResult(); };
   const lt=$('details.later'); if(lt) lt.addEventListener('toggle',()=>{pick.open=lt.open;});
   $$('[data-slot]').forEach(b=>b.onclick=()=>{ pick.slot=b.dataset.slot; $$('[data-slot]').forEach(x=>x.classList.toggle('on',x===b)); $('#bk').disabled=false; });
   const tg=$('#bk-tg'); if(tg) tg.onclick=()=>{ pick.min=!pick.min; renderResult(); };
