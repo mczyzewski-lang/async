@@ -179,6 +179,23 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .otp{letter-spacing:.5em;font-size:1.5rem!important;font-weight:800;text-align:center}
 .cpts{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:.95rem;color:var(--on-dark-muted)}
 .cpts b{color:#fff}
+.pong{margin-top:14px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px}
+.pong-top{display:flex;align-items:center;gap:10px;font-size:.82rem;color:#fff}
+.pong-top b{white-space:nowrap}
+.pong .track{position:relative;flex:1;height:2px;background:rgba(255,255,255,.2)}
+.pong .ball{position:absolute;top:-5px;left:0;width:12px;height:12px;border-radius:50%;background:var(--gold);animation:pong .7s ease-in-out infinite alternate}
+@keyframes pong{from{left:0}to{left:calc(100% - 12px)}}
+.pong ol{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.pong li{max-width:78%;padding:7px 11px;border-radius:10px;font-size:.86rem;line-height:1.3;color:#fff;opacity:0;animation:pongin .35s ease-out forwards}
+.pong li.l{align-self:flex-start;background:rgba(255,255,255,.12);border-bottom-left-radius:2px;transform:translateX(-14px)}
+.pong li.r{align-self:flex-end;background:rgba(201,90,74,.4);border-bottom-right-radius:2px;transform:translateX(14px)}
+.pong li:nth-child(1){animation-delay:.4s}.pong li:nth-child(2){animation-delay:1.1s}.pong li:nth-child(3){animation-delay:1.8s}.pong li:nth-child(4){animation-delay:2.5s}.pong li:nth-child(5){animation-delay:3.2s}.pong li:nth-child(6){animation-delay:3.9s}
+@keyframes pongin{to{opacity:1;transform:none}}
+.pong .meter{margin-top:12px;font-size:.8rem;color:var(--on-dark-muted)}
+.pong .meter i{display:block;margin-top:6px;height:8px;border-radius:8px;background:rgba(255,255,255,.15);overflow:hidden}
+.pong .meter em{display:block;height:100%;width:8%;background:#c95a4a;animation:pongm 4.3s .4s linear forwards}
+@keyframes pongm{to{width:100%}}
+@media (prefers-reduced-motion:reduce){.pong .ball{animation:none;left:calc(50% - 6px)}.pong li{animation:none;opacity:1;transform:none}.pong .meter em{animation:none;width:100%}}
 .mini2{margin-top:12px;border:1px solid rgba(255,255,255,.18);border-radius:12px;overflow:hidden}
 .mini2>div{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;background:rgba(214,165,76,.16)}
 .mini2>div+div{border-top:1px solid rgba(255,255,255,.18)}
@@ -593,7 +610,7 @@ const S=[
  {id:'r-home',type:'r',light:true,if:a=>a.home&&a.home!=='no',render:a=>['Mieszkanie możecie podzielić na dwa sposoby.','<p style="margin-top:0">Rozwód nie musi czekać na podział majątku. Różnica jest w tym, ile kosztuje i jak długo trwa sam podział:</p><div class="paths"><div class="ok"><h3>Polubownie, w mediacji</h3><ol><li>Ustalacie z mediatorem, kto zostaje w mieszkaniu'+(a.home==='credit'?' i kto spłaca kredyt':'')+'</li><li>Podpisujecie umowę u notariusza albo składacie wspólny wniosek do sądu</li></ol><dl><dt>Opłata sądowa</dt><dd>300 zł</dd><dt>Czas</dt><dd>zwykle tygodnie</dd></dl></div><div class="bad"><h3>W sporze, przed sądem</h3><ol><li>Osobny proces o podział majątku</li><li>Wycena przez biegłego, świadkowie, kolejne rozprawy</li></ol><dl><dt>Opłata sądowa</dt><dd>1 000 zł</dd><dt>Kancelaria</dt><dd>od 10 800 zł</dd><dt>Czas</dt><dd>często ponad rok</dd></dl></div></div><p>Honorarium kancelarii przy majątku od 200 000 zł; do tego koszt biegłego.'+(a.home==='credit'?' Przy kredycie podpowiemy też, jak rozmawiać z bankiem o przejęciu długu.':'')+'</p>']},
  {id:'fault',t:'Czy sąd ma rozstrzygać, kto jest winny rozpadu małżeństwa?',o:[['no','Nie, chcę rozwodu bez orzekania o winie',4],['yes','Tak, chcę, żeby sąd orzekł o winie małżonka',2],['them','Możliwe, że będzie tego chciała druga strona',2],['dk','Nie wiem, co to zmienia',2]],why:'Od tego zależy, ile rozpraw Cię czeka i czy 300 zł z opłaty wróci.'},
  {id:'r-fault',type:'r',render:a=>(a.fault==='yes'||a.fault==='them')
-   ?['Spór o winę to najdroższa część rozwodu.','<div class="flow4 three warn"><div><b>Świadkowie</b>i kolejne rozprawy</div><div><b>Dowody</b>wiadomości, dokumenty, czasem detektyw za 15–20 tys. zł</div><div><b>Pisma</b>odpowiedź, odpowiedź na odpowiedź, zażalenia</div></div><p>Dlatego najpierw sprawdzamy w mediacji, czy da się tego uniknąć. Często się da, a wtedy sprawa staje się prosta.</p>']
+   ?['Spór o winę to najdroższa część rozwodu.','<div class="pong" role="img" aria-label="Spór o winę: każda strona odpowiada na ruch drugiej, a koszt i czas rosną"><div class="pong-top"><b>Ty</b><span class="track"><i class="ball"></i></span><b>Druga strona</b></div><ol><li class="l">Pozew z żądaniem winy</li><li class="r">Odpowiedź na pozew</li><li class="l">Twoi świadkowie i dowody</li><li class="r">Świadkowie i dowody drugiej strony</li><li class="l">Kolejne pisma i zażalenia</li><li class="r">Kolejna rozprawa</li></ol><div class="meter"><span>Koszt i czas rosną z każdym odbiciem</span><i><em></em></i></div></div><p>Do tego dochodzą wiadomości i dokumenty jako dowody, a czasem detektyw za 15–20 tys. zł.</p><p>Dlatego najpierw sprawdzamy w mediacji, czy da się tego uniknąć. Często się da, a wtedy sprawa staje się prosta.</p>']
    :['Bez orzekania o winie: krócej i taniej.','<div class="big">300 zł</div><p style="margin-top:0">wraca z opłaty sądowej po wyroku bez orzekania o winie.</p><p>Sąd nie szuka winnego, nie trzeba świadków na tę okoliczność, a przy gotowym porozumieniu zwykle wystarcza jedna rozprawa.</p>']},
  {id:'contact',t:'Jak wygląda Twój kontakt z drugą stroną?',o:[['ok','Rozmawiamy normalnie',5],['hard','Kontakt jest trudny',3],['none','Nie mamy kontaktu',1],['unsafe','Nie czuję się bezpiecznie',0]],why:'Przy braku poczucia bezpieczeństwa nie proponujemy mediacji, tylko rozmowę z prawnikiem.'},
  {id:'r-contact',type:'r',light:true,if:a=>a.contact==='hard'||a.contact==='none',render:()=>['Trudny kontakt to częsta sytuacja.','Mediacja odbywa się online, każde z was łączy się ze swojego miejsca. Mediator może też rozmawiać z każdym z was osobno, żeby nie trzeba było siedzieć naprzeciwko siebie. Wiele par dogaduje się właśnie dlatego, że nie muszą rozmawiać bezpośrednio.']},
