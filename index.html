@@ -355,7 +355,10 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .qnav #skip{order:1}
 .qnav .btn{order:2}
 @media (max-width:900px){.qnav{position:sticky;bottom:0;z-index:3;margin:14px -16px 0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -8px 14px -10px rgba(0,0,0,.28)}
-  .qz-main:has(.qnav){padding-bottom:0}}
+  .qz-main:has(.qnav){padding-bottom:0;align-items:stretch}
+  .qcard:has(>.qnav){display:flex;flex-direction:column;max-width:none}
+  .qcard>.qnav{margin-top:auto}
+  .qcard>.qnav::before{content:"";display:none}}
 .linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:.9rem;padding:6px 0}
 .fade{animation:fade .45s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}}
