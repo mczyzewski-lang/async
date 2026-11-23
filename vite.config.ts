@@ -7,6 +7,8 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 2000,
     rollupOptions: {
+      // strona główna repozytorium (index.html) to Nowy Etap; konfigurator schodów ma wejście w stair.html
+      input: 'stair.html',
       output: {
         manualChunks: {
           three: ['three'],
