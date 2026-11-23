@@ -511,6 +511,10 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 .a-sales{grid-area:sales}
 @media (max-width:520px){.guar{gap:12px;padding:14px;align-items:start}.guar .seal{width:56px;height:56px;font-size:.62rem}}
 .book{position:relative}
+.book .bk-sub{margin-top:10px;font-size:.95rem}
+.bk3{margin:8px 0 0;padding:0;list-style:none;counter-reset:b;display:grid;gap:6px;color:var(--ink)}
+.bk3 li{counter-increment:b;display:grid;grid-template-columns:22px 1fr;gap:8px;line-height:1.4}
+.bk3 li::before{content:counter(b);width:22px;height:22px;border-radius:50%;background:var(--gold-soft);color:var(--gold-2);font-weight:800;font-size:.76rem;display:grid;place-items:center}
 .bk-tg{display:none}
 .book .slots{display:flex;overflow-x:auto;gap:8px;margin:10px -22px 0;padding:0 22px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .book .slots::-webkit-scrollbar{display:none}
@@ -534,14 +538,14 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
   .kv2{width:100%;max-width:420px}
   .kv2 img{aspect-ratio:4/3;object-position:top}
   .res-grid{grid-template-areas:"rec" "call" "det" "sales"}
-  .res{padding-bottom:400px}
+  .res{padding-bottom:500px}
   body[data-v=wynik] .fab{bottom:auto!important;top:12px;left:auto;right:12px;align-items:flex-end}
   .book{position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;border:0;border-top:2px solid var(--gold);border-radius:18px 18px 0 0;padding:12px 16px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -14px 40px -12px rgba(0,0,0,.4);max-height:86vh;overflow-y:auto}
   .book[hidden]{display:none}
   .bk-tg{display:grid;place-items:center;position:absolute;right:10px;top:8px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--sunk);color:var(--ink);font-size:.9rem}
   .book .eyebrow{font-size:.66rem}
   .book h2{font-size:1.14rem;margin-top:2px!important;padding-right:40px}
-  .book .bk-sub{font-size:.82rem;line-height:1.4;margin-top:4px!important}
+  .book .bk-sub{font-size:.8rem;line-height:1.35;margin-top:6px}.bk3{gap:4px;margin-top:5px}.bk3 li{grid-template-columns:20px 1fr;line-height:1.3}.bk3 li::before{width:20px;height:20px}
   .book .days{margin-top:8px}.book .days button{padding:6px 8px}.book .days br{display:none}.book .days .note{margin-left:6px}
   .book .slots{margin:8px -16px 0;padding:0 16px 2px}
   .book #bk{margin-top:8px!important;padding-block:12px}
@@ -645,7 +649,7 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 <!-- ============ QUIZ ============ -->
 <section id="v-quiz" class="qz" hidden>
   <div class="qz-top">
-    <div class="wrap"><a class="logo" href="#lp" aria-label="Nowy Etap"><svg class="logo-svg" viewBox="0 0 750 160" aria-hidden="true"><use href="#ne-logo"/></svg></a><span class="hplan" id="hplan"></span><span class="help">🔒 Odpowiedzi są poufne</span></div>
+    <div class="wrap"><span class="logo" role="img" aria-label="Nowy Etap"><svg class="logo-svg" viewBox="0 0 750 160" aria-hidden="true"><use href="#ne-logo"/></svg></span><span class="hplan" id="hplan"></span><span class="help">🔒 Odpowiedzi są poufne</span></div>
     <div class="bar"><i id="bar" style="width:0"></i></div>
   </div>
   <div class="wrap qz-main">
@@ -656,7 +660,7 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 
 <!-- ============ WYNIK ============ -->
 <section id="v-wynik" hidden>
-  <div class="qz-top"><div class="wrap"><a class="logo" href="#lp" aria-label="Nowy Etap"><svg class="logo-svg" viewBox="0 0 750 160" aria-hidden="true"><use href="#ne-logo"/></svg></a><span class="help">Wybierz termin rozmowy z opiekunem</span></div></div>
+  <div class="qz-top"><div class="wrap"><span class="logo" role="img" aria-label="Nowy Etap"><svg class="logo-svg" viewBox="0 0 750 160" aria-hidden="true"><use href="#ne-logo"/></svg></span><span class="help">Wybierz termin rozmowy z opiekunem</span></div></div>
   <div class="wrap res"><div class="res-grid" id="res"></div></div>
 </section>
 
@@ -1008,9 +1012,9 @@ function renderResult(){
     <div class="card book${pick.min?' min':''}" id="book" ${locked?'hidden':''}>
       <button type="button" class="bk-tg" id="bk-tg" aria-label="${pick.min?'Rozwiń':'Zwiń'} rezerwację rozmowy">${pick.min?'▴':'▾'}</button>
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
-      <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':'Umów 30-minutową rozmowę z opiekunem.'}</h2>
+      <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':((A.name||a.name)?esc(A.name||a.name)+', k':'K')+'iedy chcesz bezpłatnie omówić swój Plan Rozwodu?'}</h2>
       ${booked?`<div class="done"><b>Termin: ${booked}.</b><p class="note" style="margin-top:4px">Opiekun zadzwoni na numer ${esc((A.cc||'+48')+' '+(A.phone||''))}. Wcześniej dostaniesz SMS z numerem, z którego zadzwoni. Termin przełożysz jednym kliknięciem.</p></div>`:`
-      <p class="bk-sub" style="margin-top:6px;color:var(--muted)">Opiekun przejdzie z Tobą plan i poda dokładną cenę. Wybierz porę, w której możesz swobodnie rozmawiać.</p>
+      <div class="bk-sub"><b>W trakcie 30-minutowej rozmowy z opiekunem dowiesz się:</b><ol class="bk3"><li>Czy Twój rozwód zakończy się bezkonfliktowo, na jednej rozprawie${a.kids==='yes'?', bez angażowania dzieci':''}?</li><li>Co może dziś niepotrzebnie pogorszyć Twoją sytuację${a.together==='yes'?', kiedy mieszkacie jeszcze razem':a.together==='no'?', kiedy nie mieszkacie już razem':''}?</li><li>Jaki jest największy błąd, którego trzeba uniknąć przed złożeniem pozwu?</li></ol></div>
       <div class="days d2">${dd.slice(0,2).map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
       <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']).map(x=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}">${x}</button>`).join('')}</div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" ${pick.slot?'':'disabled'}>Rezerwuję rozmowę</button>
