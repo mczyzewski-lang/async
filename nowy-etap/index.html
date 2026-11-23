@@ -575,6 +575,12 @@ select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;borde
 .book .slots{display:flex;overflow-x:auto;gap:8px;margin:10px -22px 0;padding:0 22px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .book .slots::-webkit-scrollbar{display:none}
 .book .slots button{flex:none;min-width:76px}
+.book .slots button:not(.on){border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(110deg,var(--line) 38%,var(--gold) 47%,#fff3cf 50%,var(--gold) 53%,var(--line) 62%) border-box;background-size:100% 100%,320% 100%;background-position:0 0,100% 0;animation:glare 2.6s calc(var(--i,0)*.14s) ease-in-out infinite}
+.book .slots button:not(.on) span{background:linear-gradient(110deg,var(--ink) 38%,var(--gold-2) 47%,var(--gold) 50%,var(--gold-2) 53%,var(--ink) 62%);background-size:320% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:glare-t 2.6s calc(var(--i,0)*.14s) ease-in-out infinite}
+@keyframes glare{0%,45%{background-position:0 0,100% 0}85%,100%{background-position:0 0,0 0}}
+@keyframes glare-t{0%,45%{background-position:100% 0}85%,100%{background-position:0 0}}
+.book .slots:has(.on) button,.book .slots:has(.on) button span{animation:none}
+@media (prefers-reduced-motion:reduce){.book .slots button,.book .slots button span{animation:none!important}}
 .guar .seal{width:74px;height:74px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:grid;place-items:center;text-align:center;font-weight:800;font-size:.8rem;line-height:1.1;box-shadow:0 0 0 4px var(--surface)}
 
 /* ===== PROTOTYP ===== */
@@ -1126,7 +1132,7 @@ function renderResult(){
       <p class="bk-q">Kiedy chcesz bezpłatnie omówić swój Plan Rozwodu?</p>
       <div class="bk-row">
       <select id="bk-day" class="bk-day" aria-label="Dzień rozmowy">${dd.slice(0,2).map((d,i)=>`<option value="${i}" ${pick.day===i?'selected':''}>${i===0?'Dziś':(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}, ${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</option>`).join('')}</select>
-      <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']).map(x=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}">${x}</button>`).join('')}</div>
+      <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']).map((x,i)=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}" style="--i:${i}"><span>${x}</span></button>`).join('')}</div>
       </div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" ${pick.slot?'':'disabled'}>Rezerwuję rozmowę</button>
       <p class="note" id="bk-msg" style="margin-top:8px">Terminy są tylko na dziś i jutro. Jeśli żaden nie pasuje, napiszemy SMS-em z prośbą o wskazanie pory.</p>`}
