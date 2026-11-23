@@ -239,7 +239,8 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .info2>div{background:rgba(0,0,0,.2);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .info2 svg{width:72px;height:72px}
 .info2 b{color:#fff;font-size:.92rem;line-height:1.3}
-.ring{stroke-dasharray:169.6;stroke-dashoffset:169.6;animation:r18 .9s 6.4s ease-out forwards}.ring.r2{animation-name:r124;animation-delay:6.8s}
+.ring{stroke-dasharray:169.6;stroke-dashoffset:169.6;animation:r18 .9s 7s ease-out forwards}.ring.r2{animation-name:r124;animation-delay:7.4s}
+.m-after{opacity:0;animation:stfade .5s 6.6s forwards}
 @keyframes r18{to{stroke-dashoffset:148.4}}@keyframes r124{to{stroke-dashoffset:162.5}}
 .info2 .ic{width:26px;height:26px}
 .mth{display:block;width:100%;max-width:440px;margin:12px auto 0;overflow:visible}
@@ -256,24 +257,42 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .mth .m-nums{animation:stfade .4s 4.4s forwards}
 .mth .m-strike{stroke-dasharray:26;stroke-dashoffset:26;animation:stdraw .25s 4.9s ease-out forwards}
 .mth .m-hand{font-family:'Caveat','Segoe Script','Bradley Hand',cursive;font-weight:700;animation:stfade .5s 5.3s forwards}
-.mth .m-u1,.mth .m-u2{stroke-dasharray:16;stroke-dashoffset:16;animation:stdraw .2s 5.9s ease-out forwards}
+.mth .m-u1,.mth .m-u2{stroke-dasharray:18;stroke-dashoffset:18;animation:stdraw .2s 5.9s ease-out forwards}
 .mth .m-u2{animation-delay:6.15s}
 @keyframes mout{to{opacity:0}}
-@keyframes must{45%{transform:translate(-16px,-22px)}100%{transform:translate(-21px,116px)}}
-@keyframes mpoz{to{transform:translate(235px,79px)}}
-@media (prefers-reduced-motion:reduce){.mth *,.ring{animation-duration:.01s!important;animation-delay:0s!important}}
+@keyframes must{45%{transform:translate(-16px,-22px)}100%{transform:translate(-21px,148px)}}
+@keyframes mpoz{to{transform:translate(235px,111px)}}
+@media (prefers-reduced-motion:reduce){.mth *,.ring,.m-after{animation-duration:.01s!important;animation-delay:0s!important}}
 @media (prefers-reduced-motion:reduce){.st-line,.ring{animation:none;stroke-dashoffset:0}.st-t{animation:none;opacity:1}}
 .gdots{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:.78rem;font-weight:700;color:var(--muted)}
 .gdots i{width:22px;height:5px;border-radius:5px;background:var(--line)}
 .gdots i.on{background:var(--gold)}
 .gdots span{margin-left:6px}
 .gate{position:relative}
-.gate-bg{max-height:330px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent);pointer-events:none}
+.gate-bg{pointer-events:none;padding-bottom:10px}
 .gate-bg .veil{display:none}
 .gate-bg .preview.cut .inner{max-height:none;-webkit-mask-image:none;mask-image:none}
-.gate-card{position:relative;margin:-76px 0 0;background:var(--surface);border:1.5px solid var(--gold);border-radius:16px;padding:20px;box-shadow:0 24px 50px -24px rgba(0,0,0,.45)}
+.gate-card{position:sticky;bottom:0;z-index:5;margin:0;background:var(--surface);border:1.5px solid var(--gold);border-bottom:0;border-radius:18px 18px 0 0;padding:18px 20px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 44px -14px rgba(0,0,0,.4)}
+.gate-card .gback{margin-top:6px;text-align:center}
+.gate-card .trustrow{margin-top:10px;gap:2px 14px;font-size:.76rem}
+@media (max-width:700px){.gate-card{padding-top:14px}.gate-card h2{font-size:1.25rem}.gate-card .gdots{margin-bottom:6px}.gate-card input{padding-block:11px}.gate-card .gback{margin-top:2px}}
+.gate-card.in-r{animation:ginr .34s cubic-bezier(.2,.8,.2,1) both}.gate-card.in-l{animation:ginl .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ginr{from{opacity:0;transform:translateX(70%)}}@keyframes ginl{from{opacity:0;transform:translateX(-70%)}}
+.f .hint{font-weight:500;font-size:.82rem;color:var(--muted)}
+.cs-rest{display:block;margin-top:4px;font-size:.76rem;line-height:1.45;opacity:.75}.cs-rest[hidden],#cs-dots[hidden]{display:none}
+.lockbox{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;padding:12px 14px;border-radius:10px;background:var(--gold-soft);color:var(--ink);font-size:1.04rem;line-height:1.4}
+.prep{min-height:46vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;font-family:var(--f-display);font-size:1.35rem}
+.prep b{font-weight:400}
+.spin{width:38px;height:38px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--gold);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.in-r{animation:inr .22s ease-out both}.in-l{animation:inl .22s ease-out both}
+.out-l{animation:outl .13s ease-in forwards}.out-r{animation:outr .13s ease-in forwards}
+@keyframes inr{from{opacity:0;transform:translateX(26px)}}@keyframes inl{from{opacity:0;transform:translateX(-26px)}}
+@keyframes outl{to{opacity:0;transform:translateX(-26px)}}@keyframes outr{to{opacity:0;transform:translateX(26px)}}
+@media (prefers-reduced-motion:reduce){.in-r,.in-l,.out-l,.out-r,.gate-card.in-r,.gate-card.in-l{animation:none}}
+#v-quiz{overflow-x:clip}
 .gate-card h2{font-size:1.45rem}
-@media (min-width:760px){.gate-card{margin:-76px 28px 0}}
+
 .lockline{margin:0;font-size:.9rem;font-weight:700;color:var(--ink)}
 .react.light .dlist{color:var(--ink)}
 .dlist{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
@@ -314,9 +333,10 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .flow4.warn div:last-child b{color:#fff}
 .flow4.warn div:last-child::before{background:rgba(255,255,255,.14);color:#fff}
 .flow4.warn div:not(:last-child)::after{content:"+"}
-.telgrp{display:flex;align-items:stretch}
-.telgrp select{width:auto;flex:none;padding:0 8px 0 10px;border:1.5px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:var(--sunk);font-weight:700;color:var(--ink)}
-.telgrp input{border-radius:0 10px 10px 0}
+.telgrp{display:flex;align-items:stretch;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.telgrp:focus-within{border-color:var(--gold)}
+.telgrp select{width:auto;flex:none;padding:0 10px 0 12px;border:0;border-right:1.5px solid var(--line);border-radius:0;background:var(--sunk);font-weight:700;color:var(--ink)}
+.telgrp input[type=tel]{border:0;border-radius:0;min-width:0}
 .paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .paths>div{background:var(--surface);border-radius:12px;padding:16px;border-top:4px solid var(--ok)}
 .paths>div.bad{border-top-color:var(--warn)}
@@ -341,7 +361,7 @@ footer.ft{padding-block:28px 90px;font-size:.8rem;color:var(--muted)}
 .trust3 div{background:var(--surface);border-radius:10px;padding:12px;text-align:center}
 .trust3 b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.6rem}
 .trust3 span{font-size:.78rem;color:var(--muted)}
-.bars{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 170px;column-gap:24px;row-gap:10px;background:rgba(255,255,255,.05);border-radius:12px;padding:16px 24px 0;margin-top:18px;overflow:hidden}
+.bars{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 170px;column-gap:24px;row-gap:10px;background:linear-gradient(90deg,rgba(236,150,135,.2) 50%,rgba(140,210,165,.18) 50%);border-radius:12px;padding:16px 10px 0;margin-top:18px;overflow:hidden}
 .bars .lb{text-align:center;font-size:.82rem;color:var(--on-dark-muted);align-self:end}
 .bars .lb b{display:block;color:#fff;font-size:1rem}
 .bars .col{display:flex;align-items:flex-end;justify-content:center}
@@ -406,7 +426,7 @@ label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.88
 .tl div.bl span{filter:blur(4px)}
 .minilist{list-style:none;margin:0;padding:0;text-align:right;display:flex;flex-direction:column;gap:2px;font-weight:700}
 .preview .inner div.ml{align-items:flex-start}
-.lbars{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 180px;column-gap:24px;row-gap:10px;background:var(--teal-100);border-radius:12px;padding:16px 24px 0;margin-top:14px;overflow:hidden}
+.lbars{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 180px;column-gap:24px;row-gap:10px;background:linear-gradient(90deg,var(--warn-soft) 50%,var(--ok-soft) 50%);border-radius:12px;padding:16px 10px 0;margin-top:14px;overflow:hidden}
 .lbars .lb{text-align:center;font-size:.84rem;color:var(--muted);align-self:end}
 .lbars .lb b{display:block;color:var(--ink);font-size:1.02rem}
 .lbars .col{display:flex;align-items:flex-end;justify-content:center}
@@ -418,7 +438,7 @@ label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.88
 .npbox{border:1.5px dashed var(--line);border-radius:12px;padding:14px;margin-top:10px;display:grid;gap:10px}
 /* ===== WYNIK ===== */
 .res{padding-block:30px 60px}
-.res-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);grid-template-areas:"rec call" "det call";gap:26px;align-items:start}
+.res-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);grid-template-areas:"rec call" "det call" "sales sales";gap:26px;align-items:start}
 .a-rec{grid-area:rec;display:flex;flex-direction:column;gap:18px}
 .a-det{grid-area:det;display:flex;flex-direction:column;gap:18px}
 .a-call{grid-area:call;display:flex;flex-direction:column;gap:18px}
@@ -482,8 +502,20 @@ details.later[open] summary::after{content:"▴"}
 .done{background:var(--ok-soft);border-radius:12px;padding:16px;margin-top:14px}
 .sales{border:1.5px dashed var(--gold-2);border-radius:14px;padding:16px;margin-top:18px;font-size:.88rem}
 .sales b.hot{color:var(--warn)}
-.guar{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-top:16px}
-.guar .seal{width:62px;height:62px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:grid;place-items:center;text-align:center;font-weight:800;font-size:.7rem;line-height:1.1;box-shadow:0 0 0 4px var(--gold-soft)}
+.guar{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px;padding:16px;border:1.5px solid var(--gold);border-radius:14px;background:var(--gold-soft)}
+.guar b{font-size:1.08rem;color:var(--ink)}.guar p{margin-top:4px;font-size:.95rem;color:var(--ink)}
+.hh{display:flex;align-items:center;gap:12px;font-size:1.35rem}
+.hico{flex:none;width:40px;height:40px;border-radius:50%;background:var(--gold-soft);color:var(--gold-2);display:grid;place-items:center}.hico svg{width:22px;height:22px}
+.saved .eyebrow{color:var(--ok)}.saved p{margin-top:8px;line-height:1.7}
+select.inl{display:inline-block;width:auto;padding:4px 8px;font-weight:700;border-color:var(--gold);vertical-align:baseline}
+.a-sales{grid-area:sales}
+@media (max-width:520px){.guar{gap:12px;padding:14px;align-items:start}.guar .seal{width:56px;height:56px;font-size:.62rem}}
+.book{position:relative}
+.bk-tg{display:none}
+.book .slots{display:flex;overflow-x:auto;gap:8px;margin:10px -22px 0;padding:0 22px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.book .slots::-webkit-scrollbar{display:none}
+.book .slots button{flex:none;min-width:76px}
+.guar .seal{width:74px;height:74px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:grid;place-items:center;text-align:center;font-weight:800;font-size:.8rem;line-height:1.1;box-shadow:0 0 0 4px var(--surface)}
 
 /* ===== PROTOTYP ===== */
 .fab{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
@@ -501,7 +533,23 @@ details.later[open] summary::after{content:"▴"}
   .side{align-items:stretch}
   .kv2{width:100%;max-width:420px}
   .kv2 img{aspect-ratio:4/3;object-position:top}
-  .res-grid{grid-template-areas:"rec" "call" "det"}
+  .res-grid{grid-template-areas:"rec" "call" "det" "sales"}
+  .res{padding-bottom:400px}
+  body[data-v=wynik] .fab{bottom:auto!important;top:12px;left:auto;right:12px;align-items:flex-end}
+  .book{position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;border:0;border-top:2px solid var(--gold);border-radius:18px 18px 0 0;padding:12px 16px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -14px 40px -12px rgba(0,0,0,.4);max-height:86vh;overflow-y:auto}
+  .book[hidden]{display:none}
+  .bk-tg{display:grid;place-items:center;position:absolute;right:10px;top:8px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--sunk);color:var(--ink);font-size:.9rem}
+  .book .eyebrow{font-size:.66rem}
+  .book h2{font-size:1.14rem;margin-top:2px!important;padding-right:40px}
+  .book .bk-sub{font-size:.82rem;line-height:1.4;margin-top:4px!important}
+  .book .days{margin-top:8px}.book .days button{padding:6px 8px}.book .days br{display:none}.book .days .note{margin-left:6px}
+  .book .slots{margin:8px -16px 0;padding:0 16px 2px}
+  .book #bk{margin-top:8px!important;padding-block:12px}
+  .book #bk-msg{font-size:.72rem;line-height:1.35;margin-top:6px!important}
+  .book .who{margin-top:8px}.book .who img{width:38px;height:38px}.book .who{font-size:.86rem;line-height:1.3}
+  .book .done{margin-top:8px;padding:10px 12px}
+  .book.min .bk-sub,.book.min .days,.book.min .slots,.book.min #bk,.book.min #bk-msg,.book.min .who,.book.min .done p{display:none}
+  .book.min{cursor:pointer}
   .qz-main{grid-template-columns:minmax(0,1fr)}
   .plan{display:none}
   .hplan{display:flex}
@@ -687,11 +735,11 @@ const S=[
  {id:'contact',t:'Jak wygląda Twój kontakt z drugą stroną?',o:[['ok','Rozmawiamy normalnie',5],['hard','Kontakt jest trudny',3],['none','Nie mamy kontaktu',1],['unsafe','Nie czuję się bezpiecznie',0]],why:'Przy braku poczucia bezpieczeństwa nie proponujemy mediacji, tylko rozmowę z prawnikiem.'},
  {id:'r-contact',type:'r',if:a=>a.contact==='hard'||a.contact==='none',render:()=>['Trudny kontakt to częsta sytuacja.','Mediacja odbywa się online, każde z was łączy się ze swojego miejsca. Mediator może też rozmawiać z każdym z was osobno, żeby nie trzeba było siedzieć naprzeciwko siebie. Wiele par dogaduje się właśnie dlatego, że nie muszą rozmawiać bezpośrednio.']},
  {id:'together',t:'Czy mieszkacie obecnie razem?',o:[['yes','Tak',0],['no','Nie',5]],why:'Od tego zależy, jak i kiedy będziemy się z Tobą kontaktować.'},
- {id:'r-together',type:'r',if:a=>a.together==='yes',render:()=>['Rozumiemy, że ważna jest dla Ciebie dyskrecja.','<p style="margin-top:0">Dlatego kontaktujemy się z Tobą <b>tylko w godzinach, które wskażesz</b>.</p><ul class="dlist"><li>Porę rozmowy i godzinę wiadomości wybierasz na końcu, zanim cokolwiek wyślemy.</li><li>SMS-y nie zawierają słowa „rozwód”.</li><li>Do drugiej strony nie odzywamy się, dopóki o tym nie zdecydujesz.</li></ul>']},
+ {id:'r-together',type:'r',if:a=>a.together==='yes',render:()=>['Rozumiemy, że ważna jest dla Ciebie dyskrecja.','<p style="margin-top:0"><b style="color:#fff">Sam(a) wybierzesz, kiedy mamy się z Tobą skontaktować.</b></p><ul class="dlist"><li>Porę rozmowy i godzinę wiadomości wybierasz na końcu, zanim cokolwiek wyślemy.</li><li>SMS-y nie zawierają słowa „rozwód”.</li><li>Do drugiej strony nie odzywamy się, dopóki o tym nie zdecydujesz.</li></ul>']},
  {id:'where',t:'Gdzie mieszkaliście razem?',type:'loc',why:'Na tej podstawie wskażemy właściwy sąd okręgowy (art. 41 KPC).'},
  {id:'pri',t:'Co jest dla Ciebie najważniejsze?',multi:true,sub:'Zaznacz wszystko, co pasuje.',o:PRI.map(p=>[p[0],p[1],0]),filter:a=>p=>!(p[0]==='kids'&&a.kids!=='yes')&&!(p[0]==='property'&&a.home==='no')},
- {id:'e-cost',type:'r',render:()=>['Ile kosztuje rozwód?','<p style="margin-top:0">Z nami para płaci zwykle <b style="color:#fff">kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.</p><div class="bars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60 000 zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div><ul class="cpts"><li><b>Zwykle kilka tysięcy złotych</b> za cały proces. Możliwe <b>10 rat 0%</b>.</li><li><b>Porównujemy koszt dla pary.</b> Tradycyjnie każde z Was płaci swojemu prawnikowi średnio ok. 30 000 zł, razem ok. 60 000 zł. U nas jest jedna kwota dla Was obojga, a jej podział często ustalacie w trakcie mediacji.</li><li><b>Cena z góry, która się nie zmienia.</b> Podajemy całkowity koszt rozwodu, dlatego potrzebna jest krótka rozmowa: zbieramy dane, dzięki którym dostajesz konkretną kwotę, niezależną od liczby rozpraw.</li></ul><p class="note" style="color:var(--on-dark-muted);margin-top:10px">Średnia z wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium, 3 rozprawy, pisma, II instancja, koszty dodatkowe. Rozpiętość 15–50 tys. zł na osobę.<span class="src">źródło: youtube.com/[adres odcinka o cenach]</span></p>']},
- {id:'e-method',type:'r',render:a=>['Dlatego odwracamy kolejność.','<p style="margin-top:0">Pozew nie zaczyna rozwodu. Pozew go kończy. To Metoda Odwróconych Etapów:</p><svg class="mth" viewBox="0 -10 340 215" role="img" aria-label="Tradycyjnie: pozew, sąd, ustalenia, rozprawy. U nas: plan, ustalenia, pozew i jedna rozprawa."><path class="m-line" d="M8 40H332" fill="none" stroke="#d6a54c" stroke-width="3"/><g class="m-arrows" fill="#d6a54c" font-size="13" font-weight="800" text-anchor="middle"><text x="76" y="31">→</text><text x="138" y="31">→</text><text x="238" y="31">→</text></g><path class="m-stairs" d="M8 195H112V158H218V121H332" fill="none" stroke="#d6a54c" stroke-width="5"/><g class="m-swap" fill="none" stroke="#f0d9a8" stroke-width="2" stroke-linecap="round"><path d="M186 14C150 -6 82 -6 46 14"/><path d="M46 14l10 -1M46 14l2 -10"/></g><g fill="#fff" font-weight="800" font-size="12.5" letter-spacing="1" text-anchor="middle"><text class="m-t m-pozew" x="40" y="30">POZEW</text><text class="m-t m-sad" x="108" y="30">SĄD</text><text class="m-t m-ust" x="186" y="30">USTALENIA</text><text class="m-plan" x="60" y="183">PLAN</text></g><text class="m-t m-roz" x="254" y="30" textLength="72" fill="#fff" font-weight="800" font-size="12.5">ROZPRAWY</text><path class="m-strike" d="M313 36L329 17" fill="none" stroke="#f0d9a8" stroke-width="2.6" stroke-linecap="round"/><text class="m-hand" x="333" y="62" text-anchor="end" fill="#f0d9a8" font-size="25" letter-spacing="1">ROZPRAWA</text><path class="m-u1" d="M319 68H333" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/><path class="m-u2" d="M320 73H332" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/><g class="m-nums" fill="#d6a54c" font-weight="800" font-size="11" text-anchor="middle"><text x="60" y="167">1</text><text x="165" y="130">2</text><text x="275" y="93">3</text></g></svg><p style="margin-top:14px"><b style="color:#fff">Dzięki temu rozwód najczęściej:</b></p><div class="info2"><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="41" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">1</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9.5" y="4.5" width="9" height="5" rx="1" transform="rotate(45 14 7)"/><path d="M11.6 9.4L4 17M12.5 20.5H21M14.5 17.5h4.5"/></svg><b>Rozwód na pierwszej rozprawie</b></div><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring r2" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="37" text-anchor="middle" fill="#fff" font-size="17" font-weight="800">60</text><text x="32" y="48" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">MIN</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9.5 2.5h5M12 2.5V5"/></svg><b>Sprawa trwa maksymalnie 60 minut</b></div></div>']},
+ {id:'e-cost',type:'r',render:()=>['Ile kosztuje rozwód?','<p style="margin-top:0">Z nami para płaci zwykle <b style="color:#fff">kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.</p><div class="bars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap kilka tysięcy zł"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60&nbsp;000&nbsp;zł</b></div><div class="lb">Nowy Etap (para)<b>kilka tysięcy zł</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div><ul class="cpts"><li><b>Zwykle kilka tysięcy złotych</b> za cały proces. Możliwe <b>10 rat 0%</b>.</li><li><b>Porównujemy koszt dla pary.</b> Tradycyjnie każde z Was płaci swojemu prawnikowi średnio ok. 30 000 zł, razem ok. 60 000 zł. U nas jest jedna kwota dla Was obojga, a jej podział często ustalacie w trakcie mediacji.</li><li><b>Cena z góry, która się nie zmienia.</b> Podajemy całkowity koszt rozwodu, dlatego potrzebna jest krótka rozmowa: zbieramy dane, dzięki którym dostajesz konkretną kwotę, niezależną od liczby rozpraw.</li></ul><p class="note" style="color:var(--on-dark-muted);margin-top:10px">Średnia z wycen kancelarii zebranych inkognito w 2026 r.: konsultacja, honorarium, 3 rozprawy, pisma, II instancja, koszty dodatkowe. Rozpiętość 15–50 tys. zł na osobę.<span class="src">źródło: youtube.com/[adres odcinka o cenach]</span></p>']},
+ {id:'e-method',type:'r',render:a=>['Dlatego odwracamy kolejność.','<p style="margin-top:0">Pozew nie zaczyna rozwodu. Pozew go kończy. To Metoda Odwróconych Etapów:</p><svg class="mth" viewBox="0 -10 340 247" role="img" aria-label="Tradycyjnie: pozew, sąd, ustalenia, rozprawy. U nas: plan, ustalenia, pozew i jedna rozprawa."><path class="m-line" d="M8 40H332" fill="none" stroke="#d6a54c" stroke-width="3"/><g class="m-arrows" fill="#d6a54c" font-size="13" font-weight="800" text-anchor="middle"><text x="76" y="31">→</text><text x="138" y="31">→</text><text x="238" y="31">→</text></g><path class="m-stairs" transform="translate(0 32)" d="M8 195H112V158H218V121H332" fill="none" stroke="#d6a54c" stroke-width="5"/><g class="m-swap" fill="none" stroke="#f0d9a8" stroke-width="2" stroke-linecap="round"><path d="M186 14C150 -6 82 -6 46 14"/><path d="M46 14l10 -1M46 14l2 -10"/></g><g fill="#fff" font-weight="800" font-size="12.5" letter-spacing="1" text-anchor="middle"><text class="m-t m-pozew" x="40" y="30">POZEW</text><text class="m-t m-sad" x="108" y="30">SĄD</text><text class="m-t m-ust" x="186" y="30">USTALENIA</text><text class="m-plan" x="60" y="215">PLAN</text></g><text class="m-t m-roz" x="254" y="30" textLength="72" fill="#fff" font-weight="800" font-size="12.5">ROZPRAWY</text><path class="m-strike" d="M313 36L329 17" fill="none" stroke="#f0d9a8" stroke-width="2.6" stroke-linecap="round"/><g class="m-hand" transform="rotate(-5 333 80)" fill="#f0d9a8" font-size="32" text-anchor="end"><text x="333" y="64">jedna</text><text x="333" y="92">rozprawa</text></g><g transform="rotate(-5 333 80)"><path class="m-u1" d="M318 99H335" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/><path class="m-u2" d="M319 104.5H334" fill="none" stroke="#f0d9a8" stroke-width="2.2" stroke-linecap="round"/></g><g class="m-nums" transform="translate(0 32)" fill="#d6a54c" font-weight="800" font-size="11" text-anchor="middle"><text x="60" y="167">1</text><text x="165" y="130">2</text><text x="275" y="93">3</text></g></svg><p class="m-after" style="margin-top:14px;text-align:center"><b style="color:#fff">Dzięki temu rozwód najczęściej:</b></p><div class="info2 m-after"><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="41" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">1</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9.5" y="4.5" width="9" height="5" rx="1" transform="rotate(45 14 7)"/><path d="M11.6 9.4L4 17M12.5 20.5H21M14.5 17.5h4.5"/></svg><b>Rozwód na pierwszej rozprawie</b></div><div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/><circle class="ring r2" cx="32" cy="32" r="27" fill="none" stroke="#d6a54c" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)"/><text x="32" y="37" text-anchor="middle" fill="#fff" font-size="17" font-weight="800">60</text><text x="32" y="48" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">MIN</text></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d6a54c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9.5 2.5h5M12 2.5V5"/></svg><b>Sprawa trwa maksymalnie 60 minut</b></div></div>']},
  {id:'lead',type:'email'},
  {id:'phone',type:'phone'},
  {id:'code',type:'code'}
@@ -762,7 +810,9 @@ function renderQuiz(){
   const qs=QS(), qn=qs.indexOf(q)+1;
   $('#bar').style.width=Math.round((idx)/(v.length)*100)+'%';
   const done=renderPlan();
-  const card=$('#qcard'); card.className='qcard fade'; void card.offsetWidth;
+  const card=$('#qcard'); const gateT=['email','phone','code'].includes(q.type); const an=dir; dir=''; const inGate=gateT&&!!$('#qcard .gate-card');
+  card.className='qcard'+(inGate?'':an==='f'?' in-r':an==='b'?' in-l':an==='z'?' fade':''); void card.offsetWidth;
+  const ganim=inGate?(an==='f'?' in-r':an==='b'?' in-l':''):'';
   const mplan=`<div class="mplan">Twój plan: ${done}/5 <i><em style="width:${done*20}%"></em></i></div>`;
   let h='';
   if(q.type==='r'){
@@ -775,8 +825,7 @@ function renderQuiz(){
       <div style="display:grid;gap:14px;margin-top:16px">
         <div class="seg" role="radiogroup" aria-label="Kraj">${[['pl','W Polsce'],['ab','Za granicą']].map(o=>`<button type="button" data-where="${o[0]}" class="${(A.abroad==='both'?'ab':'pl')===o[0]?'on':''}" role="radio" aria-checked="${(A.abroad==='both'?'ab':'pl')===o[0]}">${o[1]}</button>`).join('')}</div>
         ${A.abroad!=='both'?`<label class="f">Miasto (lub najbliższe z sądem okręgowym)<select id="city"><option value="">Wybierz miasto</option>${CITIES.map(c=>`<option ${A.city===c[0]?'selected':''}>${esc(c[0])}</option>`).join('')}</select></label>`:''}
-        ${A.city&&A.abroad!=='both'?`<div class="f">Czy któreś z Was nadal tam mieszka?<div class="seg" role="radiogroup">${[['yes','Tak'],['no','Nie']].map(o=>`<button type="button" data-still="${o[0]}" class="${(A.still||'yes')===o[0]?'on':''}" role="radio" aria-checked="${(A.still||'yes')===o[0]}">${o[1]}</button>`).join('')}</div></div>
-        <label class="consent"><input type="checkbox" id="oneab" ${A.abroad==='one'?'checked':''}><span>Jedno z nas mieszka dziś za granicą</span></label>`:''}
+        ${A.city&&A.abroad!=='both'?`<div class="f">Czy któreś z Was nadal tam mieszka?<div class="seg" role="radiogroup">${[['yes','Tak'],['no','Nie']].map(o=>`<button type="button" data-still="${o[0]}" class="${(A.still||'yes')===o[0]?'on':''}" role="radio" aria-checked="${(A.still||'yes')===o[0]}">${o[1]}</button>`).join('')}</div></div>`:''}
         ${ct?`<p class="courtline">Właściwy sąd: <b>${esc(ct)}</b></p>`:''}
         <p class="waitline"><b>Sprawdzimy czas oczekiwania w tym sądzie.</b> Przed rozmową ustalimy, ile obecnie czeka się na rozprawę, i powiemy Ci to w trakcie rozmowy.</p>
       </div>
@@ -805,14 +854,14 @@ function renderQuiz(){
     const inner=q.type==='email'?`${dots}<h2>Zarejestruj się i zobacz swój plan</h2>
         <div style="display:grid;gap:12px;margin-top:14px">
           <label class="f">Imię<input type="text" id="nm" name="given-name" autocomplete="given-name" autocapitalize="words" placeholder="Jak mamy się zwracać?" value="${esc(A.name||'')}"></label>
-          <label class="f">E-mail<input type="email" id="em" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="twoj@email.pl" value="${esc(A.email||'')}"></label>
+          <label class="f">E-mail<input type="email" id="em" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="twoj@email.pl" value="${esc(A.email||'')}"><small class="hint">Na ten adres wyślemy Plan Rozwodu i 7 krótkich filmów Kamila Jury.</small></label>
           <div id="emfix"></div>
-          <label class="consent" id="csw" ${emShape(A.email)?'':'hidden'}><input type="checkbox" id="cs" ${A.consent?'checked':''}><span>Zgadzam się na kontakt e-mailowy, SMS i telefoniczny w sprawie mojego planu oraz na otrzymanie serii filmów. Administratorem danych jest Nowy Etap sp. z o.o. <a href="#lp">Klauzula informacyjna</a>.</span></label>
+          <label class="consent" id="csw" ${emShape(A.email)?'':'hidden'}><input type="checkbox" id="cs" ${A.consent?'checked':''}><span>Zgadzam się na e-mail – aby otrzymać bezpłatnie koszt i Plan Rozwodu – <span id="cs-dots">… <button type="button" class="linkbtn" id="cs-more" style="padding:0;font-size:inherit">rozwiń</button></span><span id="cs-rest" class="cs-rest" hidden>lub/i kontakt SMS, telefoniczny przez Pravna Group sp. z o. o. w celu przedstawienia informacji, oferty i materiałów dotyczących usługi. Administratorem danych jest Pravna Group sp. z o. o. Szczegóły dotyczące przetwarzania danych znajdziesz w <a href="https://nowy-etap.pl/regulaminy" target="_blank" rel="noopener">Polityce Prywatności</a>.</span></span></label>
         </div>
         <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:14px">Dalej →</button>
-        <p class="note" style="margin-top:10px">${A.stage==='considering'?'Nie musisz dziś niczego decydować. ':''}Na ten adres wyślemy plan i 7 krótkich filmów Kamila Jury.</p>`
+        <div class="trustrow"><span>Bez spamu, wypiszesz się jednym kliknięciem</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`
       :q.type==='phone'?`${dots}<h2>${A.name?esc(A.name)+', g':'G'}dzie wysłać kod SMS do logowania?</h2>
-        <p class="lockline" style="margin-top:8px">🔒 Twój plan jest prywatny. Otworzy go tylko osoba, która ma Twój telefon.</p>
+        <p class="lockbox"><span aria-hidden="true">🔒</span><span><b>Twój plan jest prywatny.</b> Otworzy go tylko osoba, która ma Twój telefon.</span></p>
         <div style="display:grid;gap:12px;margin-top:14px"><label class="f">Telefon<div class="telgrp">${ccSel()}<input type="tel" id="ph" name="tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456" value="${esc(A.phone||'')}"></div></label></div>
         <button class="btn btn-gold" id="next" type="button" style="width:100%;margin-top:14px">Wyślij kod →</button>
         <p class="note" style="margin-top:10px">SMS zawiera sam kod, bez słowa „rozwód”. Na ten numer zadzwoni też opiekun, ale tylko w terminie, który sam(a) wybierzesz.</p>`
@@ -823,10 +872,7 @@ function renderQuiz(){
         <p class="note" style="margin-top:10px">Kod nie doszedł? <button class="linkbtn" id="resend" type="button" style="padding:0">Wyślij ponownie</button><span id="resend-msg"></span></p>
         <p class="note" style="margin-top:4px">W prototypie zadziała dowolne 4 cyfry.</p>`;
     h=`<div class="gate"><div class="gate-bg" aria-hidden="true"><span class="eyebrow" style="color:var(--gold-2)">Twój plan jest gotowy</span><h2 style="margin-top:6px">${esc(p.name)}</h2>${prev}</div>
-      <div class="gate-card">${inner}</div></div>
-      <div class="qnav"><button class="linkbtn" id="back" type="button">${q.type==='code'?'Zmień numer':'Wstecz'}</button></div>
-      <figure class="rev sm"><q>Zawsze są wątpliwości, kiedy bierze się kontakt do firmy z internetu. Pierwsza rozmowa je rozwiała.</q><small>Sebastian, Warszawa · z wywiadu w podcaście „Sekrety rozwodu”</small></figure>
-      <div class="trustrow"><span>Bez spamu, wypiszesz się jednym kliknięciem</span><span>4,8/5 w Google · ponad 1000 opinii</span><span>Odpowiedzi są poufne</span></div>`;
+      <div class="gate-card${ganim}">${inner}<div class="gback"><button class="linkbtn" id="back" type="button">${q.type==='code'?'Zmień numer':'← Wstecz'}</button></div></div></div>`;
   } else if(q.type==='code'){
     h=`${gsteps(2)}<h2>Wpisz kod z SMS-a</h2><p class="sub">Wysłaliśmy 4-cyfrowy kod na numer <b>${esc((A.cc||'+48')+' '+(A.phone||''))}</b>.</p>
       <label class="f" style="margin-top:16px">Kod<input type="text" id="otp" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="• • • •" value="${esc(A.otp||'')}"></label>
@@ -870,7 +916,7 @@ function renderQuiz(){
     A[q.id]=val; save();
     if(q.id==='contact'&&val==='unsafe'){ renderQuiz(); return; }
     $$('#qcard .qopt').forEach(x=>x.classList.toggle('sel',x===b));
-    setTimeout(next,260);
+    setTimeout(next,170);
   });
   $$('#qcard [data-cd]').forEach(b=>b.onclick=()=>{ A.cday=+b.dataset.cd; A.ctime=(A.cday===0&&A.together!=='yes')?'15':''; save(); renderQuiz(); });
   if($('#ctime')){ $('#ctime').onchange=e=>{ A.ctime=e.target.value; save(); upd(); }; $('#mtime').onchange=e=>{ A.mtime=e.target.value; save(); }; $('#smsoff').onchange=e=>{ A.smsOff=e.target.checked; save(); }; }
@@ -884,8 +930,8 @@ function renderQuiz(){
   const ph=$('#ph'); if(ph){ ph.oninput=e=>{A.phone=e.target.value; A.noPhone=false; save(); upd();}; }
   const em=$('#em'); if(em){
     const fx=()=>{ const sug=fixEmail(em.value.trim()); $('#emfix').innerHTML=sug?`<button class="linkbtn" id="emfix-b" type="button">Czy chodziło Ci o <b>${esc(sug)}</b>?</button>`:''; const b=$('#emfix-b'); if(b) b.onclick=()=>{ em.value=sug; A.email=sug; save(); fx(); upd(); }; $('#csw').hidden=!emShape(em.value.trim()); };
-    em.oninput=e=>{A.email=e.target.value.trim();save();fx();upd();}; $('#nm').oninput=e=>{A.name=e.target.value.trim();save();upd();}; $('#cs').onchange=e=>{A.consent=e.target.checked;save();upd();}; fx(); }
-  if($('#back')) $('#back').onclick=()=>{ if(idx>0){idx--;save();renderQuiz();} else location.hash='lp'; };
+    em.oninput=e=>{A.email=e.target.value.trim();save();fx();upd();}; $('#nm').oninput=e=>{A.name=e.target.value.trim();save();upd();}; $('#cs').onchange=e=>{A.consent=e.target.checked;save();upd();}; $('#cs-more').onclick=e=>{ e.preventDefault(); $('#cs-rest').hidden=false; $('#cs-dots').hidden=true; }; fx(); }
+  if($('#back')) $('#back').onclick=()=>{ if(idx>0){ animOut('b',()=>{idx--;dir='b';save();renderQuiz();}); } else location.hash='lp'; };
   if($('#skip')) $('#skip').onclick=()=>{ A.abroad=A.abroad||'skip'; next(); };
   const nx=$('#next'); if(nx) nx.onclick=next;
   if(nx&&q.type==='call') nx.onclick=()=>{ booked=A.ctime==='15'?null:`${A.cday===0?'dziś':'jutro'}, ${A.ctime}`; A.call=A.ctime==='15'?'now':'later'; A.done=true; save(); location.hash='wynik'; };
@@ -893,9 +939,20 @@ function renderQuiz(){
   upd();
   if(q.id==='contact'&&A.contact==='unsafe'){ const n=document.createElement('button'); n.className='btn btn-gold'; n.type='button'; n.textContent='Dalej →'; n.onclick=next; $('#qcard .qnav').prepend(n); }
 }
-function next(){ const v=vis(); if(idx<v.length-1){ idx++; save(); renderQuiz(); window.scrollTo(0,0); } else { A.done=true; save(); location.hash='wynik'; } }
+let dir='', busy=false;
+function animOut(d,fn){ const el=$('#qcard .gate-card')||$('#qcard'); if(!el||matchMedia('(prefers-reduced-motion:reduce)').matches){ fn(); return; }
+  el.classList.remove('in-r','in-l','fade'); el.classList.add(d==='b'?'out-r':'out-l'); setTimeout(fn,130); }
+function next(){ if(busy) return; const v=vis();
+  if(idx<v.length-1){ busy=true; const nt=v[idx+1].type, ct=v[idx].type;
+    animOut('f',()=>{
+      if(nt==='email'&&ct!=='email'){ const c=$('#qcard'); c.className='qcard fade'; c.innerHTML='<div class="prep"><i class="spin"></i><b>Przygotowuję Twój Plan Rozwodu…</b></div>'; $('#bar').style.width='100%'; window.scrollTo(0,0);
+        setTimeout(()=>{ busy=false; idx++; dir='z'; save(); renderQuiz(); window.scrollTo(0,0); },900); }
+      else { busy=false; idx++; dir='f'; save(); renderQuiz(); window.scrollTo(0,0); } }); }
+  else { A.done=true; save(); location.hash='wynik'; } }
 
 /* ---------- wynik ---------- */
+const IC={plan:'<path d="M4 19h5v-5h5V9h5V4"/>',cost:'<circle cx="12" cy="12" r="8.5"/><path d="M14.6 9.3c-.6-.8-1.5-1.3-2.6-1.3-1.4 0-2.4.8-2.4 1.9 0 2.6 5.2 1.3 5.2 4.1 0 1.2-1.1 2-2.6 2-1.2 0-2.2-.5-2.8-1.4M12 6.4V8m0 8v1.6"/>',iss:'<path d="M3.5 5h11v8H9l-3 3v-3H3.5z"/><path d="M17.5 9h3v8h-2v3l-3-3h-4"/>',doc:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>'};
+function HH(ic,t){ return `<h2 class="hh"><span class="hico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[ic]}</svg></span><span>${t}</span></h2>`; }
 let pick={day:0,slot:null,mode:'cal'}, booked=null;
 function days(){ const out=[]; const d=new Date(); d.setHours(0,0,0,0); let k=0; while(out.length<3){ const x=new Date(d.getTime()+k*864e5); if(x.getDay()!==0) out.push(x); k++; } return out; }
 const DN=['niedz.','pon.','wt.','śr.','czw.','pt.','sob.'];
@@ -928,49 +985,52 @@ function renderResult(){
       <p style="margin-top:8px;color:var(--on-dark-muted)">${esc(p.name)}</p>
       <ul>${reasons.map(r=>`<li>${r}</li>`).join('')}</ul>
       <p class="quiet">Do drugiej strony nie odezwiemy się, dopóki o tym nie zdecydujesz. Do tego czasu kontaktujemy się tylko z Tobą.</p>
-      <dl class="kv"><dt>Właściwy sąd</dt><dd>${esc(c)}</dd><dt>Termin w Twoim sądzie</dt><dd>${locked?'<span class="blur">ok. 3–4 mies.</span>':P.time+(p.key==='std'?' <span class="demo">dane demo</span>':'')}</dd></dl>
-      <div class="save">${A.email?`<label>Plan zapisany</label><p>Wysłaliśmy go na ${esc(A.email)}. Od jutra, codziennie o ${esc(A.mtime||'9:30')}, dostaniesz jeden krótki film Kamila Jury${A.smsOff?' (tylko e-mailem)':''}: 7 dni, 7 filmów.</p>`:`<label for="sv-em">Zapisz ten plan na później</label><div class="row2"><input type="email" id="sv-em" autocomplete="email" placeholder="twoj@email.pl"><button class="btn btn-gold" id="sv-btn" type="button" style="padding:12px 16px" disabled>Wyślij plan</button></div><p>Wyślemy go na e-mail, żeby nie zginął. Bez spamu.</p>`}</div>
+      <dl class="kv"><dt>Właściwy sąd</dt><dd>${esc(c)}</dd><dt>Termin w Twoim sądzie</dt><dd>${locked?'<span class="blur">ok. 3–4 mies.</span>':'Zależy od sądu. Opiekun sprawdzi go przed rozmową i poda Ci w jej trakcie.'}</dd></dl>
+      ${A.email?'':`<div class="save"><label for="sv-em">Zapisz ten plan na później</label><div class="row2"><input type="email" id="sv-em" autocomplete="email" placeholder="twoj@email.pl"><button class="btn btn-gold" id="sv-btn" type="button" style="padding:12px 16px" disabled>Wyślij plan</button></div><p>Wyślemy go na e-mail, żeby nie zginął. Bez spamu.</p></div>`}
     </div>
+    ${A.email?`<div class="card saved"><span class="eyebrow">✓ Plan zapisany</span><p>Wysłaliśmy go na <b>${esc(A.email)}</b>. Od jutra na ten e-mail${A.smsOff?'':' oraz dyskretnym SMS-em'}, przez 7 dni o <select id="mtime2" class="inl" aria-label="Godzina wysyłki filmów">${['7:30','8:30','9:30','12:00','17:30','20:30'].map(x=>`<option ${(A.mtime||'9:30')===x?'selected':''}>${x}</option>`).join('')}</select>, dostaniesz jeden link do krótkiego filmu Kamila Jury.</p><p class="note" style="margin-top:8px">🔒 Piszemy i dzwonimy tylko w godzinach, które sam(a) wskażesz.</p></div>`:''}
   </div>
   <div class="a-det">
-    <div class="card"><h2 style="font-size:1.35rem">Twój plan krok po kroku</h2><div class="tl">${steps.map((s,i)=>`<div class="${locked&&i>1?'bl':''}"><span class="n">${i+1}</span><span>${s[0]}<small>${esc(s[1])}</small></span></div>`).join('')}</div></div>
+    <div class="card">${HH('plan',`Twój plan krok po kroku`)}<div class="tl">${steps.map((s,i)=>`<div class="${locked&&i>1?'bl':''}"><span class="n">${i+1}</span><span>${s[0]}<small>${esc(s[1])}</small></span></div>`).join('')}</div></div>
     <div class="${locked?'lockwrap':''}"><div class="${locked?'lk-in':''}" style="display:flex;flex-direction:column;gap:18px">
-    <div class="card"><h2 style="font-size:1.35rem">Twój koszt</h2>
+    <div class="card">${HH('cost',`Twój koszt`)}
       <p style="margin-top:6px">${P.total?'Para płaci zwykle <b>kilkukrotnie mniej</b> niż przy dwóch tradycyjnych kancelariach.':'Twoja sprawa wymaga <b>wyceny indywidualnej</b>, ale zasada jest ta sama: cena z góry, bez płacenia za każdą rozprawę.'}</p>
-      <div class="lbars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap ${P.total?'kilka tysięcy zł':'cena z góry'}"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60 000 zł</b></div><div class="lb">Nowy Etap (para)<b>${P.total?'kilka tysięcy zł':'cena z góry'}</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div>
+      <div class="lbars" role="img" aria-label="Koszt dla pary: dwie kancelarie średnio ok. 60 000 zł, Nowy Etap ${P.total?'kilka tysięcy zł':'cena z góry'}"><div class="lb">Para: 2× 30 tys. zł<b>średnio ok. 60&nbsp;000&nbsp;zł</b></div><div class="lb">Nowy Etap (para)<b>${P.total?'kilka tysięcy zł':'cena z góry'}</b></div><div class="col r"><i></i></div><div class="col g"><i></i></div></div>
       <p class="note" style="margin-top:10px">${P.total?'Zwykle kilka tysięcy złotych za cały proces, dla Was obojga, z możliwością 10 rat 0%. Podajemy całkowity koszt z góry, dlatego dokładną kwotę dla Twojej sprawy poznasz w rozmowie i już się ona nie zmieni.':'Dokładną wycenę podamy w bezpłatnej rozmowie, zanim podejmiesz decyzję. Wykres pokazuje typową różnicę w sprawach porozumieniowych.'} Do tego opłata sądowa 600 zł${a.fault==='no'?', z której 300 zł wraca po wyroku bez orzekania o winie':''}. Średnia na podstawie wycen kancelarii zebranych inkognito w 2026 r.</p>
-      <div class="guar"><div class="seal">CENA<br>Z GÓRY</div><p class="note">Bez dopłat za kolejne pisma i rozprawy. Jeśli mediacja się nie uda, reprezentacja w rozwodzie bez orzekania o winie jest w cenie ryczałtu.</p></div>
+      <div class="guar"><div class="seal">CENA<br>Z GÓRY</div><div><b>Cena z góry, która się nie zmienia.</b><p>Bez dopłat za kolejne pisma i rozprawy. Jeśli mediacja się nie uda, reprezentacja w rozwodzie bez orzekania o winie jest w cenie ryczałtu.</p></div></div>
     </div>
-    <div class="card"><h2 style="font-size:1.35rem">Twoje kwestie do ustalenia w mediacji</h2><ul class="chk-list">${P.issues.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-    <div class="card"><h2 style="font-size:1.35rem">Dokumenty, które przygotujesz (${P.docs.length})</h2><ul class="chk-list">${P.docs.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p class="note" style="margin-top:10px">Odpisy aktów stanu cywilnego zamówisz online przez gov.pl.</p></div>
+    <div class="card">${HH('iss',`Twoje kwestie do ustalenia w mediacji`)}<ul class="chk-list">${P.issues.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="card">${HH('doc',`Dokumenty, które przygotujesz (${P.docs.length})`)}<ul class="chk-list">${P.docs.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p class="note" style="margin-top:10px">Odpisy aktów stanu cywilnego zamówisz online przez gov.pl.</p></div>
     </div>${locked?'<div class="lk-cta"><a href="#unlock" id="lk-go">🔒 Odblokuj koszt, termin i dokumenty</a></div>':''}</div>
   </div>
   <div class="a-call">
     ${locked?`<div class="card" id="unlock"><span class="eyebrow" style="color:var(--gold-2)">Skrócony plan wysłaliśmy na e-mail</span><h2 style="margin-top:6px;font-size:1.5rem">Odblokuj pełny plan</h2><p class="note" style="margin-top:6px">Dokładny koszt, termin w Twoim sądzie, wszystkie kwestie do ustalenia i lista dokumentów. Wyślemy go też SMS-em.</p><label class="f" style="margin-top:14px">Numer telefonu<div class="telgrp">${ccSel()}<input type="tel" id="ul-tel" inputmode="tel" autocomplete="tel-national" placeholder="600 123 456"></div></label><button class="btn btn-gold" id="ul-btn" type="button" style="width:100%;margin-top:12px" disabled>Odblokuj pełny plan</button><p class="note" style="margin-top:8px">Zadzwonimy tylko, jeśli umówisz rozmowę.</p><div class="alt"><button type="button" id="nocall2">Wolę bez rozmowy<small>pakiet online albo pytanie na czacie</small></button></div><p class="note" id="alt-msg2" style="margin-top:8px"></p></div>`:''}
-    <div class="card book" id="book" ${locked?'hidden':''}>
+    <div class="card book${pick.min?' min':''}" id="book" ${locked?'hidden':''}>
+      <button type="button" class="bk-tg" id="bk-tg" aria-label="${pick.min?'Rozwiń':'Zwiń'} rezerwację rozmowy">${pick.min?'▴':'▾'}</button>
       <span class="eyebrow" style="color:var(--gold-2)">Następny krok</span>
       <h2 style="margin-top:6px">${booked?'Rozmowa z opiekunem jest umówiona.':'Umów 30-minutową rozmowę z opiekunem.'}</h2>
       ${booked?`<div class="done"><b>Termin: ${booked}.</b><p class="note" style="margin-top:4px">Opiekun zadzwoni na numer ${esc((A.cc||'+48')+' '+(A.phone||''))}. Wcześniej dostaniesz SMS z numerem, z którego zadzwoni. Termin przełożysz jednym kliknięciem.</p></div>`:`
-      <p style="margin-top:6px;color:var(--muted)">Opiekun przejdzie z Tobą plan i poda dokładną cenę. Wybierz porę, w której możesz swobodnie rozmawiać.</p>
+      <p class="bk-sub" style="margin-top:6px;color:var(--muted)">Opiekun przejdzie z Tobą plan i poda dokładną cenę. Wybierz porę, w której możesz swobodnie rozmawiać.</p>
       <div class="days d2">${dd.slice(0,2).map((d,i)=>`<button type="button" data-day="${i}" class="${pick.day===i?'on':''}">${i===0?'Dziś':(dd[1]-dd[0])===864e5?'Jutro':DN[d.getDay()]}<br><span class="note">${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span></button>`).join('')}</div>
       <div class="slots">${(pick.day===0?['17:00','17:30','18:30','19:00']:['9:00','10:30','12:00','14:00','16:30','18:00','19:00','19:30']).map(x=>`<button type="button" data-slot="${x}" class="${pick.slot===x?'on':''}">${x}</button>`).join('')}</div>
       <button class="btn btn-gold" id="bk" type="button" style="width:100%;margin-top:12px" ${pick.slot?'':'disabled'}>Rezerwuję rozmowę</button>
       <p class="note" id="bk-msg" style="margin-top:8px">Terminy są tylko na dziś i jutro. Jeśli żaden nie pasuje, napiszemy SMS-em z prośbą o wskazanie pory.</p>`}
       <div class="who"><img src="${IMG_M}" alt="" width="56" height="56"><div><b>Mateusz Malczewski</b><br><span class="note">opiekun klienta, to on do Ciebie zadzwoni</span></div></div>
-      <label class="f" style="margin-top:14px">Godzina e-maili i SMS-ów z filmami<select id="mtime2">${['7:30','8:30','9:30','12:00','17:30','20:30'].map(x=>`<option ${(A.mtime||'9:30')===x?'selected':''}>${x}</option>`).join('')}</select></label>
-      <p class="lockline" style="margin-top:8px">🔒 Piszemy i dzwonimy tylko w godzinach, które tu wskażesz.</p>
-      <h3 style="margin-top:18px;font-family:var(--f-body);font-size:1rem;font-weight:800">Zobacz krótkie wideo przed rozmową</h3>
-      <button class="video" id="vid" type="button" aria-label="Odtwórz film: co dalej, 2 minuty 30 sekund" style="margin-top:8px"><img src="${IMG_K}" alt=""><span class="shade"></span><span class="vt">Plan gotowy. Co dalej?</span><span class="vp"><i>▶</i>Kamil Jura · 2:30 · z napisami</span></button>
+    </div>
+    <div class="card" id="prep" ${locked?'hidden':''}>
+      <h3 style="font-family:var(--f-body);font-size:1rem;font-weight:800">Zobacz krótkie wideo przed rozmową</h3>
+      <button class="video" id="vid" type="button" aria-label="Odtwórz film: co dalej, 2 minuty 30 sekund" style="margin-top:10px"><img src="${IMG_K}" alt=""><span class="shade"></span><span class="vt">Plan gotowy. Co dalej?</span><span class="vp"><i>▶</i>Kamil Jura · 2:30 · z napisami</span></button>
       <p class="note" id="vid-msg" style="margin-top:6px"></p>
       <div class="alt"><button type="button" id="now">Zapisz numer w kontaktach<small>wizytówka „Nowy Etap”, żeby wiedzieć, kto dzwoni</small></button></div>
       <p class="note" id="alt-msg" style="margin-top:8px"></p>
       <p class="note" style="margin-top:4px;font-weight:700">Rozmowa niczego nie uruchamia.</p>
     </div>
-    <div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Segment: ${(()=>{ const dec=a.stage==='decided'||a.stage==='talked', cons=a.stage==='considering', tg=a.together==='yes', ap=a.together==='no'; if(!(dec||cons)||!(tg||ap)) return 'poza tabelą (sprawa w sądzie albo brak odpowiedzi)'; const k=(ap?'osobno':'razem')+', '+(dec?'zdecydowani':'rozważa'); const r={'osobno, zdecydowani':'6,4%','osobno, rozważa':'2,8%','razem, zdecydowani':'3,9%','razem, rozważa':'1,5%'}[k]; return k+' · umowa z '+r+' leadów z telefonem (dane historyczne)'; })()}.<br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'30 min z opiekunem, '+booked:'bez terminu, wysłać SMS z prośbą o porę')}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Mieszkają razem: ${a.together==='yes'?'tak, dzwonić tylko o wybranej porze':a.together==='no'?'nie':'brak odpowiedzi'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div>
-  </div>`;
+  </div>
+  <div class="a-sales"><div class="sales"><b>Widok dla zespołu sprzedaży (tylko w prototypie)</b><br>Scoring: <b class="${hot==='Gorący'?'hot':''}">${sc} pkt · ${hot}</b><br>Segment: ${(()=>{ const dec=a.stage==='decided'||a.stage==='talked', cons=a.stage==='considering', tg=a.together==='yes', ap=a.together==='no'; if(!(dec||cons)||!(tg||ap)) return 'poza tabelą (sprawa w sądzie albo brak odpowiedzi)'; const k=(ap?'osobno':'razem')+', '+(dec?'zdecydowani':'rozważa'); const r={'osobno, zdecydowani':'6,4%','osobno, rozważa':'2,8%','razem, zdecydowani':'3,9%','razem, rozważa':'1,5%'}[k]; return k+' · umowa z '+r+' leadów z telefonem (dane historyczne)'; })()}.<br>Kąt rozmowy: ${a.kids==='yes'?'dobro dzieci i porozumienie rodzicielskie':'szybkość i koszt'}${a.home&&a.home!=='no'?'; dosprzedaż: podział majątku'+(a.home==='credit'?' i kredyt':''):''}${a.partner!=='yes'?'; obiekcja: druga strona (mediator zaprasza)':''}.<br>Priorytety klienta: ${(a.pri||[]).map(x=>(PRI.find(p=>p[0]===x)||['',x])[1]).join(', ')||'brak'}.<br>Rozmowa: ${a.noPhone?'brak numeru':(booked?'30 min z opiekunem, '+booked:'bez terminu, wysłać SMS z prośbą o porę')}. Filmy: ${esc(a.mtime||'9:30')}, ${a.smsOff?'tylko e-mail':'e-mail i SMS'}. Mieszkają razem: ${a.together==='yes'?'tak, dzwonić tylko o wybranej porze':a.together==='no'?'nie':'brak odpowiedzi'}. Telefon: ${a.phone?'podany':'brak (tylko e-mail, do nurturingu)'}${booked?' · rozmowa: '+booked:''}.</div></div>`;
   $$('[data-day]').forEach(b=>b.onclick=()=>{pick.day=+b.dataset.day;pick.slot=null;pick.open=true;renderResult();});
   const lt=$('details.later'); if(lt) lt.addEventListener('toggle',()=>{pick.open=lt.open;});
-  $$('[data-slot]').forEach(b=>b.onclick=()=>{pick.slot=b.dataset.slot;pick.open=true;renderResult();});
+  $$('[data-slot]').forEach(b=>b.onclick=()=>{ pick.slot=b.dataset.slot; $$('[data-slot]').forEach(x=>x.classList.toggle('on',x===b)); $('#bk').disabled=false; });
+  const tg=$('#bk-tg'); if(tg) tg.onclick=()=>{ pick.min=!pick.min; renderResult(); };
   if(pick.day>1) pick.day=0;
   const bk=$('#bk'); if(bk) bk.onclick=()=>{ const d=dd[pick.day]; booked=`${pick.day===0?'dziś':((dd[1]-dd[0])===864e5?'jutro':DN[d.getDay()]+' '+d.getDate()+'.'+String(d.getMonth()+1).padStart(2,'0'))}, ${pick.slot}`; renderResult(); };
   const mt2=$('#mtime2'); if(mt2) mt2.onchange=e=>{ A.mtime=e.target.value; save(); renderResult(); };
@@ -1006,7 +1066,7 @@ function route(){
   VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
   $$('.fab-menu a[data-v]').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
   $('#fab-cur').textContent=({lp:'Strona startowa',quiz:'Quiz',wynik:'Wynik'})[v];
-  $('#fab').hidden=v==='quiz';
+  $('#fab').hidden=v==='quiz'; document.body.dataset.v=v;
   if(v==='quiz') renderQuiz(); if(v==='wynik') renderResult();
   window.scrollTo(0,0); fabClose();
 }
