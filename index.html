@@ -902,7 +902,7 @@ function planItems(){
   ];
 }
 function renderPlan(){
-  const it=planItems(); const done=it.filter(x=>x[1]&&x[1]!=='lock').length;
+  const raw=planItems(); const it=[...raw.filter(x=>x[1]&&x[1]!=='lock'),...raw.filter(x=>!x[1]),...raw.filter(x=>x[1]==='lock')]; const done=it.filter(x=>x[1]&&x[1]!=='lock').length;
   $('#plan').innerHTML=`<span class="eyebrow" style="color:var(--gold-2)">Twój plan</span><h3 style="margin-top:4px">Gotowe ${done} z ${it.filter(x=>x[1]!=='lock').length} elementów</h3><ol>${it.map(x=>x[1]==='lock'?`<li class="lock"><span class="d"></span><span><b>${x[0]}</b>🔒 Odblokujesz na ostatnim kroku</span></li>`:`<li class="${x[1]?'on':''}"><span class="d"></span><span><b>${x[0]}</b>${x[1]?esc(x[1]):'<span class="note">po kolejnych pytaniach</span>'}</span></li>`).join('')}</ol>`;
   return done;
 }
