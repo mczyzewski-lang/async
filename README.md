@@ -1,6 +1,3 @@
-> **Strona główna repozytorium (`index.html`) to prototyp Nowy Etap.** Jest generowana z `nowy-etap/index.html`
-> poleceniem `python3 nowy-etap/build.py`. Konfigurator schodów (opis poniżej) ma wejście w `stair.html`.
-
 # STAIR STUDIO — konfigurator schodów stalowych 3D
 
 Przeglądarkowy, parametryczny konfigurator schodów stalowych z drewnianymi stopnicami
@@ -14,7 +11,7 @@ oraz rzeczywiste obliczenia geometryczne i sprawdzenie, czy schody mieszczą si�
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173/stair.html
+npm run dev        # http://localhost:5173
 npm test           # testy silnika obliczeń i geometrii (Vitest)
 npm run build      # typecheck + build produkcyjny do dist/
 ```
